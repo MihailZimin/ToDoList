@@ -3,7 +3,6 @@
 //
 
 #include "DayDraw.h"
-#include "PARAMETERS.h"
 #include "TaskWindow.h"
 
 
@@ -67,7 +66,7 @@ remove_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, BUTTON_HEIGHT+MARGIN
 }
 
 
-MyButton* DayWindow::CreateButton(Task& task) {
+MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
     MyButton* b = new MyButton({START_BUTTONS_POSITION_X+pos_x, START_BUTTONS_POSITION_Y+pos_y},
         BUTTON_WIDTH, BUTTON_HEIGHT, task.name, &task, showTaskInfoCB);
     pos_y += BUTTON_HEIGHT;
@@ -78,7 +77,7 @@ MyButton* DayWindow::CreateButton(Task& task) {
     return b;
 }
 
-void DayWindow::SetLabel(Task *task) {
+void DayWindow::SetLabel(TaskManager_ns::Task *task) {
     for (int i = 0; i < buttons.size(); i++) {
         if (buttons[i].task == task) {
             buttons[i].label = task->name;
@@ -86,7 +85,7 @@ void DayWindow::SetLabel(Task *task) {
     }
 }
 
-void DayWindow::addTask(Task *task) {
+void DayWindow::addTask(TaskManager_ns::Task *task) {
     buttons.push_back(CreateButton(*task));
     attach(buttons[buttons.size()-1]);
 }

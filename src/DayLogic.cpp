@@ -5,7 +5,7 @@
 #include "DayLogic.h"
 
 
-void Day::addTask(Task* task) {
+void Day::addTask(TaskManager_ns::Task* task) {
     tasks.push_back(task);
 }
 
@@ -19,7 +19,7 @@ void Day::removeTask(int index) {
     }
 }
 
-Task& Day::getTask(int index) {
+TaskManager_ns::Task& Day::getTask(int index) {
     if (index >= 0 && index < tasks.size()) {
         return *tasks[index];
     }

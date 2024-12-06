@@ -10,6 +10,8 @@
 #include "Graph_lib/GUI.h"
 #include "Graph_lib/Graph.h"
 #include "MyButton.h"
+#include "PARAMETERS.h"
+
 
 
 class DayWindow: public Graph_lib::Window {
@@ -19,9 +21,9 @@ public:
     void removeTask();
     void updateTasks();
     void RedrawButtons();
-    void SetLabel(Task* task);
+    void SetLabel(TaskManager_ns::Task* task);
     void removeTask(std::string& task);
-    void addTask(Task* task);
+    void addTask(TaskManager_ns::Task* task);
 
     static void addTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw);
@@ -36,7 +38,7 @@ public:
     MyButton* remove_task_button;
     bool need_to_be_destroyed{true};
 
-    MyButton* CreateButton(Task& task);
+    MyButton* CreateButton(TaskManager_ns::Task& task);
 
     void hide() override {
         Window::hide();

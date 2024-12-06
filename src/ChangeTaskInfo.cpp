@@ -65,22 +65,22 @@ Graph_lib::Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT
     attach(*go_back);
 }
 
-void ChangeTaskInfo::changeName(Task& task) {
+void ChangeTaskInfo::changeName(TaskManager_ns::Task& task) {
     std::string name = new_name_field->get_string();
     task.name = name;
     task_window->day_window->SetLabel(&task);
     task_window->day_window->redraw();
 }
 
-void ChangeTaskInfo::changeInfo(Task& task) {
+void ChangeTaskInfo::changeInfo(TaskManager_ns::Task& task) {
     std::string info = new_info_field->get_string();
-    task.details = info;
-    task_window->txt_info->set_label("info:" + task.details);
+    task.text = info;
+    task_window->txt_info->set_label("info:" + task.text);
     task_window->redraw();
 }
 
 
-void ChangeTaskInfo::changeTime(Task &task) {
+void ChangeTaskInfo::changeTime(TaskManager_ns::Task &task) {
     std::string time = new_time_field->get_string();
 }
 

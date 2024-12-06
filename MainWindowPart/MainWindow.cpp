@@ -86,11 +86,11 @@ void WeekWindow::cb_day(Address, Address pw)
     // Task t1(s1, s2);
     // // Task t2("02:21", "Details about the task");
     // // Task t3("03:21", "Details about the task");
-    // Day day;
+    Day day;
     // day.addTask(&t1);
     // // day.addTask(t2);
     // // day.addTask(t3);
-    // DayWindow* day_window = new DayWindow(day, 700, 600);
+    DayWindow* day_window = new DayWindow(day, 700, 600);
 }
 
 void WeekWindow::week_page()

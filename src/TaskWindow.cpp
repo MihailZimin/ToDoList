@@ -35,7 +35,7 @@ void TaskWindow::goBack() {
 TaskWindow::TaskWindow(MyButton* button, DayWindow* day_window) :
 day_window(day_window),
 Graph_lib::Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
-txt_info(new Graph_lib::Text(START_TEXT_POSITION, "Info: "+ button->task->details)),
+txt_info(new Graph_lib::Text(START_TEXT_POSITION, "Info: "+ button->task->text)),
 txt_time(new Graph_lib::Text(START_TEXT_TIME_POSITION, "Time: "+ button->task->name)),
 changeTaskName(new MyButton({10, 10}, 80, 30, "Change info",
         button->task, ChangeTaskNameCB)),
@@ -77,7 +77,9 @@ void AddTaskWindow::SetTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
 void AddTaskWindow::SetTask() {
     std::string name = new_name_field->get_string();
     std::string info = new_info_field->get_string();
-    Task* task = new Task(name, info);
+    TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
+        {1, 2, {1, Chrono_ns::Month::apr, 1},
+            1, 2, {1, Chrono_ns::Month::jul, 1}});
     day_window->addTask(task);
     day_window->redraw();
 }

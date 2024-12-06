@@ -1,4 +1,4 @@
-//
+
 // Created by Misha on 25.11.2024.
 //
 
@@ -20,7 +20,7 @@ public:
     MyButton(Graph_lib::Point xy, int w, int h, const std::string& label, Graph_lib::Callback cb):
         x_coord(xy.x), y_coord(xy.y),
         Graph_lib::Button{xy, w, h, label, cb}{}
-    MyButton(Graph_lib::Point xy, int w, int h, const std::string& label, Task* task,
+    MyButton(Graph_lib::Point xy, int w, int h, const std::string& label, TaskManager_ns::Task* task,
         Graph_lib::Callback cb) :
         x_coord(xy.x), y_coord(xy.y),
         Graph_lib::Button{xy, w, h, label, cb}, task(task){}
@@ -29,7 +29,7 @@ public:
 
     int x_coord;
     int y_coord;
-    Task* task;
+    TaskManager_ns::Task* task;
 };
 
 #endif //MYBUTTON_H

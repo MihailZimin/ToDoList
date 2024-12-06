@@ -7,9 +7,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(FLTK_ROOT "C:/Program Files (x86)/FLTK/bin")
 find_package(FLTK REQUIRED)
 
-project(LogicElements)
+project(ToDoList)
 
-set(TARGET "Day")
+set(TARGET "ToDoList")
 
 add_executable(
         ${TARGET}
@@ -26,10 +26,15 @@ add_executable(
         src/TaskWindow.cpp
         src/TaskWindow.h
         src/PARAMETERS.h
-        MainWindowPart/day.cpp
-        MainWindowPart/day.h
         MainWindowPart/MainWindow.cpp
         MainWindowPart/MainWindow.h
+        MainWindowPart/year.h
+        MainWindowPart/year.cpp
+        MainWindowPart/month.cpp
+        MainWindowPart/month.h
+        src/toDoListFileWork/to_do_list/task_manager2.cpp
+        src/toDoListFileWork/to_do_list/chrono.cpp
+        src/toDoListFileWork/to_do_list/chrono.h
 )
 
 target_include_directories(${TARGET} PRIVATE

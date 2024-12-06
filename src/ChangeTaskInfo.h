@@ -27,9 +27,9 @@ public:
     MyButton* go_back;
     TaskWindow* task_window{nullptr};
 
-    void changeName(Task& task);
-    void changeInfo(Task& task);
-    void changeTime(Task& task);
+    void changeName(TaskManager_ns::Task& task);
+    void changeInfo(TaskManager_ns::Task& task);
+    void changeTime(TaskManager_ns::Task& task);
     void goBack();
 
     void hide() override;

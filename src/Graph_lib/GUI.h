@@ -71,18 +71,9 @@ protected:
 
 struct Button : Widget
 {
-  Button(Point xy, int w, int h, const std::string& label, Callback cb) : Widget{xy, w, h, label, cb}, task(), win(), win1(){}
-  Button(Point xy, int w, int h, const std::string& label, Task& task, Callback cb) : Widget{xy, w, h, label, cb}, task(task), win(), win1(){}
-  Button(Point xy, int w, int h, const std::string& label, Task& task, Window* win, Callback cb) : Widget{xy, w, h, label, cb},
-      task(task), win(win), win1(){}
-  Button(Point xy, int w, int h, const std::string& label, Task& task, Window* win, Window* win1, Callback cb) : Widget{xy, w, h, label, cb},
-      task(task), win(win), win1(win1){}
-
+  Button(Point xy, int w, int h, const std::string& label, Callback cb) : Widget{xy, w, h, label, cb}{}
   void attach (Window&);
 
-  Task task;
-  Window *win;
-  Window* win1;
 };
 
 //------------------------------------------------------------------------------
