@@ -7,12 +7,12 @@
 #include <Graph_lib/GUI.h>
 #include <Graph_lib/Window.h>
 #include <vector>
-#include "another_part/MyButton.h"
-#include "another_part/DayDraw.h"
-#include "another_part/DayLogic.h"
-#include "another_part/ChangeTaskInfo.h"
-#include "another_part/TaskWindow.h"
-#include "another_part/PARAMETERS.h"
+#include "MyButton.h"
+#include "DayDraw.h"
+#include "DayLogic.h"
+#include "ChangeTaskInfo.h"
+#include "TaskWindow.h"
+#include "PARAMETERS.h"
 
 using namespace Graph_lib;
 

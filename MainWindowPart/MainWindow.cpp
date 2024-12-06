@@ -81,16 +81,16 @@ void WeekWindow::current_year_cb(Address, Address pw)
 void WeekWindow::cb_day(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    std::string s1 = "01:21";
-    std::string s2 = "011";
-    Task t1(s1, s2);
-    // Task t2("02:21", "Details about the task");
-    // Task t3("03:21", "Details about the task");
-    Day day;
-    day.addTask(&t1);
-    // day.addTask(t2);
-    // day.addTask(t3);
-    DayWindow* day_window = new DayWindow(day, 700, 600);
+    // std::string s1 = "01:21";
+    // std::string s2 = "011";
+    // Task t1(s1, s2);
+    // // Task t2("02:21", "Details about the task");
+    // // Task t3("03:21", "Details about the task");
+    // Day day;
+    // day.addTask(&t1);
+    // // day.addTask(t2);
+    // // day.addTask(t3);
+    // DayWindow* day_window = new DayWindow(day, 700, 600);
 }
 
 void WeekWindow::week_page()
