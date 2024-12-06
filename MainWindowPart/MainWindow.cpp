@@ -1,5 +1,4 @@
-// #include "year.h"
-#include "MainWindow.h"
+#include "year.h"
 
 
 WeekWindow::WeekWindow(Point xy, int h, int w)
@@ -20,19 +19,19 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
 
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+        Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+        Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+        Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
@@ -72,6 +71,13 @@ void WeekWindow::cb_back(Address, Address back)
     dynamic_cast<WeekWindow&>(ba.window()).back_page();
 }
 
+void WeekWindow::current_year_cb(Address, Address pw)
+{
+    auto& btn = Graph_lib::reference_to<Button>(pw);
+    Year* year_window = new Year(&btn, &reinterpret_cast<WeekWindow&>(btn.window()));
+    dynamic_cast<WeekWindow&>(btn.window()).hide();
+}
+
 void WeekWindow::cb_day(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
@@ -93,7 +99,10 @@ void WeekWindow::week_page()
     {
         detach(*years[year_page_counter][i]);
     }
-    detach(prev);
+    if (year_page_counter != 0)
+    {
+        detach(prev);
+    }
 
     year_page_counter = 0;
 
@@ -136,19 +145,19 @@ void WeekWindow::add_years()
 
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+            Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+            Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), [](Address, Address){std::cout << "year" << std::endl;}};
+            Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }

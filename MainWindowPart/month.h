@@ -1,13 +1,21 @@
-#include "day.h"
+#ifndef MONTH
+#define MONTH
 
-class Month
+#include "MainWindow.h"
+
+class Month: public Graph_lib::Window
 {
     public:
-        Month(std::string name, Button* month);
-        void days_page();
-        static void month_cb();
+        Month(Button* month, WeekWindow* week_win);
+        WeekWindow* week_win;
         Button* month_button;
     private:
+        static void current_day_cb(Address, Address);
+        static void main_page_cb(Address, Address);
+        void hide_window();
+        Button main_page_btn;
         std::string month_name; 
-        std::vector<Day> days;
+        std::vector<Button*> days;
 };
+
+#endif //MONTH

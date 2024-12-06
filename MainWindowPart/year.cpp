@@ -16,54 +16,54 @@ std::vector<std::string> Months_names
     "August"
 };
 
-Year::Year(Point xy, int h, int w, int year_number): 
-    Window{xy, w, h, std::to_string(year_number)}, 
-    main_page{Point{0 , y_max()-70}, 100, 70, "Back", main_page_cb}
+Year::Year(Button* btn, WeekWindow* win): 
+    Window{Point(100,100), 600, 400, std::to_string(year_number)},
+    year_button{btn},
+    week_win {win},
+    main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
 {
     for (int j = 0; j < 3; ++j)
     {
-        Button* month_button = new Button{Point{30, 20 + 110*j}, 80, 60, Months_names[j], [](Address, Address){std::cout << "month" << std::endl;}};
-        months.push_back(Month{Months_names[j], month_button});
+        Button* month_button = new Button{Point{20, 20 + 80*j}, 100, 80, Months_names[j], current_month_cb};
+        months.push_back(month_button);
     }
     for (int j = 3; j < 6; ++j)
     {
-        Button* month_button = new Button{Point{30, 20 + 110*j}, 80, 60, Months_names[j], [](Address, Address){std::cout << "month" << std::endl;}};
-        months.push_back(Month{Months_names[j], month_button});
+        Button* month_button = new Button{Point{130, 20 + 80*(j-3)}, 100, 80, Months_names[j], current_month_cb};
+        months.push_back(month_button);
     }
     for (int j = 6; j < 9; ++j)
     {
-        Button* month_button = new Button{Point{30, 20 + 110*j}, 80, 60, Months_names[j], [](Address, Address){std::cout << "month" << std::endl;}};
-        months.push_back(Month{Months_names[j], month_button});
+        Button* month_button = new Button{Point{240, 20 + 80*(j-6)}, 100, 80, Months_names[j], current_month_cb};
+        months.push_back(month_button);
     }
         for (int j = 9; j < 12; ++j)
     {
-        Button* month_button = new Button{Point{30, 20 + 110*j}, 80, 60, Months_names[j], [](Address, Address){std::cout << "month" << std::endl;}};
-        months.push_back(Month{Months_names[j], month_button});
+        Button* month_button = new Button{Point{350, 20 + 80*(j-9)}, 100, 80, Months_names[j], current_month_cb};
+        months.push_back(month_button);
     }
-
-}
-
-void Year::year()
-{
     for (size_t i = 0; i < months.size(); ++i)
     {
-        attach(*months[i].month_button);
+        attach(*months[i]);
     }
+    attach(main_page_btn);
 }
 
-void Year::main_page_back()
+void Year::hide_window()
 {
+    week_win->show();
     hide();
 }
 
-void Year::main_page_cb(Address, Address bc)
+void Year::current_month_cb(Address, Address pw)
 {
-    auto& b = Graph_lib::reference_to<Button>(bc);
-    dynamic_cast<Year&>(b.window()).main_page_back();
+    auto& btn = Graph_lib::reference_to<Button>(pw);
+    Month* month_window = new Month(&btn, &reinterpret_cast<WeekWindow&>(btn.window()));
+    dynamic_cast<Year&&>(btn.window()).hide();
 }
 
-void Year::year_cb(Address, Address ye)
+void Year::main_page_cb(Address, Address pw)
 {
-    auto& y = Graph_lib::reference_to<Button>(ye);
-    dynamic_cast<Year&>(y.window()).year();
+    auto& btn = Graph_lib::reference_to<Button>(pw);
+    reinterpret_cast<Year&>(btn.window()).hide_window();
 }
