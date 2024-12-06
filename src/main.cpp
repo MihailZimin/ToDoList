@@ -11,6 +11,7 @@
 
 #include "DayLogic.h"
 #include "DayDraw.h"
+#include "PARAMETERS.h"
 
 int main() {
     try {
@@ -23,7 +24,7 @@ int main() {
         day.addTask(&t1);
         // day.addTask(t2);
         // day.addTask(t3);
-        DayWindow taskWindow(day, 700, 600);
+        DayWindow* day_window = new DayWindow(day, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
         return Graph_lib::gui_main();
     }
     catch (const std::runtime_error& e) {

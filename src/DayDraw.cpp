@@ -6,33 +6,50 @@
 #include "PARAMETERS.h"
 #include "TaskWindow.h"
 
+
 void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<DayWindow&>(btn.window()).showTaskInfo(btn);
+    reinterpret_cast<DayWindow&>(btn.window()).showTaskInfoWindow(btn);
 }
 
-void DayWindow::showTaskInfo(MyButton& btn) {
+void DayWindow::showTaskInfoWindow(MyButton& btn) {
     TaskWindow* task_window = new TaskWindow(&btn, this);
+    this->need_to_be_destroyed = false;
+    this->hide();
 }
 
 void DayWindow::addTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    AddTaskWindow* task_window = new AddTaskWindow(&btn, &reinterpret_cast<DayWindow&>(btn.window()));
+    reinterpret_cast<DayWindow&>(btn.window()).addTaskWindow(btn);
 }
+
+void DayWindow::addTaskWindow(MyButton &btn) {
+    AddTaskWindow* task_window = new AddTaskWindow(&btn, this);
+    this->need_to_be_destroyed = false;
+    this->hide();
+}
+
 
 void DayWindow::removeTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    RemoveTaskWindow* task_window = new RemoveTaskWindow(&btn, &reinterpret_cast<DayWindow&>(btn.window()));
+    reinterpret_cast<DayWindow&>(btn.window()).removeTaskWindow(btn);
+}
+
+void DayWindow::removeTaskWindow(MyButton &btn) {
+    RemoveTaskWindow* task_window = new RemoveTaskWindow(&btn, this);
+    this->need_to_be_destroyed = false;
+    this->hide();
 }
 
 DayWindow::DayWindow(Day& day, int width, int height)
-    :   Window(width, height, "Day"), tasks(day), cur_height(height), cur_width(width),
-        orig_height(height), orig_width(width),
-        dayName(Graph_lib::Point(width/2, 20), day.getName()),
-        add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
-            BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
-        remove_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, BUTTON_HEIGHT+MARGIN},
-            BUTTON_WIDTH, BUTTON_HEIGHT, "remove task", removeTaskCB))
+    :
+Window(BASIC_WINDOW_POSITION, width, height, "Day"),
+tasks(day),
+dayName(Graph_lib::Point(MARGIN, 10+MARGIN), day.getName()),
+add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
+    BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
+remove_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, BUTTON_HEIGHT+MARGIN},
+    BUTTON_WIDTH, BUTTON_HEIGHT, "remove task", removeTaskCB))
           {
     for (int i = 0; i < day.getTaskCount(); i++) {
         buttons.push_back(CreateButton(day.getTask(i)));
@@ -51,8 +68,8 @@ DayWindow::DayWindow(Day& day, int width, int height)
 
 
 MyButton* DayWindow::CreateButton(Task& task) {
-    MyButton* b = new MyButton({START_BUTTONS_POSITION_X+pos_x, START_BUTTONS_POSITION_Y+pos_y}, BUTTON_WIDTH, BUTTON_HEIGHT,
-                task.name, &task, showTaskInfoCB);
+    MyButton* b = new MyButton({START_BUTTONS_POSITION_X+pos_x, START_BUTTONS_POSITION_Y+pos_y},
+        BUTTON_WIDTH, BUTTON_HEIGHT, task.name, &task, showTaskInfoCB);
     pos_y += BUTTON_HEIGHT;
     if ((buttons.size()+1) % 10 == 0) {
         pos_x += BUTTON_WIDTH + MARGIN;

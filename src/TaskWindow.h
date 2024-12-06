@@ -5,40 +5,45 @@
 #ifndef TASKWINDOW_H
 #define TASKWINDOW_H
 
-#include "DayLogic.h"
+
 #include "Graph_lib/Window.h"
 #include "Graph_lib/GUI.h"
 #include "MyButton.h"
+#include "DayDraw.h"
 
-
-class TaskWindow: Graph_lib::Window{
+class TaskWindow: public Graph_lib::Window{
 public:
     TaskWindow(MyButton* button, DayWindow* day_window);
 
-    static void ChangeTaskName(Graph_lib::Address, Graph_lib::Address pw);
+    static void ChangeTaskNameCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
 
-    Graph_lib::Text* txt_info{};
-    Graph_lib::Text* txt_time{};
-    MyButton* changeTaskName{};
+    void ChangeTaskName(MyButton& btn);
+    void goBack();
+
+    Graph_lib::Text* txt_info;
+    Graph_lib::Text* txt_time;
+    MyButton* changeTaskName;
+    MyButton* go_back;
     DayWindow* day_window{nullptr};
+    bool need_to_be_destroyed{true};
 
-    void Redraw() {
-        redraw();
-    }
 
     void hide() override {
         Window::hide();
-        delete this;
+        this->day_window->need_to_be_destroyed = true;
+        if (need_to_be_destroyed) {
+            this->day_window->show();
+            delete this;
+        }
     }
 
     ~TaskWindow() override {
         std::cout << "TaskWindow::~TaskWindow" << std::endl;
         delete txt_info;
         delete txt_time;
-        delete changeTaskName;
         day_window = nullptr;
     }
-
 };
 
 
@@ -49,14 +54,19 @@ public:
     Graph_lib::In_box* new_name_field;
     Graph_lib::In_box* new_info_field;
     MyButton* new_data_button;
+    MyButton* go_back;
     DayWindow* day_window{nullptr};
 
     static void SetTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void SetTask();
+    void goBack();
 
     void hide() override {
         Window::hide();
+        this->day_window->need_to_be_destroyed = true;
+        this->day_window->show();
         delete this;
     }
 
@@ -76,15 +86,19 @@ public:
 
     Graph_lib::In_box* time_field;
     MyButton* delete_button;
+    MyButton* go_back;
     DayWindow* day_window{nullptr};
 
     static void DelTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void DelTask();
-
+    void goBack();
 
     void hide() override {
         Window::hide();
+        this->day_window->need_to_be_destroyed = true;
+        this->day_window->show();
         delete this;
     }
 
