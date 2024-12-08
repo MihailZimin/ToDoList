@@ -17,15 +17,15 @@ add_executable(
         src/Graph_lib/Graph.cpp
         src/Graph_lib/GUI.cpp
         src/Graph_lib/Window.cpp
-        src/DayLogic.cpp
-        src/DayDraw.cpp
-        src/MyButton.cpp
-        src/ChangeTaskInfo.cpp
-        src/ChangeTaskInfo.h
-        src/MyButton.h
-        src/TaskWindow.cpp
-        src/TaskWindow.h
-        src/PARAMETERS.h
+        src/Graph_lib/Window.cpp
+        src/DayWork/DayDraw.cpp
+        src/DayWork/MyButton.cpp
+        src/DayWork/ChangeTaskInfo.cpp
+        src/DayWork/ChangeTaskInfo.h
+        src/DayWork/MyButton.h
+        src/DayWork/TaskWindow.cpp
+        src/DayWork/TaskWindow.h
+        src/DayWork/PARAMETERS.h
         src/MainWindowPart/MainWindow.cpp
         src/MainWindowPart/MainWindow.h
         src/MainWindowPart/year.h
