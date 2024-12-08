@@ -7,6 +7,9 @@
 
 #include <fstream>
 
+// #include <stdio.h>
+// #include "sqlite3.h"
+
 
 namespace TaskManager_ns
 {
@@ -36,13 +39,12 @@ namespace TaskManager_ns
     public:
         TaskManager();
         //~TaskManager();
-        void add_task(Task task);
-        void delete_task(Task task);
-        // void remove_task(Task task) const;
-        // void edit_task(Task prev_task, Task new_task) const;
+        void add_task(Task task); // может тут тоже нужно передавать по ссылке?
+        void delete_task(Task task); // и тут? посмотри вызде!
+        void update_task(Task old_task, Task new_task);
 
         std::vector<Task> get_tasks() const;
-
+        std::vector<Task> get_tasks(Chrono_ns::Date date) const;
         
     private:
         std::vector<Task> tasks;
@@ -57,7 +59,7 @@ namespace TaskManager_ns
 
 
 
-    int upload_tasks(void *notUsed, int colCount, char **columns, char **colNames);
+    //int upload_tasks(void *notUsed, int colCount, char **columns, char **colNames);
 
 }
 

@@ -8,6 +8,9 @@
 #include <iostream>
 #include <fstream>
 
+#include <chrono>
+#include <ctime>   
+
 
 int main()
 try
@@ -52,9 +55,6 @@ try
     // }
     // // закрываем подключение
     // sqlite3_close(db);
-
-
-
 
 
 
@@ -191,41 +191,132 @@ try
     // tm.add_task(Task("Name", "Text", p));
     // std::cout << tm.tasks.size() << std::endl;
 
+
+// Getting time experiments
+    // auto start = std::chrono::system_clock::now();
+    // // Some computation here
+    // auto end = std::chrono::system_clock::now();
+ 
+    // std::chrono::duration<double> elapsed_seconds = end-start;
+    // std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+ 
+    // std::cout << "finished computation at " << std::ctime(&end_time)
+    //           << "elapsed time: " << elapsed_seconds.count() << "s"
+    //           << std::endl;
+
+    // auto timenow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); 
+    // std::string time = ctime(&timenow);
+    // //std::string time = struct tm * localtime
+    // std::cout << timenow << std::endl;
+
+    // system("date");
+
+    // time_t mytime = time(NULL);
+    // struct tm *now = localtime(&mytime);
+    // std::cout << now->tm_mday << ' ' << 1 + now->tm_mon << ' ' << 1900 + now->tm_year << ' ' << std::endl;
+    // std::cout << now->tm_wday << std::endl;
+
+    // std::cout << today() << std::endl;
+    // std::cout << monday_date() << std::endl;
+
 // TASK_MANAGER_2
+    int status = remove("tasks.txt");
     TaskManager tm{};
     Period p1{15,30,Date(3,Month::apr,2024), 17,20,Date(3,Month::may,2024)};
     Task task1{"Task1", "Text1", p1};
-    // std::cout << "0\n";
-    // tm.add_task(task1);
-    // std::cout << "1\n";
-    // Period p2{9,30,Date(7,Month::sep,2022), 17,19,Date(3,Month::feb,2024)};
-    // std::cout << "2\n";
-    // Task task2{"Task2", "Text2", p2};
-    // std::cout << "3\n";
-    // tm.add_task(task2);
-    // std::cout << "4\n";
+    tm.add_task(task1);
+    Period p2{9,30,Date(7,Month::sep,2022), 17,19,Date(3,Month::feb,2024)};
+    Task task2{"Task2", "Text2", p2};
+    tm.add_task(task2);
+    Period p3{7,50,Date(8,Month::aug,2022), 9,47,Date(8,Month::aug,2022)};
+    Task task3{"Task3", "Text3", p3};
+    tm.add_task(task3);
+    Period p4{8,20,Date(6,Month::aug,2022), 12,16,Date(8,Month::aug,2022)};
+    Task task4{"Task4", "Text4", p4};
+    tm.add_task(task4);
+    Period p5{23,00,Date(7,Month::aug,2022), 23,47,Date(9,Month::aug,2022)};
+    Task task5{"Task5", "Text5", p5};
+    tm.add_task(task5);
     std::vector<Task> tasks_list = tm.get_tasks();
-    // std::cout << tasks_list.size() << std::endl;
+    // tm.delete_task();
 
-    // //std::cout << tasks_list[12] << std::endl;
+    Period p6{9,10,Date(3,Month::apr,2024), 22,13,Date(3,Month::may,2024)};
+    tm.update_task(task1, Task("Task1.v2","Updated task1", p6)); // будет ПРОБЛЕМА, ЕСЛИ в тексте задачи или имени ЕСТЬ ПРОБЕЛ
+    // std::cout << "all tasks\n";
+    // for(Task t : tasks_list)
+    //     std::cout << t.get_id() << std::endl;
+
+    // std::cout << "day tasks\n";
+    // std::vector<Task> day_tasks = tm.get_tasks(Date(2,Month::oct,2023));
+    // std::cout << day_tasks.size() << std::endl;
+    // for(Task t : day_tasks)
+    // {
+    //     std::cout << t << std::endl;
+    // }
+
+
+    //tm.delete_task(task1);
+    //tasks_list = tm.get_tasks();
+    //std::cout << tasks_list[12].get_id() << std::endl;
+    //std::vector<Task> tasks_to_del = std::vector<Task> (tasks_list.begin(), tasks_list.end()-5);
+
+    
+    // for(int i = 0; i < (tasks_list.size() - 5); ++i)
+    // {
+    //     std::cout << tasks_list[i].get_id() << std::endl;
+    //     tm.delete_task(tasks_list[i]);
+    // }
+    
+    // std::cout << "id: " << task1.get_id() << std::endl;
+    // tm.delete_task(task1);
+
+    // tasks_list = tm.get_tasks();
 
     // for(Task t : tasks_list)
     //     std::cout << t << std::endl;
 
-    //tm.delete_task(task1);
-    tasks_list = tm.get_tasks();
-    //std::cout << tasks_list[12].get_id() << std::endl;
-    //std::vector<Task> tasks_to_del = std::vector<Task> (tasks_list.begin(), tasks_list.end()-5);
-    for(int i = 0; i < (tasks_list.size() - 5); ++i)
-    {
-        std::cout << tasks_list[i].get_id() << std::endl;
-        tm.delete_task(tasks_list[i]);
-    }
 
-    tasks_list = tm.get_tasks();
+    // std::ofstream out("tasks.txt", std::ios::app);
+    // std::ifstream in("tasks.txt");
+    // std::string line;
+    // std::string search = "replace";
+    // std::string replace = "success";
+    // while(std::getline(in,line)){
+    //     if(line == search){
+    //         std::cout << "1\n";
+    //         out << replace;
+    //     }
+    //     else {
+    //         out << line;
+    //     }
+    // }
 
-    for(Task t : tasks_list)
-        std::cout << t << std::endl;
+//2
+
+    // size_t len = search.length();
+    // while (getline(in, line))
+    // {
+    //     while (true)
+    //     {
+    //         size_t pos = line.find(search);
+    //         //std::cout << pos << std::endl;
+    //         if (pos != std::string::npos)
+    //             line.replace(pos, len, replace);
+    //         else 
+    //             break;
+    //     }
+
+    //     out << line << '\n';
+    // }
+
+
+    // while (getline(in, line))
+    // {
+    //     line.replace(2, 1, "Hih");
+
+
+    //     out << line << '\n';
+    // }
 
     return 0;
 }

@@ -62,6 +62,8 @@ namespace Chrono_ns
         return true;
     }
 
+    bool Date::in_period(Period p) { return (p.start_date() <= *this && p.end_date() >= *this); }
+
     bool operator == (const Date& d1, const Date& d2)
     {
         return d1.day() == d2.day()
