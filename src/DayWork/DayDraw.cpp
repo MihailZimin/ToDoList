@@ -29,12 +29,13 @@ void DayWindow::addTaskWindow(MyButton &btn) {
 }
 
 
-DayWindow::DayWindow(Day& day, int width, int height)
+DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, std::string& day)
     :
 Window(BASIC_WINDOW_POSITION, width, height, "Day"),
-dayName(Graph_lib::Point(MARGIN, 10+MARGIN), "Monday"),
+dayName(Graph_lib::Point(MARGIN, 10+MARGIN), day),
 add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
-    BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB))
+    BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
+date(date)
 {
     tasks = task_manager.get_tasks();
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;

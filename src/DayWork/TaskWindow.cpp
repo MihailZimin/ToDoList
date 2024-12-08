@@ -56,8 +56,6 @@ go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BU
 delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Delete", button->task, DeleteTaskCB))
 {
-    //std::cout << "id: " << button->task->get_id() << '\n';
-    std::cout << "something" << '\n';
     attach(*changeTaskName);
     attach(*txt_info);
     attach(*txt_time);

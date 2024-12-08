@@ -16,7 +16,7 @@ extern TaskManager_ns::TaskManager task_manager;
 
 class DayWindow: public Graph_lib::Window {
 public:
-    DayWindow(Day& day, int width, int height);
+    DayWindow(int width, int height, Chrono_ns::Date& date, std::string& day);
 
     void removeTask();
     void updateTasks();
@@ -46,8 +46,7 @@ public:
 
     ~DayWindow() override{
         std::cout << "DayWindow::~DayWindow" << std::endl;
-        //delete add_task_button;
-        //delete remove_task_button;
+        delete add_task_button;
     }
 
 private:
@@ -56,6 +55,8 @@ private:
     int font_size{20};
     Graph_lib::Vector_ref<MyButton> buttons;
     Graph_lib::Text dayName;
+    Chrono_ns::Date date;
+    std::string day;
 };
 
 #endif //DAYWINDOW_H

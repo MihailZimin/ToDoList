@@ -44,12 +44,11 @@ public:
 
     ~TaskWindow() override {
         std::cout << "TaskWindow::~TaskWindow" << std::endl;
-        // delete txt_info;
-        // delete txt_time;
-        // delete changeTaskName;
-        // delete go_back;
-        // delete delete_task_button;
-        // delete button;
+        delete txt_info;
+        delete txt_time;
+        delete changeTaskName;
+        delete go_back;
+        delete delete_task_button;
         day_window = nullptr;
     }
 };
