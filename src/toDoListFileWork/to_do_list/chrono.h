@@ -14,6 +14,7 @@ namespace Chrono_ns
     Month operator ++ (Month& m);
     Month operator -- (Month& m);
 
+    class Period;
 
     class Date
     {
@@ -24,6 +25,7 @@ namespace Chrono_ns
         unsigned day() const { return d; }
         Month month() const { return m; }
         int year() const { return y; }
+        bool in_period(Period p);
 
     private:
         unsigned d;
@@ -68,7 +70,8 @@ namespace Chrono_ns
         Date end_d;
     };
 
-    bool is_period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date);
+    bool is_period(unsigned start_hour, unsigned start_min, Date start_date, 
+                   unsigned end_hour, unsigned end_min, Date end_date);
     bool operator == (const Period& t1, const Period& t2);
     bool operator != (const Period& t1, const Period& t2);
     std::ostream& operator << (std::ostream& os, const Period& t);
