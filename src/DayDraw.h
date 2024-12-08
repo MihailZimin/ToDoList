@@ -46,7 +46,7 @@ public:
 
     ~DayWindow() override{
         std::cout << "DayWindow::~DayWindow" << std::endl;
-        delete add_task_button;
+        //delete add_task_button;
         //delete remove_task_button;
     }
 

@@ -4,10 +4,10 @@
 
 #include "DayDraw.h"
 #include "TaskWindow.h"
-
+std::vector<TaskManager_ns::Task> tasks;
 
 void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
-    auto& btn = Graph_lib::reference_to<MyButton>(pw);
+    MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
     reinterpret_cast<DayWindow&>(btn.window()).showTaskInfoWindow(btn);
 }
 
@@ -36,11 +36,10 @@ dayName(Graph_lib::Point(MARGIN, 10+MARGIN), day.getName()),
 add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
     BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB))
 {
-    std::vector<TaskManager_ns::Task> tasks = task_manager.get_tasks();
+    tasks = task_manager.get_tasks();
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
     for (int i = 0; i < tasks.size(); i++) {
-        TaskManager_ns::Task* task = new TaskManager_ns::Task{tasks[i].name, tasks[i].text, tasks[i].period};
-        tasks_ref.push_back(task);
+        tasks_ref.push_back(tasks[i]);
     }
     for (int i = 0; i < tasks_ref.size(); i++) {
         buttons.push_back(CreateButton(tasks_ref[i]));
