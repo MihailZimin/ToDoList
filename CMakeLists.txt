@@ -13,7 +13,7 @@ set(TARGET "ToDoList")
 
 add_executable(
         ${TARGET}
-        MainWindowPart/main.cpp
+        src/MainWindowPart/main.cpp
         src/Graph_lib/Graph.cpp
         src/Graph_lib/GUI.cpp
         src/Graph_lib/Window.cpp
@@ -26,12 +26,12 @@ add_executable(
         src/TaskWindow.cpp
         src/TaskWindow.h
         src/PARAMETERS.h
-        MainWindowPart/MainWindow.cpp
-        MainWindowPart/MainWindow.h
-        MainWindowPart/year.h
-        MainWindowPart/year.cpp
-        MainWindowPart/month.cpp
-        MainWindowPart/month.h
+        src/MainWindowPart/MainWindow.cpp
+        src/MainWindowPart/MainWindow.h
+        src/MainWindowPart/year.h
+        src/MainWindowPart/year.cpp
+        src/MainWindowPart/month.cpp
+        src/MainWindowPart/month.h
         src/toDoListFileWork/to_do_list/task_manager2.cpp
         src/toDoListFileWork/to_do_list/chrono.cpp
         src/toDoListFileWork/to_do_list/chrono.h

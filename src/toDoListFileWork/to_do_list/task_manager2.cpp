@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <filesystem>
 
 namespace TaskManager_ns
 {   
@@ -129,6 +130,10 @@ namespace TaskManager_ns
     {
         out.open("tasks.txt", std::ios::app);
         std::cout << "add_task()\n";
+        std::filesystem::path filePath = std::filesystem::absolute("tasks.txt");
+
+        // Печатаем полный путь
+        std::cout << "Полный путь до файла: " << filePath << std::endl;
 
         if(!out)
             throw std::runtime_error("Can't get access to file");

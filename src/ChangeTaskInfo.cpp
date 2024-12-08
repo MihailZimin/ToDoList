@@ -37,6 +37,7 @@ void ChangeTaskInfo::goBack() {
 }
 
 
+
 ChangeTaskInfo::ChangeTaskInfo(MyButton* button, TaskWindow* taskWindow):
 task_window(taskWindow),
 new_name_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, 10),
@@ -93,11 +94,4 @@ ChangeTaskInfo::~ChangeTaskInfo() {
     delete new_data_button;
     delete new_time_button;
     task_window = nullptr;
-}
-
-void ChangeTaskInfo::hide() {
-    Window::hide();
-    this->task_window->show();
-    this->task_window->need_to_be_destroyed = true;
-    delete this;
 }

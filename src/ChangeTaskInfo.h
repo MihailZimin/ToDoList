@@ -32,8 +32,12 @@ public:
     void changeTime(TaskManager_ns::Task& task);
     void goBack();
 
-    void hide() override;
-
+    void hide() override{
+        Window::hide();
+        this->task_window->show();
+        this->task_window->need_to_be_destroyed = true;
+        delete this;
+    }
 
     ~ChangeTaskInfo() override;
 

@@ -17,16 +17,20 @@ public:
 
     static void ChangeTaskNameCB(Graph_lib::Address, Graph_lib::Address pw);
     static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void DeleteTaskCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void ChangeTaskName(MyButton& btn);
     void goBack();
+    void deleteTask();
 
     Graph_lib::Text* txt_info;
     Graph_lib::Text* txt_time;
     MyButton* changeTaskName;
     MyButton* go_back;
+    MyButton* delete_task_button;
     DayWindow* day_window{nullptr};
     bool need_to_be_destroyed{true};
+    MyButton* button;
 
 
     void hide() override {
@@ -40,8 +44,12 @@ public:
 
     ~TaskWindow() override {
         std::cout << "TaskWindow::~TaskWindow" << std::endl;
-        delete txt_info;
-        delete txt_time;
+        // delete txt_info;
+        // delete txt_time;
+        // delete changeTaskName;
+        // delete go_back;
+        // delete delete_task_button;
+        // delete button;
         day_window = nullptr;
     }
 };
@@ -53,9 +61,13 @@ public:
 
     Graph_lib::In_box* new_name_field;
     Graph_lib::In_box* new_info_field;
+    Graph_lib::In_box* start_time_field;
+    Graph_lib::In_box* end_time_field;
     MyButton* new_data_button;
     MyButton* go_back;
     DayWindow* day_window{nullptr};
+    Graph_lib::Text* Note1;
+    Graph_lib::Text* Note2;
 
     static void SetTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
@@ -79,36 +91,4 @@ public:
     }
 };
 
-
-class RemoveTaskWindow: Graph_lib::Window {
-public:
-    RemoveTaskWindow(MyButton* button, DayWindow* day_window);
-
-    Graph_lib::In_box* time_field;
-    MyButton* delete_button;
-    MyButton* go_back;
-    DayWindow* day_window{nullptr};
-
-    static void DelTaskCB(Graph_lib::Address, Graph_lib::Address pw);
-    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
-
-    void DelTask();
-    void goBack();
-
-    void hide() override {
-        Window::hide();
-        this->day_window->need_to_be_destroyed = true;
-        this->day_window->show();
-        delete this;
-    }
-
-    ~RemoveTaskWindow() override {
-        std::cout << "RemoveTaskWindow::~RemoveTaskWindow" << std::endl;
-        delete time_field;
-        delete delete_button;
-        day_window = nullptr;
-    }
-};
-
-
-#endif //TASKWINDOW_H
+#endif
