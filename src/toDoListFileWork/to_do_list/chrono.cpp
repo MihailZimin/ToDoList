@@ -64,6 +64,24 @@ namespace Chrono_ns
 
     bool Date::in_period(Period p) { return (p.start_date() <= *this && p.end_date() >= *this); }
 
+    Date operator ++ (Date& d)
+    {
+        unsigned day = d.day();
+        Month month = d.month();
+        unsigned year = d.year();
+        unsigned days_in_month = Chrono_ns::days_in_month(month, year);
+        ++day;
+        if(day > days_in_month)
+        {
+            day = 1;
+            ++month;
+            if(month == Month::jan)
+                ++year;
+        }
+        d = Date(day, month, year);
+        return d;
+    }
+
     bool operator == (const Date& d1, const Date& d2)
     {
         return d1.day() == d2.day()
