@@ -41,8 +41,9 @@ namespace Chrono_ns
     bool operator >= (const Date& d1, const Date& d2);
     std::ostream& operator << (std::ostream& os, const Date& d);
     //std::istream& operator >> (std::istream& is, Date& dd);
-
-
+    //Date operator - (const Date& d); // ЭТО ДЕЛАТЬ В ПОСЛЕДНЮЮ ОЧЕРЕДЬБ ВЕДЬ В ctime может быть функция, возвращающая текущую неделю.
+    Date today();
+    Date monday_date();
 
 
     class Period
@@ -72,7 +73,7 @@ namespace Chrono_ns
     bool operator != (const Period& t1, const Period& t2);
     std::ostream& operator << (std::ostream& os, const Period& t);
 
-    unsigned days_in_month(float year, Month month);
+    unsigned days_in_month(Month month, float year);
 }
 
 

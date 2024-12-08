@@ -2,6 +2,11 @@
 #include <stdexcept>
 #include <iostream>
 
+#include <vector>
+
+#include <chrono>
+#include <ctime> 
+
 namespace Chrono_ns
 {
     Month operator ++ (Month& m)
@@ -34,29 +39,10 @@ namespace Chrono_ns
         if(d <= 0 || (d - int(d)) != 0 || (y - int(y)) != 0)
             return false;
 
-        //полагаем d корректным
         if(m < Month::jan || Month::dec < m)
             return false;
 
         int days_in_month = 31;
-
-        // switch(d)
-        // {
-        //     case 1:
-        //     case 2:
-        //     case 3:
-        //     case 4:
-        //         std::cout << "first case\n";
-        //         break;
-        //     case 5:
-        //     case 6:
-        //     case 7:
-        //     case 8:
-        //     case 9:
-        //     case 0:
-        //         std::cout << "first case\n";
-        //         break;            
-        // }
 
         switch(m)
         {
@@ -127,23 +113,6 @@ namespace Chrono_ns
                   << '.' << d.year();
     }
 
-    // std::istream& operator >> (std::istream& is, Date& dd)
-    // {
-    //     unsigned d, m, y;
-    //     char ch1, ch2, ch3, ch4;
-    //     is >> ch1 >> d >> ch2 >> m >> ch3 >> y >> ch4;
-    //     if(!is) return is;
-    //     if(ch1 != '(' || ch2 != ',' || ch3 != ',' || ch4 != ')')
-    //     {
-    //         is.clear(std::ios_base::failbit);
-    //         return is;
-    //     }
-    //     dd = Date(d, Month(m), y);
-    //     return is;
-    // }
-
-
-
 
     Period::Period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
         :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
@@ -187,12 +156,12 @@ namespace Chrono_ns
     }
 
 
-    unsigned days_in_month(float year, Month month)
+    unsigned days_in_month(Month month, float year)
     {
         if(year - int(year) != 0)
             throw std::runtime_error("Year must have integer type");
 
-        int days_in_month = 31;
+        unsigned days_in_month = 31;
 
         switch(month)
         {
@@ -206,7 +175,37 @@ namespace Chrono_ns
             days_in_month = 30;
             break;
         }
-
         return days_in_month;
+    }
+
+
+    Date today()
+    {
+        time_t mytime = time(NULL);
+        struct tm *now = localtime(&mytime);
+        return Date(now->tm_mday,static_cast<Month>(1 + now->tm_mon), 1900 + now->tm_year);
+    }
+
+    Date monday_date()
+    {
+        time_t mytime = time(NULL);
+        struct tm *now = localtime(&mytime);
+        Date today = Chrono_ns::today();
+        unsigned days_after_sunday = now->tm_wday;
+        unsigned days_after_monday = days_after_sunday == 0 ? 6 : days_after_sunday - 1;
+
+        int monday_day = today.day() - days_after_monday;
+        Month monday_month = today.month();
+        unsigned monday_year = today.year();
+        if(monday_day < 1)
+        {
+            --monday_month;
+            int to_minus_from_prev_month = -monday_day;
+            unsigned days_in_prev_month = Chrono_ns::days_in_month(monday_month, today.year());
+            monday_day = days_in_prev_month - to_minus_from_prev_month;
+            if(monday_month == Month::dec)
+                --monday_year;
+        }
+        return Date(monday_day, monday_month, monday_year);
     }
 }
