@@ -2,6 +2,7 @@
 #define CHRONO
 
 #include <string>
+#include <vector>
 
 namespace Chrono_ns
 {
@@ -27,7 +28,7 @@ namespace Chrono_ns
         int year() const { return y; }
         bool in_period(Period p);
 
-    private:
+    protected:
         unsigned d;
         Month m;
         int y;
@@ -35,6 +36,7 @@ namespace Chrono_ns
 
     bool is_date(double d, Month m, double y); // true для корректной даты
     bool leapyear(unsigned y);
+    Date operator ++ (Date& d);
     bool operator == (const Date& d1, const Date& d2);
     bool operator != (const Date& d1, const Date& d2);
     bool operator < (const Date& d1, const Date& d2);
@@ -77,6 +79,7 @@ namespace Chrono_ns
     std::ostream& operator << (std::ostream& os, const Period& t);
 
     unsigned days_in_month(Month month, float year);
+    std::vector<Date> get_week_dates();
 }
 
 

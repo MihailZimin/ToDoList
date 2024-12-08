@@ -228,4 +228,16 @@ namespace Chrono_ns
         }
         return Date(monday_day, monday_month, monday_year);
     }
+
+    std::vector<Date> get_week_dates()
+    {
+        Date now_date = Chrono_ns::monday_date();
+        std::vector<Date> dates;
+        for(int j {0}; j < 7; ++j)
+        {
+            dates.push_back(now_date);
+            ++now_date;
+        }
+        return dates;
+    }
 }
