@@ -24,7 +24,8 @@ public:
     void deleteTask();
 
     Graph_lib::Text* txt_info;
-    Graph_lib::Text* txt_time;
+    Graph_lib::Text* txt_time_start;
+    Graph_lib::Text* txt_time_end;
     MyButton* changeTaskName;
     MyButton* go_back;
     MyButton* delete_task_button;
@@ -45,7 +46,8 @@ public:
     ~TaskWindow() override {
         std::cout << "TaskWindow::~TaskWindow" << std::endl;
         delete txt_info;
-        delete txt_time;
+        delete txt_time_start;
+        delete txt_time_end;
         delete changeTaskName;
         delete go_back;
         delete delete_task_button;
@@ -62,6 +64,9 @@ public:
     Graph_lib::In_box* new_info_field;
     Graph_lib::In_box* start_time_field;
     Graph_lib::In_box* end_time_field;
+    Graph_lib::In_box* end_day_field;
+    Graph_lib::In_box* end_month_field;
+    Graph_lib::In_box* end_year_field;
     MyButton* new_data_button;
     MyButton* go_back;
     DayWindow* day_window{nullptr};

@@ -5,10 +5,10 @@
 #include "ChangeTaskInfo.h"
 
 #include <DayWork/DayDraw.h>
+#include <sstream>
 
 #include "PARAMETERS.h"
 #include "TaskWindow.h"
-
 
 
 void ChangeTaskInfo::GetName (Graph_lib::Address, Graph_lib::Address pw) {
@@ -42,16 +42,16 @@ ChangeTaskInfo::ChangeTaskInfo(MyButton* button, TaskWindow* taskWindow):
 task_window(taskWindow),
 new_name_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, 10),
     80, 30, "Enter new name:")),
-new_data_button(new MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+new_data_button(new MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, 30,
     "Rename task", button->task, GetName)),
 new_info_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, START_BUTTONS_POSITION_Y+10),
     80, 30, "Enter new information:")),
-new_info_button(new MyButton({START_BUTTONS_POSITION_X+220, START_BUTTONS_POSITION_Y+10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+new_info_button(new MyButton({START_BUTTONS_POSITION_X+220, START_BUTTONS_POSITION_Y+10}, BUTTON_WIDTH+30, 30,
     "Change info", button->task,
         GetInfo)),
 new_time_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, 2*START_BUTTONS_POSITION_Y+10),
     80, 30, "Enter new time:")),
-new_time_button(new MyButton({START_BUTTONS_POSITION_X+220, 2*START_BUTTONS_POSITION_Y+10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+new_time_button(new MyButton({START_BUTTONS_POSITION_X+220, 2*START_BUTTONS_POSITION_Y+10}, BUTTON_WIDTH+30, 30,
     "Change time", button->task, GetTime)),
 go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", button->task, GoBackCB)),
@@ -68,14 +68,22 @@ Graph_lib::Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT
 
 void ChangeTaskInfo::changeName(TaskManager_ns::Task& task) {
     std::string name = new_name_field->get_string();
-    task.name = name;
-    task_window->day_window->SetLabel(&task);
+    std::string new_name = "";
+    for (auto i: name) {
+        if (i == ' ') break;
+        new_name += i;
+    }
+    task.name = new_name;
+    task_window->day_window->removeTask(task);
+    task_window->day_window->addTask(&task);
     task_window->day_window->redraw();
 }
 
 void ChangeTaskInfo::changeInfo(TaskManager_ns::Task& task) {
     std::string info = new_info_field->get_string();
     task.text = info;
+    task_window->day_window->removeTask(task);
+    task_window->day_window->addTask(&task);
     task_window->txt_info->set_label("info:" + task.text);
     task_window->redraw();
 }

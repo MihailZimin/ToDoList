@@ -8,6 +8,9 @@
 #include "../Graph_lib/GUI.h"
 
 
+namespace TaskManager_ns {
+    struct Task;
+}
 
 class ChangeTaskInfo;
 class TaskWindow;
@@ -24,8 +27,6 @@ public:
         Graph_lib::Callback cb) :
         x_coord(xy.x), y_coord(xy.y),
         Graph_lib::Button{xy, w, h, label, cb}, task(task){}
-
-    void attach (Window&);
 
     int x_coord;
     int y_coord;

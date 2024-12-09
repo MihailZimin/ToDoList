@@ -5,7 +5,8 @@
 #ifndef DAYDRAW_H
 #define DAYDRAW_H
 
-#include "DayLogic.h"
+
+#include <toDoListFileWork/to_do_list/task_manager.h>
 #include "Graph_lib/Window.h"
 #include "Graph_lib/GUI.h"
 #include "Graph_lib/Graph.h"
@@ -16,12 +17,12 @@ extern TaskManager_ns::TaskManager task_manager;
 
 class DayWindow: public Graph_lib::Window {
 public:
-    DayWindow(int width, int height, Chrono_ns::Date& date, std::string& day);
+    DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day);
 
     void removeTask();
     void updateTasks();
     void RedrawButtons();
-    void SetLabel(TaskManager_ns::Task* task);
+    //void SetLabel(TaskManager_ns::Task* task);
     void removeTask(TaskManager_ns::Task& task);
     void addTask(TaskManager_ns::Task* task);
     TaskManager_ns::TaskManager task_manager;
@@ -29,12 +30,15 @@ public:
     static void addTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw);
     static void removeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void closeWindowCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void showTaskInfoWindow(MyButton& btn);
     void addTaskWindow(MyButton& btn);
 
 
     MyButton* add_task_button;
+    MyButton* close_window_button;
+    Graph_lib::Text* information;
     bool need_to_be_destroyed{true};
 
     MyButton* CreateButton(TaskManager_ns::Task& task);
@@ -47,7 +51,10 @@ public:
     ~DayWindow() override{
         std::cout << "DayWindow::~DayWindow" << std::endl;
         delete add_task_button;
+        delete close_window_button;
+        delete information;
     }
+    Chrono_ns::Date date;
 
 private:
     int pos_x = 50;
@@ -55,8 +62,7 @@ private:
     int font_size{20};
     Graph_lib::Vector_ref<MyButton> buttons;
     Graph_lib::Text dayName;
-    Chrono_ns::Date date;
-    std::string day;
+    const std::string day;
 };
 
 #endif //DAYWINDOW_H
