@@ -8,10 +8,10 @@ using namespace Graph_lib;
 class Year: public Graph_lib::Window
 {
     public:
-        Year(Button* btn, WeekWindow* week_win);
+        Year(Button* btn, WeekWindow* week_win, const std::string year_number);
         WeekWindow* week_win;
     private:
-        int year_number;
+        const std::string year_number;
         std::vector<Button*> months;
         Button* year_button;
         Button main_page_btn;

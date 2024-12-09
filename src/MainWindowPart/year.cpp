@@ -16,8 +16,8 @@ std::vector<std::string> Months_names
     "August"
 };
 
-Year::Year(Button* btn, WeekWindow* win): 
-    Window{Point(100,100), 600, 400, std::to_string(year_number)},
+Year::Year(Button* btn, WeekWindow* win, const std::string year_number): 
+    Window{Point(100,100), 600, 400, year_number},
     year_button{btn},
     week_win {win},
     main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
@@ -58,7 +58,7 @@ void Year::hide_window()
 void Year::current_month_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<Button>(pw);
-    Month* month_window = new Month(&btn, &reinterpret_cast<WeekWindow&>(btn.window()));
+    Month* month_window = new Month(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
     dynamic_cast<Year&&>(btn.window()).hide();
 }
 

@@ -1,7 +1,7 @@
 #include "year.h"
 
-Month::Month(Button* month_button, WeekWindow* week_win): 
-    Window{Point(100,100), 600, 400, "Month"},
+Month::Month(Button* month_button, WeekWindow* week_win, const std::string month_name): 
+    Window{Point(100,100), 600, 400, month_name},
     month_button{month_button}, 
     week_win{week_win},
     main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
@@ -63,6 +63,5 @@ void Month::main_page_cb(Address, Address pw)
 void Month::current_day_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    Day day;
-    DayWindow* day_window = new DayWindow(day, 700, 600);
+    DayWindow* day_window = new DayWindow(700, 600, btn.date, btn.get_label());
 }

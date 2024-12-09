@@ -3,20 +3,19 @@
 
 WeekWindow::WeekWindow(Point xy, int h, int w)
     : Window{xy, w, h, "ToDoList"},
-    Monday{Point{30,20}, 100, 70, "Monday", cb_day},
-    Tuesday{Point{30, 130}, 100, 70, "Tuesday", cb_day},
-    Wednesday{Point{30,240}, 100, 70, "Wednesday", cb_day},
-    Thursday{Point{140,20}, 100, 70, "Thursday", cb_day},
-    Friday{Point{140,130}, 100, 70, "Friday", cb_day},
-    Saturday{Point{140,240}, 100, 70, "Saturday", cb_day},
-    Sunday{Point{250,20}, 100, 70, "Sunday", cb_day},
+    Monday{Point{30,20}, 100, 70, "Monday", cb_day, Chrono_ns::get_week_dates()[0]},
+    Tuesday{Point{30, 130}, 100, 70, "Tuesday", cb_day, Chrono_ns::get_week_dates()[1]},
+    Wednesday{Point{30,240}, 100, 70, "Wednesday", cb_day, Chrono_ns::get_week_dates()[2]},
+    Thursday{Point{140,20}, 100, 70, "Thursday", cb_day, Chrono_ns::get_week_dates()[3]},
+    Friday{Point{140,130}, 100, 70, "Friday", cb_day, Chrono_ns::get_week_dates()[4]},
+    Saturday{Point{140,240}, 100, 70, "Saturday", cb_day, Chrono_ns::get_week_dates()[5]},
+    Sunday{Point{250,20}, 100, 70, "Sunday", cb_day, Chrono_ns::get_week_dates()[6]},
     current_week{Point{10,15}, "Week:    Time:   "},
     next{Point{w - 100 , h/2 - 35}, 100, 70, "years", cb_years},
     prev{Point{0 , y_max()-70}, 100, 70, "Back", cb_back},
     year_page_counter{0},
     years{1}
 {
-
     for (int j = 0; j < 3; ++j)
     {
         Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
@@ -74,23 +73,14 @@ void WeekWindow::cb_back(Address, Address back)
 void WeekWindow::current_year_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<Button>(pw);
-    Year* year_window = new Year(&btn, &reinterpret_cast<WeekWindow&>(btn.window()));
+    Year* year_window = new Year(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
     dynamic_cast<WeekWindow&>(btn.window()).hide();
 }
 
 void WeekWindow::cb_day(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    // std::string s1 = "01:21";
-    // std::string s2 = "011";
-    // Task t1(s1, s2);
-    // // Task t2("02:21", "Details about the task");
-    // // Task t3("03:21", "Details about the task");
-    Day day;
-    // day.addTask(&t1);
-    // // day.addTask(t2);
-    // // day.addTask(t3);
-    DayWindow* day_window = new DayWindow(day, 600, 400);
+    DayWindow* day_window = new DayWindow(600, 400, btn.date, btn.get_label());
 }
 
 void WeekWindow::week_page()
