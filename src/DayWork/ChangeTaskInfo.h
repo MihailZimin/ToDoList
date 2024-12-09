@@ -20,9 +20,7 @@ public:
 
     Graph_lib::In_box* new_name_field;
     Graph_lib::In_box* new_info_field;
-    Graph_lib::In_box* new_time_field;
     MyButton* new_data_button;
-    MyButton* new_time_button;
     MyButton* new_info_button;
     MyButton* go_back;
     TaskWindow* task_window{nullptr};

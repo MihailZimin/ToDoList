@@ -173,11 +173,6 @@ namespace TaskManager_ns
         std::ofstream buf_out("buf.txt");
         std::cout << "delete_task()\n";
 
-
-        if(!in.is_open())
-            throw std::runtime_error("File with tasks isn't open");
-
-
         for (size_t i {0}; i < tasks.size(); ++i)
         {
             if(tasks[i].get_id() == task.get_id()) {
