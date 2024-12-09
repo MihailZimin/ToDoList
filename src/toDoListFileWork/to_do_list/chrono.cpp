@@ -26,7 +26,7 @@ namespace Chrono_ns
         : d{unsigned(dd)}, m{mm}, y{int(yy)}
     {
         if(!is_date(dd, mm, yy))
-            throw std::runtime_error("Uncorrect date"/* + dd + '.' + int(mm) + '.' + yy*/); 
+            throw std::runtime_error("Uncorrect date"/* + dd + '.' + int(mm) + '.' + yy*/);
     }
 
     bool leapyear(unsigned y) //ПЕРЕПИСАТЬ

@@ -3,10 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
-#include <sstream>
 
 namespace TaskManager_ns
-{   
+{
 // Task
     unsigned long long Task::counter {0};
     Task::Task(std::string task_name, std::string task_text, Chrono_ns::Period period)
@@ -42,7 +41,7 @@ namespace TaskManager_ns
         out_id.close();
     }
 
-    
+
     std::ostream& operator << (std::ostream& os, const Task& t)
     {
         return os << "Task name: " << t.name << "\nTask period: " << t.period << "\nTask text:\n" << t.text << std::endl;
@@ -75,10 +74,11 @@ namespace TaskManager_ns
         download_tasks();
 
     }
-   
+
     //std::istringstream iss;
 
-    void TaskManager::download_tasks() {
+    void TaskManager::download_tasks()
+    {
         std::cout << "download_tasks()\n";
         using namespace Chrono_ns;
         std::string line;
@@ -102,41 +102,31 @@ namespace TaskManager_ns
         std::string task_name;
         std::string task_text;
 
-        while (!in.eof()) {
-            std::getline(in, line);
-            std::istringstream iss(line);
-            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                        >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
-
+        while(in >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name >> task_text)
+        {
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
-
-            std::string word;
-            while (iss >> word) {
-                task_text += word + ' ';
-            }
-            task_text.pop_back();
 
             Period p {start_hour, start_min, start_date, end_hour, end_min, end_date};
             Task t {task_name, task_text, p};
             t.set_id(id);
             tasks.push_back(t);
-            if(in.eof())
-                return;
-            if(in.fail())
-                throw std::runtime_error("Uncorrect data in file");
-            // if(in.bad())
+        }
+        if(in.eof())
+            return;
+        if(in.fail())
+            throw std::runtime_error("Uncorrect data in file");
+        // if(in.bad())
             // throw std::runtime_error("Ifstream \"in\" is damaged");
 
-            in.close();
-        }
+        in.close();
     }
+
 
     void TaskManager::add_task(Task task) // ПОПРОБУЙ СДЕЛАТЬ ТАК, ЧТОБЫ ЗАДАЧИ ДОБАВЛЯЛИСЬ УЖЕ В НУЖНОМ ПОРЯДККЕ (ЧТОБЫ НЕ СОРТИРОВАТЬ ИХ)
     {
         out.open("tasks.txt", std::ios::app);
-        out.clear();
-        out.seekp(0, std::ios_base::end);
         std::cout << "add_task()\n";
 
         if(!out)
@@ -146,7 +136,7 @@ namespace TaskManager_ns
 
         out << task.get_id() << ' ' << task.period.start_hour() << ' ' << task.period.start_min() << ' '
             << task.period.start_date().day() << ' ' << int(task.period.start_date().month()) << ' '
-            << task.period.start_date().year() << ' '  << task.period.end_hour() << ' ' 
+            << task.period.start_date().year() << ' '  << task.period.end_hour() << ' '
             << task.period.end_min() << ' ' << task.period.end_date().day() << ' '
             << int(task.period.end_date().month()) << ' ' << task.period.end_date().year() << ' '
             << task.name << ' ' << task.text << std::endl;
@@ -156,7 +146,7 @@ namespace TaskManager_ns
     }
 
     void TaskManager::delete_task(Task task) // пожалуй, лучше ввести id у задач
-    {                                        // МОЖНО ПОЛУЧАТЬ ИЗ ФАЙЛА СТРОКИ, А НЕ ПО ЭЛЕМЕНТАМ ВСЁ. 
+    {                                        // МОЖНО ПОЛУЧАТЬ ИЗ ФАЙЛА СТРОКИ, А НЕ ПО ЭЛЕМЕНТАМ ВСЁ.
         using namespace Chrono_ns;           // СООТВЕТСТВЕННО И ПЕРЕЗАПИСЫВАТЬ СТРОКАМИ     !!!!!!
 
         std::ofstream buf_out("buf.txt");
@@ -193,22 +183,12 @@ namespace TaskManager_ns
         int end_year;
         std::string task_name;
         std::string task_text;
-        
-        int j = 0;
 
+       int j = 0;
 
-        while (!in.eof()) {
-            std::string line;
-            std::getline(in, line);
-            std::istringstream iss(line);
-            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                        >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
-
-            std::string word;
-            while (iss >> word) {
-                task_text += word + ' ';
-            }
-            task_text.pop_back();
+        while(in >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name >> task_text)
+        {
             ++j;
             //std::cout << "In delete().while " << j << "\n";
 
@@ -232,14 +212,14 @@ namespace TaskManager_ns
                 task_in_list = true;
                 continue;
             }
-                
+
 
             if(!buf_out)
                 throw std::runtime_error("Buf_out failed");
 
             buf_out << id << ' ' << start_hour << ' ' << start_min << ' '
                 << start_day << ' ' << start_month << ' '
-                << start_year << ' '  << end_hour << ' ' 
+                << start_year << ' '  << end_hour << ' '
                 << end_min << ' ' << end_day << ' '
                 << end_month << ' ' << end_year << ' '
                 << task_name << ' ' << task_text << std::endl;
@@ -267,7 +247,7 @@ namespace TaskManager_ns
 
                 out << id << ' ' << start_hour << ' ' << start_min << ' '
                     << start_day << ' ' << start_month << ' '
-                    << start_year << ' '  << end_hour << ' ' 
+                    << start_year << ' '  << end_hour << ' '
                     << end_min << ' ' << end_day << ' '
                     << end_month << ' ' << end_year << ' '
                     << task_name << ' ' << task_text << std::endl;
@@ -283,7 +263,7 @@ namespace TaskManager_ns
                 throw std::runtime_error("Buf_out failed on last line");
             out.close();
         }
- 
+
         if(in.fail())
             throw std::runtime_error("Uncorrect data in file");
         in.close();
@@ -298,7 +278,7 @@ namespace TaskManager_ns
         // Check if the file has been successfully removed
         if (status)
             throw std::runtime_error("Buf_out isn't remove");
-            
+
 
         // int exit = rename("buf.txt", "tasks.txt");
         // if(exit)
@@ -365,15 +345,15 @@ namespace TaskManager_ns
             std::cout << line << std::endl;
             std::cout << line[0] << std::endl;
             if(line[0] == old_task.get_id())
-            {   
+            {
                 std::cout << "equal id" << std::endl;
                 line = (std::to_string(new_task.get_id()) + ' '
-                    + std::to_string(new_task.period.start_hour()) + ' ' 
+                    + std::to_string(new_task.period.start_hour()) + ' '
                     + std::to_string(new_task.period.start_min()) + ' '
                     + std::to_string(new_task.period.start_date().day()) + ' '
                     + std::to_string(int(new_task.period.start_date().month())) + ' '
                     + std::to_string(new_task.period.start_date().year()) + ' '
-                    + std::to_string(new_task.period.end_hour()) + ' ' 
+                    + std::to_string(new_task.period.end_hour()) + ' '
                     + std::to_string(new_task.period.end_min()) + ' '
                     + std::to_string(new_task.period.end_date().day()) + ' '
                     + std::to_string(int(new_task.period.end_date().month())) + ' '

@@ -44,7 +44,10 @@ close_window_button(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_
     "Back", closeWindowCB)),
 date(date)
 {
+    //tasks = task_manager.get_tasks();
     tasks = task_manager.get_tasks(date);
+
+    std::cout << tasks.size() << '\n';
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
     for (int i = 0; i < tasks.size(); i++) {
         tasks_ref.push_back(tasks[i]);
@@ -95,6 +98,7 @@ MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
 void DayWindow::addTask(TaskManager_ns::Task *task) {
     buttons.push_back(CreateButton(*task));
     attach(buttons[buttons.size()-1]);
+    std::cout << "attached" << '\n';
     task_manager.add_task(*task);
 }
 
