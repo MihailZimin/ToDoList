@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <sstream>
 
 namespace TaskManager_ns
 {
@@ -83,7 +84,9 @@ namespace TaskManager_ns
         using namespace Chrono_ns;
         std::string line;
 
-        in.open("tasks.txt");
+        in.open("tasks.txt", std::ios_base::app);
+        in.clear();
+        in.seekg(0, std::ios::beg);
 
         if(!in.is_open())
             throw std::runtime_error("File isn't open");
@@ -102,11 +105,23 @@ namespace TaskManager_ns
         std::string task_name;
         std::string task_text;
 
-        while(in >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name >> task_text)
-        {
+        std::string line1;
+        while (std::getline(in, line1)) {
+            std::istringstream iss(line1);
+            iss.clear();
+            iss.seekg(0, std::ios::beg);
+            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
+
+            std::string line2;
+            task_text = "";
+            while (iss >> line2) {
+                task_text += line2 + ' ';
+            }
+            task_text.pop_back();
 
             Period p {start_hour, start_min, start_date, end_hour, end_min, end_date};
             Task t {task_name, task_text, p};
@@ -115,8 +130,9 @@ namespace TaskManager_ns
         }
         if(in.eof())
             return;
-        if(in.fail())
+        if(in.fail()) {
             throw std::runtime_error("Uncorrect data in file");
+        }
         // if(in.bad())
             // throw std::runtime_error("Ifstream \"in\" is damaged");
 
@@ -127,12 +143,17 @@ namespace TaskManager_ns
     void TaskManager::add_task(Task task) // ПОПРОБУЙ СДЕЛАТЬ ТАК, ЧТОБЫ ЗАДАЧИ ДОБАВЛЯЛИСЬ УЖЕ В НУЖНОМ ПОРЯДККЕ (ЧТОБЫ НЕ СОРТИРОВАТЬ ИХ)
     {
         out.open("tasks.txt", std::ios::app);
+        out.clear();
+        out.seekp(0, std::ios::end);
+
         std::cout << "add_task()\n";
 
         if(!out)
             throw std::runtime_error("Can't get access to file");
         if(!out.is_open())
             throw std::runtime_error("Can't open file");
+
+        std::cout << task.text << '\n';
 
         out << task.get_id() << ' ' << task.period.start_hour() << ' ' << task.period.start_min() << ' '
             << task.period.start_date().day() << ' ' << int(task.period.start_date().month()) << ' '
@@ -157,7 +178,8 @@ namespace TaskManager_ns
 
         in.open("tasks.txt");
         in.clear();
-        in.seekg(0, std::ios_base::beg);
+        in.seekg(0, std::ios::beg);
+
 
         // std::string line;
         // if(std::getline(in, line))
@@ -184,11 +206,23 @@ namespace TaskManager_ns
         std::string task_name;
         std::string task_text;
 
-       int j = 0;
+        int j = 0;
 
-        while(in >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name >> task_text)
-        {
+        std::string line1;
+        while (std::getline(in, line1)) {
+            std::istringstream iss(line1);
+            iss.clear();
+            iss.seekg(0, std::ios::beg);
+            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+
+            std::string line2;
+            task_text = "";
+            while (iss >> line2) {
+                task_text += line2 + ' ';
+            }
+            task_text.pop_back();
+
             ++j;
             //std::cout << "In delete().while " << j << "\n";
 
@@ -207,6 +241,7 @@ namespace TaskManager_ns
             //         || task_text != task.text
             //         )
 
+            std::cout << "task id: " <<  task.get_id() << '\n';
             if(task.get_id() == id)
             {
                 task_in_list = true;
@@ -232,52 +267,90 @@ namespace TaskManager_ns
         }
 
         if(!task_in_list)
-            throw std::runtime_error("There is't the task in list");
-
-        if(in.eof()) // перезаписи файла с задачами поместил в цикл, чтобы не испортить исходный файл в случае, если там некорректные файлы
-        {
-            std::ifstream buf_in("buf.txt");
-            out.open("tasks.txt");
-
-            while(buf_in >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                        >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name >> task_text)
-            {
-                if(!buf_out)
-                    throw std::runtime_error("Buf_out failed");
-
-                out << id << ' ' << start_hour << ' ' << start_min << ' '
-                    << start_day << ' ' << start_month << ' '
-                    << start_year << ' '  << end_hour << ' '
-                    << end_min << ' ' << end_day << ' '
-                    << end_month << ' ' << end_year << ' '
-                    << task_name << ' ' << task_text << std::endl;
-
-            }
-            if(buf_in.eof())
-                return;
-            if(buf_in.fail())
-                throw std::runtime_error("Uncorrect data in buffer file");
-            buf_in.close();
-
-            if(!out)
-                throw std::runtime_error("Buf_out failed on last line");
-            out.close();
-        }
-
-        if(in.fail())
-            throw std::runtime_error("Uncorrect data in file");
+            throw std::runtime_error("There isn't the task in list");
         in.close();
+
+        out.open("tasks.txt", std::ios::trunc);
+        out.clear();
+        out.seekp(0, std::ios::beg);
+        for (int i = 0; i < tasks.size(); ++i) {
+            task = tasks[i];
+            std::string task_text_1 = std::to_string(task.get_id()) + ' ' +
+                std::to_string(task.period.start_hour()) + ' ' +
+                std::to_string(task.period.start_min()) + ' ' +
+                std::to_string(task.period.start_date().day()) + ' ' +
+                std::to_string(static_cast<int>(task.period.start_date().month())) + ' ' +
+                std::to_string(task.period.start_date().year()) + ' ' +
+                std::to_string(task.period.end_hour()) + ' ' +
+                std::to_string(task.period.end_min()) + ' ' +
+                std::to_string(task.period.end_date().day()) + ' ' +
+                std::to_string(static_cast<int>(task.period.end_date().month())) + ' ' +
+                std::to_string(task.period.end_date().year()) + ' ' +
+                task.name + ' ' + task.text;
+            out << task_text_1 << '\n';
+        }
+        if(!out)
+            throw std::runtime_error("Buf_out failed on last line");
+        out.close();
+
+        // if(in.eof()) // перезаписи файла с задачами поместил в цикл, чтобы не испортить исходный файл в случае, если там некорректные файлы
+        // {
+        //     std::ifstream buf_in("buf.txt");
+        //     out.open("tasks.txt", std::ios::trunc);
+        //     out.clear();
+        //     out.seekp(0, std::ios::beg);
+        //
+        //     std::string line1;
+        //     while (std::getline(buf_in, line1)) {
+        //         std::istringstream iss(line1);
+        //         iss.clear();
+        //         iss.seekg(0, std::ios::beg);
+        //
+        //         iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+        //                 >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+        //         if(!buf_out)
+        //             throw std::runtime_error("Buf_out failed");
+        //
+        //         std::string line2;
+        //         task_text = "";
+        //         while (iss >> line2) {
+        //             task_text += line2 + ' ';
+        //         }
+        //         task_text.pop_back();
+        //
+        //         out << id << ' ' << start_hour << ' ' << start_min << ' '
+        //             << start_day << ' ' << start_month << ' '
+        //             << start_year << ' '  << end_hour << ' '
+        //             << end_min << ' ' << end_day << ' '
+        //             << end_month << ' ' << end_year << ' '
+        //             << task_name << ' ' << task_text << std::endl;
+        //
+        //     }
+        // if(buf_in.eof())
+        //     return;
+        // if(buf_in.fail())
+        //     throw std::runtime_error("Uncorrect data in buffer file");
+        // buf_in.close();
+        //
+        // if(!out)
+        //     throw std::runtime_error("Buf_out failed on last line");
+        // out.close();
+        // }
+
+        // if(in.fail())
+        //     throw std::runtime_error("Uncorrect data in file");
+        // in.close();
 
         if(!buf_out)
             throw std::runtime_error("Buf_out failed on last line");
         buf_out.close();
 
 
-        int status = remove("buf.txt");
+        //int status = remove("buf.txt");
 
         // Check if the file has been successfully removed
-        if (status)
-            throw std::runtime_error("Buf_out isn't remove");
+        // if (status)
+        //     throw std::runtime_error("Buf_out isn't remove");
 
 
         // int exit = rename("buf.txt", "tasks.txt");
@@ -371,6 +444,8 @@ namespace TaskManager_ns
             in.close();
             std::ifstream buf_in("buf.txt");
             out.open("tasks.txt");
+            out.clear();
+            out.seekp(0, std::ios::beg);
             // добавить проверку открытости файла
             while(getline(buf_in, line))
             {

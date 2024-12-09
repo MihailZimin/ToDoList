@@ -73,7 +73,9 @@ void ChangeTaskInfo::changeName(TaskManager_ns::Task& task) {
         if (i == ' ') break;
         new_name += i;
     }
-    task.name = new_name;
+    // TaskManager_ns::Task* task1 = new TaskManager_ns::Task(task.name, task.text,
+    //     {task.period});
+    // task.name = new_name;
     task_window->day_window->removeTask(task);
     task_window->day_window->addTask(&task);
     task_window->day_window->redraw();
