@@ -14,6 +14,8 @@ namespace Chrono_ns
 
     Month operator ++ (Month& m);
     Month operator -- (Month& m);
+    Month conversion(std::string month_name);
+    std::string month_to_string(Month month); 
 
     class Period;
 

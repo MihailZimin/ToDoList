@@ -15,6 +15,7 @@ class Year: public Graph_lib::Window
         std::vector<Button*> months;
         Button* year_button;
         Button main_page_btn;
+        void current_year(Button& btn);
         void hide_window();
         static void current_month_cb(Address, Address);
         static void main_page_cb(Address, Address);

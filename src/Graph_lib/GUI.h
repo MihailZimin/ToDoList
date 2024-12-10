@@ -76,8 +76,10 @@ struct Button : Widget
   Chrono_ns::Date date{1, Chrono_ns::Month::jun, 1};
   void attach (Window&);
   const std::string get_label() { return label; }
+  std::string getDayOfWeek(int day, const std::string& month, int year);
 
 };
+
 
 //------------------------------------------------------------------------------
 

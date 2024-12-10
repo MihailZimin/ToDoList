@@ -14,7 +14,7 @@ namespace TaskManager_ns
     {
         if(counter == 0)
         {
-            std::ifstream in_id("id_counter.txt");
+            std::ifstream in_id("id_counter.txt", std::ios_base::app);
             in_id.exceptions(in_id.exceptions() | std::ios_base::badbit);
             if(!in_id)
             {

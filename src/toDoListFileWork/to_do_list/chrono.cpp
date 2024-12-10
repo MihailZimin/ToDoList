@@ -6,6 +6,8 @@
 
 #include <chrono>
 #include <ctime> 
+#include <map>
+#include <algorithm>
 
 namespace Chrono_ns
 {
@@ -26,12 +28,54 @@ namespace Chrono_ns
         : d{unsigned(dd)}, m{mm}, y{int(yy)}
     {
         if(!is_date(dd, mm, yy))
+        {
+            std::cout << static_cast<int> (m) << " " << dd << " " << yy << std::endl;
             throw std::runtime_error("Uncorrect date"/* + dd + '.' + int(mm) + '.' + yy*/);
+        }
     }
 
     bool leapyear(unsigned y) //ПЕРЕПИСАТЬ
     {
         return false;
+    }
+
+    Month conversion(std::string month_name)
+    {
+        std::map<std::string, Month> monthMap = {
+        {"January", Month::jan},
+        {"February", Month::feb},
+        {"March", Month::mar},
+        {"April", Month::apr},
+        {"May", Month::may},
+        {"June", Month::jun},
+        {"July", Month::jul},
+        {"August", Month::aug},
+        {"September", Month::sep},
+        {"October", Month::oct},
+        {"November", Month::nov},
+        {"December", Month::dec}
+    };
+    auto it = monthMap.find(month_name);
+    return it->second;
+    }
+
+    std::string month_to_string(Month month) 
+    {
+    switch (month) {
+        case Month::jan: return "January";
+        case Month::feb: return "February";
+        case Month::mar: return "March";
+        case Month::apr: return "April";
+        case Month::may: return "May";
+        case Month::jun: return "June";
+        case Month::jul: return "July";
+        case Month::aug: return "August";
+        case Month::sep: return "September";
+        case Month::oct: return "October";
+        case Month::nov: return "November";
+        case Month::dec: return "December";
+        default: throw std::invalid_argument("Invalid Month value");
+        }
     }
 
     bool is_date(double d, Month m, double y)
@@ -47,8 +91,6 @@ namespace Chrono_ns
         switch(m)
         {
         case Month::feb:
-            days_in_month = leapyear(y) ? 29 : 28;
-            break;
         case Month::apr:
         case Month::jun:
         case Month::sep:
