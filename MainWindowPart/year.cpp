@@ -58,7 +58,12 @@ void Year::hide_window()
 void Year::current_month_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<Button>(pw);
-    Month* month_window = new Month(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
+    dynamic_cast<Year&&>(btn.window()).current_year(btn);
+}
+
+void Year::current_year(Button& btn)
+{
+    Month* month_window = new Month(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), year_button->get_label());
     dynamic_cast<Year&&>(btn.window()).hide();
 }
 
