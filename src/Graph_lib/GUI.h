@@ -7,7 +7,6 @@
 
 #include "Graph.h"
 #include "Window.h"
-#include "toDoListFileWork/to_do_list/chrono.h"
 
 namespace Graph_lib {
 
@@ -69,15 +68,10 @@ protected:
 
 //------------------------------------------------------------------------------
 
-struct Button : Widget
+struct Button : public Widget
 {
   Button(Point xy, int w, int h, const std::string& label, Callback cb) : Widget{xy, w, h, label, cb}{}
-  Button(Point xy, int w, int h, const std::string& label, Callback cb, Chrono_ns::Date date) : Widget{xy, w, h, label, cb}, date{date} {}
-  Chrono_ns::Date date{1, Chrono_ns::Month::jun, 1};
   void attach (Window&);
-  const std::string get_label() { return label; }
-  std::string getDayOfWeek(int day, const std::string& month, int year);
-
 };
 
 

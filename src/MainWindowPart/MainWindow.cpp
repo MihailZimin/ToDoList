@@ -10,7 +10,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     Friday{Point{140,130}, 100, 70, "Friday", cb_day, Chrono_ns::get_week_dates()[4]},
     Saturday{Point{140,240}, 100, 70, "Saturday", cb_day, Chrono_ns::get_week_dates()[5]},
     Sunday{Point{250,20}, 100, 70, "Sunday", cb_day, Chrono_ns::get_week_dates()[6]},
-    current_week{Point{10,15}, "Week:    Time:   "},
+    current_week{Point{10,15}, "today: "},
     next{Point{w - 100 , h/2 - 35}, 100, 70, "years", cb_years},
     prev{Point{0 , y_max()-70}, 100, 70, "Back", cb_back},
     year_page_counter{0},
@@ -18,23 +18,30 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
 {
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
-    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+    Chrono_ns::Date today = Chrono_ns::today();
+    current_week.set_color(Color::Color_type::black);
+    current_week.set_label("today: " 
+    + std::to_string(today.day()) 
+    + "/" 
+    + Chrono_ns::month_to_string(today.month()) 
+    + "/" 
+    + std::to_string(today.year()));
     attach(Monday);
     attach(Tuesday);
     attach(Wednesday);
@@ -72,14 +79,14 @@ void WeekWindow::cb_back(Address, Address back)
 
 void WeekWindow::current_year_cb(Address, Address pw)
 {
-    auto& btn = Graph_lib::reference_to<Button>(pw);
+    auto& btn = Graph_lib::reference_to<DateButton>(pw);
     Year* year_window = new Year(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
     dynamic_cast<WeekWindow&>(btn.window()).hide();
 }
 
 void WeekWindow::cb_day(Address, Address pw)
 {
-    auto& btn = Graph_lib::reference_to<MyButton>(pw);
+    auto& btn = Graph_lib::reference_to<DateButton>(pw);
     DayWindow* day_window = new DayWindow(600, 400, btn.date, btn.get_label());
 }
 
@@ -135,19 +142,19 @@ void WeekWindow::add_years()
 
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            Button* year = new Button{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }

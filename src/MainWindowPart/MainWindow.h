@@ -12,6 +12,7 @@
 #include "DayWork/ChangeTaskInfo.h"
 #include "DayWork/TaskWindow.h"
 #include "DayWork/PARAMETERS.h"
+#include "date_button.h"
 
 using namespace Graph_lib;
 
@@ -19,21 +20,21 @@ class WeekWindow : public Graph_lib::Window
 {
     public:
         WeekWindow(Point xy, int h, int w);
-        std::vector<Button> week_days;
+        std::vector<DateButton> week_days;
         void years_page();
         void add_years();
         void week_page();
         void back_page();
     private:
         int current_year = 2024;
-        std::vector<std::vector<Button*>> years;
-        Button Monday;
-        Button Tuesday;
-        Button Wednesday;
-        Button Thursday;
-        Button Friday;
-        Button Saturday;
-        Button Sunday;
+        std::vector<std::vector<DateButton*>> years;
+        DateButton Monday;
+        DateButton Tuesday;
+        DateButton Wednesday;
+        DateButton Thursday;
+        DateButton Friday;
+        DateButton Saturday;
+        DateButton Sunday;
         Text current_week;
         Button next;
         Button prev;
