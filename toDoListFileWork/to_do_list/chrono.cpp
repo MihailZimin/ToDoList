@@ -6,8 +6,6 @@
 
 #include <chrono>
 #include <ctime> 
-#include <map>
-#include <algorithm>
 
 namespace Chrono_ns
 {
@@ -24,78 +22,50 @@ namespace Chrono_ns
     }
 
 
-    Date::Date(double dd, Month mm, double yy)
-        : d{unsigned(dd)}, m{mm}, y{int(yy)}
+    Date::Date(unsigned dd, Month mm, unsigned yy)
+        : d{unsigned(dd)}, m{mm}, y{unsigned(yy)}
     {
         if(!is_date(dd, mm, yy))
-        {
-            std::cout << static_cast<int> (m) << " " << dd << " " << yy << std::endl;
-            throw std::runtime_error("Uncorrect date"/* + dd + '.' + int(mm) + '.' + yy*/);
-        }
+            throw std::runtime_error("Uncorrect date: " + std::to_string(dd) + '.' + std::to_string(int(mm)) + '.' + std::to_string(yy)); 
     }
 
-    bool leapyear(unsigned y) //ПЕРЕПИСАТЬ
+    bool leapyear(unsigned y)
     {
+        if(y % 4 == 0)
+        {
+            if(y % 100 == 0)
+            {
+                if(y % 400 != 0)
+                    return false;
+                return true;
+            }
+            return true;
+        }
         return false;
     }
 
-    Month conversion(std::string month_name)
+    bool is_date(unsigned d, Month m, unsigned y)
     {
-        std::map<std::string, Month> monthMap = {
-        {"January", Month::jan},
-        {"February", Month::feb},
-        {"March", Month::mar},
-        {"April", Month::apr},
-        {"May", Month::may},
-        {"June", Month::jun},
-        {"July", Month::jul},
-        {"August", Month::aug},
-        {"September", Month::sep},
-        {"October", Month::oct},
-        {"November", Month::nov},
-        {"December", Month::dec}
-    };
-    auto it = monthMap.find(month_name);
-    return it->second;
-    }
-
-    std::string month_to_string(Month month) 
-    {
-    switch (month) {
-        case Month::jan: return "January";
-        case Month::feb: return "February";
-        case Month::mar: return "March";
-        case Month::apr: return "April";
-        case Month::may: return "May";
-        case Month::jun: return "June";
-        case Month::jul: return "July";
-        case Month::aug: return "August";
-        case Month::sep: return "September";
-        case Month::oct: return "October";
-        case Month::nov: return "November";
-        case Month::dec: return "December";
-        default: throw std::invalid_argument("Invalid Month value");
-        }
-    }
-
-    bool is_date(double d, Month m, double y)
-    {
-        if(d <= 0 || (d - int(d)) != 0 || (y - int(y)) != 0)
+        if(d <= 0 || y > 60000)
             return false;
 
         if(m < Month::jan || Month::dec < m)
             return false;
 
-        int days_in_month = 31;
+        unsigned days_in_month = 31;
 
         switch(m)
         {
         case Month::feb:
+            days_in_month = leapyear(y) ? 29 : 28;
+            break;
         case Month::apr:
         case Month::jun:
         case Month::sep:
         case Month::nov:
             days_in_month = 30;
+            break;
+        default:
             break;
         }
         if(d > days_in_month)
@@ -185,8 +155,8 @@ namespace Chrono_ns
 
     bool is_period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
     {
-        if((end_hour == start_hour && end_min <= start_min || end_hour < start_hour) && end_date == start_date
-                                                                                     || end_date < start_date)
+        if(((end_hour == start_hour) && (end_min <= start_min)) || ((end_hour < start_hour) && (end_date == start_date
+                                                                                     || end_date < start_date)))
             return false;
         return true;
     }
@@ -218,11 +188,8 @@ namespace Chrono_ns
     }
 
 
-    unsigned days_in_month(Month month, float year)
+    unsigned days_in_month(Month month, unsigned year)
     {
-        if(year - int(year) != 0)
-            throw std::runtime_error("Year must have integer type");
-
         unsigned days_in_month = 31;
 
         switch(month)
@@ -236,10 +203,11 @@ namespace Chrono_ns
         case Month::nov:
             days_in_month = 30;
             break;
+        default:
+            break;
         }
         return days_in_month;
     }
-
 
     Date today()
     {
@@ -262,9 +230,9 @@ namespace Chrono_ns
         if(monday_day < 1)
         {
             --monday_month;
-            int to_minus_from_prev_month = -monday_day;
+            int difference = -monday_day;
             unsigned days_in_prev_month = Chrono_ns::days_in_month(monday_month, today.year());
-            monday_day = days_in_prev_month - to_minus_from_prev_month;
+            monday_day = days_in_prev_month - difference;
             if(monday_month == Month::dec)
                 --monday_year;
         }
