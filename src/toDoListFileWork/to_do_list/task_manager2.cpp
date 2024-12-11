@@ -8,38 +8,9 @@
 namespace TaskManager_ns
 {
 // Task
-    unsigned long long Task::counter {0};
     Task::Task(std::string task_name, std::string task_text, Chrono_ns::Period period)
             : name {task_name}, text {task_text}, period {period}
     {
-        if(counter == 0)
-        {
-            std::ifstream in_id("id_counter.txt", std::ios_base::app);
-            in_id.exceptions(in_id.exceptions() | std::ios_base::badbit);
-            if(!in_id)
-            {
-                std::ofstream out_id("id_counter.txt");
-                // out_id << counter;
-                // if(!out_id)
-                //     throw std::runtime_error("Can't add file with ids");
-            }
-            in_id.open("id_counter.txt");
-            if(in_id.is_open())
-            {
-                in_id >> counter;
-                in_id.close();
-            }
-            else
-                throw std::runtime_error("Can't open file with ids");
-        }
-        ++counter;
-        id = counter;
-
-        std::ofstream out_id("id_counter.txt");
-        out_id << counter;
-        if(!out_id)
-            throw std::runtime_error("Can't add amount of ids to file");
-        out_id.close();
     }
 
 
@@ -61,19 +32,28 @@ namespace TaskManager_ns
 // Task Manager
     TaskManager::TaskManager()
     {
-        if(!in.is_open())
+        std::ifstream in_id;
+        in_id.open("id_counter.txt", std::ios_base::app);
+        in_id.seekg(0, std::ios_base::beg);
+        if(in_id.is_open())
         {
-            std::ofstream out("tasks.txt", std::ios_base::app);
-            out.close();
+            in_id >> counter;
+            in_id.close();
         }
-        std::ifstream in("tasks.txt");
-        in.exceptions(in.exceptions() | std::ios_base::badbit);
-
-        if(!in)
-            throw std::runtime_error("Can't open file");
+        else
+            throw std::runtime_error("Can't open file with ids");
 
         download_tasks();
 
+    }
+
+    void TaskManager::set_id_to_file(){
+        std::ofstream out_id("id_counter.txt", std::ios_base::trunc);
+        out_id.seekp(0, std::ios_base::beg);
+        out_id << counter;
+        if(!out_id)
+            throw std::runtime_error("Can't add amount of ids to file");
+        out_id.close();
     }
 
     //std::istringstream iss;
@@ -155,6 +135,8 @@ namespace TaskManager_ns
 
         std::cout << task.text << '\n';
 
+        ++counter;
+        task.set_id(counter);
         out << task.get_id() << ' ' << task.period.start_hour() << ' ' << task.period.start_min() << ' '
             << task.period.start_date().day() << ' ' << int(task.period.start_date().month()) << ' '
             << task.period.start_date().year() << ' '  << task.period.end_hour() << ' '

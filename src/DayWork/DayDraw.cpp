@@ -104,13 +104,6 @@ MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
     return b;
 }
 
-// void DayWindow::SetLabel(TaskManager_ns::Task *task) {
-//     for (int i = 0; i < buttons.size(); i++) {
-//         if (buttons[i].task == task) {
-//             buttons[i].label = task->name;
-//         }
-//     }
-// }
 
 void DayWindow::addTask(TaskManager_ns::Task *task) {
     buttons.push_back(CreateButton(*task));

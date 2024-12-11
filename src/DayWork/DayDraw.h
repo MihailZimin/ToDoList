@@ -46,6 +46,7 @@ public:
     MyButton* CreateButton(TaskManager_ns::Task& task);
 
     void hide() override {
+        task_manager.set_id_to_file();
         Window::hide();
         if (need_to_be_destroyed) delete this;
     }

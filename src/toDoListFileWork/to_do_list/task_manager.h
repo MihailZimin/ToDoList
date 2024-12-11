@@ -23,7 +23,6 @@ namespace TaskManager_ns
         void set_id(unsigned long long i_d){ id = i_d; }
 
         private:
-            static unsigned long long counter;
             unsigned long long id;
            
     };
@@ -39,6 +38,7 @@ namespace TaskManager_ns
     public:
         TaskManager();
         //~TaskManager();
+        void set_id_to_file();
         void add_task(Task task); // может тут тоже нужно передавать по ссылке?
         void delete_task(Task task); // и тут? посмотри вызде!
         void update_task(Task old_task, Task new_task);
@@ -53,6 +53,7 @@ namespace TaskManager_ns
         std::ofstream out;
 
         unsigned long long id_amount;
+        unsigned long long counter{0};
 
         void download_tasks();
     };
