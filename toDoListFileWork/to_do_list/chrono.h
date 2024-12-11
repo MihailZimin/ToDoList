@@ -14,29 +14,27 @@ namespace Chrono_ns
 
     Month operator ++ (Month& m);
     Month operator -- (Month& m);
-    Month conversion(std::string month_name);
-    std::string month_to_string(Month month); 
 
     class Period;
 
     class Date
     {
     public:
-        Date(double d, Month m, double y);
+        Date(unsigned d, Month m, unsigned y);
         Date() = delete;
 
         unsigned day() const { return d; }
         Month month() const { return m; }
-        int year() const { return y; }
+        unsigned year() const { return y; }
         bool in_period(Period p);
 
     protected:
         unsigned d;
         Month m;
-        int y;
+        unsigned y;
     };
 
-    bool is_date(double d, Month m, double y); // true для корректной даты
+    bool is_date(unsigned d, Month m, unsigned y);
     bool leapyear(unsigned y);
     Date operator ++ (Date& d);
     bool operator == (const Date& d1, const Date& d2);
@@ -46,8 +44,6 @@ namespace Chrono_ns
     bool operator > (const Date& d1, const Date& d2);
     bool operator >= (const Date& d1, const Date& d2);
     std::ostream& operator << (std::ostream& os, const Date& d);
-    //std::istream& operator >> (std::istream& is, Date& dd);
-    //Date operator - (const Date& d); // ЭТО ДЕЛАТЬ В ПОСЛЕДНЮЮ ОЧЕРЕДЬБ ВЕДЬ В ctime может быть функция, возвращающая текущую неделю.
     Date today();
     Date monday_date();
 
@@ -80,7 +76,7 @@ namespace Chrono_ns
     bool operator != (const Period& t1, const Period& t2);
     std::ostream& operator << (std::ostream& os, const Period& t);
 
-    unsigned days_in_month(Month month, float year);
+    unsigned days_in_month(Month month, unsigned year);
     std::vector<Date> get_week_dates();
 }
 
