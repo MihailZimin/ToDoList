@@ -34,7 +34,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
-
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     attach(Monday);
     attach(Tuesday);
     attach(Wednesday);

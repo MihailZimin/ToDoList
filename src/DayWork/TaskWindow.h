@@ -70,8 +70,7 @@ public:
     MyButton* new_data_button;
     MyButton* go_back;
     DayWindow* day_window{nullptr};
-    Graph_lib::Text* Note1;
-    Graph_lib::Text* Note2;
+    Graph_lib::Text* Note0_0;
 
     static void SetTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);

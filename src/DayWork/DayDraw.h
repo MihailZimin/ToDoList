@@ -22,7 +22,6 @@ public:
     void removeTask();
     void updateTasks();
     void RedrawButtons();
-    //void SetLabel(TaskManager_ns::Task* task);
     void removeTask(TaskManager_ns::Task& task);
     void addTask(TaskManager_ns::Task* task);
     TaskManager_ns::TaskManager task_manager;
@@ -31,13 +30,16 @@ public:
     static void showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw);
     static void removeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void closeWindowCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void openNotesCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void showTaskInfoWindow(MyButton& btn);
     void addTaskWindow(MyButton& btn);
+    void openNotes();
 
 
     MyButton* add_task_button;
     MyButton* close_window_button;
+    MyButton* note_window_button;
     Graph_lib::Text* information;
     bool need_to_be_destroyed{true};
 
@@ -52,6 +54,7 @@ public:
         std::cout << "DayWindow::~DayWindow" << std::endl;
         delete add_task_button;
         delete close_window_button;
+        delete note_window_button;
         delete information;
     }
     Chrono_ns::Date date;

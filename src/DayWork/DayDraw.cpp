@@ -3,6 +3,8 @@
 //
 
 #include "DayDraw.h"
+
+#include "NoteWindow.h"
 #include "TaskWindow.h"
 std::vector<TaskManager_ns::Task> tasks;
 
@@ -33,6 +35,17 @@ void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     reinterpret_cast<DayWindow&>(btn.window()).hide();
 }
 
+void DayWindow::openNotesCB(Graph_lib::Address, Graph_lib::Address pw) {
+    MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
+    reinterpret_cast<DayWindow&>(btn.window()).openNotes();
+}
+
+void DayWindow::openNotes() {
+    NoteWindow* note_window = new NoteWindow(this);
+    this->need_to_be_destroyed = false;
+    this->hide();
+}
+
 
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :
@@ -42,7 +55,10 @@ add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
     BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
 close_window_button(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", closeWindowCB)),
-date(date)
+date(date),
+note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
+    BUTTON_HEIGHT + MARGIN}, BUTTON_WIDTH, BUTTON_HEIGHT,
+    "NOTE", openNotesCB))
 {
     //tasks = task_manager.get_tasks();
     tasks = task_manager.get_tasks(date);
@@ -73,6 +89,7 @@ date(date)
     attach(*add_task_button);
     attach(*information);
     attach(*close_window_button);
+    attach(*note_window_button);
 }
 
 

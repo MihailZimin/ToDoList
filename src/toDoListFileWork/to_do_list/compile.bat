@@ -1,1 +1,1 @@
-g++ -o a.exe -std=c++17 -Wall -pedantic main.cpp chrono.cpp task_manager2.cpp
+@REM g++ -o a.exe -std=c++17 -Wall -pedantic main.cpp chrono.cpp task_manager2.cpp

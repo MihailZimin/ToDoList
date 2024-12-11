@@ -35,6 +35,8 @@ add_executable(
         src/toDoListFileWork/to_do_list/task_manager2.cpp
         src/toDoListFileWork/to_do_list/chrono.cpp
         src/toDoListFileWork/to_do_list/chrono.h
+        src/DayWork/NoteWindow.cpp
+        src/DayWork/NoteWindow.h
 )
 
 target_include_directories(${TARGET} PRIVATE

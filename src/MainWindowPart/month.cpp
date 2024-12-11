@@ -6,6 +6,7 @@ Month::Month(Button* month_button, WeekWindow* week_win, const std::string year_
     week_win{week_win},
     main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     std::string current_month = month_button->get_label();
     for (int j = 1; j < 6; ++j)
     {
@@ -14,7 +15,7 @@ Month::Month(Button* month_button, WeekWindow* week_win, const std::string year_
     }
     for (int j = 6; j < 11; ++j)
     {
-        Button* day_button = new Button{Point{90, 20 + 40*(j-5)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stod(year_name)}};
+        Button* day_button = new Button{Point{90, 20 + 40*(j-5)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_name)}};
         days.push_back(day_button);
     }
     for (int j = 11; j < 16; ++j)

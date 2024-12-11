@@ -24,8 +24,8 @@ namespace Chrono_ns
     }
 
 
-    Date::Date(double dd, Month mm, double yy)
-        : d{unsigned(dd)}, m{mm}, y{int(yy)}
+    Date::Date(int dd, Month mm, int yy)
+        : d{int(dd)}, m{mm}, y{int(yy)}
     {
         if(!is_date(dd, mm, yy))
         {
@@ -78,7 +78,7 @@ namespace Chrono_ns
         }
     }
 
-    bool is_date(double d, Month m, double y)
+    bool is_date(int d, Month m, int y)
     {
         if(d <= 0 || (d - int(d)) != 0 || (y - int(y)) != 0)
             return false;
@@ -176,14 +176,14 @@ namespace Chrono_ns
     }
 
 
-    Period::Period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
+    Period::Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
         :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
     {
         if(!is_period(start_hour, start_min, start_date, end_hour, end_min, end_date))
             throw std::runtime_error("Uncorrect period value"); 
     }
 
-    bool is_period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
+    bool is_period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
     {
         if((end_hour == start_hour && end_min <= start_min || end_hour < start_hour) && end_date == start_date
                                                                                      || end_date < start_date)

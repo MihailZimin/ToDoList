@@ -49,7 +49,7 @@ void TaskWindow::deleteTask() {
 
 TaskWindow::TaskWindow(MyButton* button, DayWindow* day_window) :
 day_window(day_window), button(button),
-Graph_lib::Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
+Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
 txt_info(new Graph_lib::Text(Graph_lib::Point{25, 120}, "Info: "+ button->task->text)),
 changeTaskName(new MyButton({10, 10}, 80, 30, "Change info",
         button->task, ChangeTaskNameCB)),
@@ -121,8 +121,7 @@ end_year_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+1
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Year end: ")),
 go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", button->task, GoBackCB)),
-Note1(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE1)),
-Note2(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*4}, NOTE2))
+Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
 {
     attach(*new_data_button);
     attach(*new_name_field);
@@ -130,8 +129,7 @@ Note2(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*4}
     attach(*start_time_field);
     attach(*end_time_field);
     attach(*go_back);
-    attach(*Note1);
-    attach(*Note2);
+    attach(*Note0_0);
     attach(*end_day_field);
     attach(*end_month_field);
     attach(*end_year_field);
@@ -154,7 +152,7 @@ void AddTaskWindow::SetTask() {
     if (name.size() == 0) name = "default";
     if (info.size() == 0) info = "default";
 
-    unsigned hours_start{INVALID_TIME}, minutes_start{INVALID_TIME};
+    int hours_start{INVALID_TIME}, minutes_start{INVALID_TIME};
 
     try {
         size_t colonPos = start.find(':');
@@ -170,7 +168,7 @@ void AddTaskWindow::SetTask() {
         hours_start = 0;
         minutes_start = 0;
     }
-    unsigned hours_end{INVALID_TIME}, minutes_end{INVALID_TIME};
+    int hours_end{INVALID_TIME}, minutes_end{INVALID_TIME};
     try {
         size_t colonPos = end.find(':');
 
@@ -187,38 +185,50 @@ void AddTaskWindow::SetTask() {
     }
 
 
-    unsigned day_end{0};
-    unsigned month_end{0};
-    unsigned year_end{0};
+    int day_start{day_window->date.day()};
+    int month_start{static_cast<int>(day_window->date.month())};
+    int year_start{day_window->date.year()};
+    int day_end{0};
+    int month_end{0};
+    int year_end{0};
 
     try {
-        month_end = std::stoi(end_month);
-        --month_end;
+        day_end = std::stoi(end_day);
     }
     catch(...) {
-        month_end = static_cast<int>(day_window->date.month());
+        day_end = day_start;
+    }
+    try {
+        month_end = std::stoi(end_month);
+    }
+    catch(...) {
+        month_end = month_start;
     }
     try {
         year_end = std::stoi(end_year);
     }
     catch(...) {
-        year_end = day_window->date.year();
+        year_end = day_start;
     }
     try {
-        day_end = std::stoi(end_day);
+        TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
+            {hours_start, minutes_start,
+                {day_start,
+                    day_window->date.month(), year_start},
+                hours_end, minutes_end,
+                {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}});
+        day_window->addTask(task);
+        day_window->redraw();
     }
     catch(...) {
-        day_end = day_window->date.day();
+        TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
+            {hours_start, minutes_start,
+                {day_start, day_window->date.month(), year_start},
+                hours_end, minutes_end,
+                {day_start, day_window->date.month(), year_start}});
+        day_window->addTask(task);
+        day_window->redraw();
     }
-
-    TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
-        {hours_start, minutes_start,
-            {static_cast<double>(day_window->date.day()),
-                day_window->date.month(), static_cast<double>(day_window->date.year())},
-            hours_end, minutes_end,
-            {static_cast<double>(day_end), static_cast<Chrono_ns::Month>(month_end), static_cast<double>(year_end)}});
-    day_window->addTask(task);
-    day_window->redraw();
 }
 
 void AddTaskWindow::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
