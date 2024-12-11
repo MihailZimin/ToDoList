@@ -122,31 +122,34 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     int day_start = task_window->day_window->date.day();
     int month_start = static_cast<int>(task_window->day_window->date.month());
     int year_start = task_window->day_window->date.year();
+    int day_end_current = task.period.end_date().day();
+    int month_end_current = static_cast<int>(task.period.end_date().month());
+    int year_end_current = task.period.end_date().year();
     int day_end{0};
     int month_end{0};
     int year_end{0};
-
     try {
         month_end = std::stoi(end_month);
     }
     catch(...) {
-        month_end = month_start;
+        month_end = month_end_current;
     }
     try {
         year_end = std::stoi(end_year);
     }
     catch(...) {
-        year_end = year_start;
+        year_end = year_end_current;
     }
     try {
         day_end = std::stoi(end_day);
     }
     catch(...) {
-        day_end = day_start;
+        day_end = day_end_current;
     }
 
     if (!is_end_date_greater(day_start, month_start, year_start,
         day_end, month_end, year_end)) {
+        std::cout << "not greater" << '\n';
         day_end = day_start;
         month_end = month_start;
         year_end = year_start;
@@ -155,8 +158,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
 
     try {
         Chrono_ns::Period p = {hours_start, minutes_start,
-                {task_window->day_window->date.day(),
-                    task_window->day_window->date.month(), task_window->day_window->date.year()},
+                {task.period.start_date()},
                 hours_end, minutes_end,
                 {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}};
         task_window->day_window->removeTask(task);
@@ -168,12 +170,13 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         task_window->redraw();
     }
     catch(...) {
+        hours_end = 1;
+        minutes_end = 1;
+        minutes_start = 0;
+        hours_start = 0;
         Chrono_ns::Period p = {hours_start, minutes_start,
-                {task_window->day_window->date.day(),
-                    task_window->day_window->date.month(), task_window->day_window->date.year()},
-                hours_end, minutes_end,
-{task_window->day_window->date.day(),
-    task_window->day_window->date.month(), task_window->day_window->date.year()}};
+                task.period.start_date(), hours_end, minutes_end,
+                {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}};
         task_window->day_window->removeTask(task);
         task.name = name;
         task.text = text;
@@ -186,15 +189,15 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
 
 ChangeTaskInfo::~ChangeTaskInfo() {
     std::cout << "Destructor ChangeTaskInfo" << std::endl;
-    delete task_window;
-    delete new_name_field;
-    delete new_text_field;
-    delete new_start_time_field;
-    delete new_end_time_field;
-    delete new_end_day_field;
-    delete new_end_month_field;
-    delete new_end_year_field;
-    delete new_info_button;
-    delete go_back;
-    delete note_button;
+    // delete task_window;
+    // delete new_name_field;
+    // delete new_text_field;
+    // delete new_start_time_field;
+    // delete new_end_time_field;
+    // delete new_end_day_field;
+    // delete new_end_month_field;
+    // delete new_end_year_field;
+    // delete new_info_button;
+    // delete go_back;
+    // delete note_button;
 }

@@ -92,15 +92,15 @@ namespace TaskManager_ns
             throw std::runtime_error("File isn't open");
 
         unsigned long long id;
-        unsigned start_hour;
-        unsigned start_min;
-        unsigned start_day;
-        unsigned start_month;
+        int start_hour;
+        int start_min;
+        int start_day;
+        int start_month;
         int start_year;
-        unsigned end_hour;
-        unsigned end_min;
-        unsigned end_day;
-        unsigned end_month;
+        int end_hour;
+        int end_min;
+        int end_day;
+        int end_month;
         int end_year;
         std::string task_name;
         std::string task_text;

@@ -221,6 +221,10 @@ void AddTaskWindow::SetTask() {
         day_window->redraw();
     }
     catch(...) {
+        hours_end = 1;
+        minutes_end = 1;
+        minutes_start = 0;
+        hours_start = 0;
         TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
             {hours_start, minutes_start,
                 {day_start, day_window->date.month(), year_start},

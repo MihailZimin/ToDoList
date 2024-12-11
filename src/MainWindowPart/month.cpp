@@ -14,7 +14,7 @@ Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string m
     }
     for (int j = 6; j < 11; ++j)
     {
-        DateButton* day_button = new DateButton{Point{90, 20 + 40*(j-5)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stod(year_number)}};
+        DateButton* day_button = new DateButton{Point{90, 20 + 40*(j-5)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
         days.push_back(day_button);
     }
     for (int j = 11; j < 16; ++j)

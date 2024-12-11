@@ -25,7 +25,7 @@ namespace Chrono_ns
 
 
     Date::Date(int dd, Month mm, int yy)
-        : d{unsigned(dd)}, m{mm}, y{int(yy)}
+        : d{int(dd)}, m{mm}, y{int(yy)}
     {
         if(!is_date(dd, mm, yy))
         {
@@ -78,7 +78,7 @@ namespace Chrono_ns
         }
     }
 
-    bool is_date(double d, Month m, double y)
+    bool is_date(int d, Month m, int y)
     {
         if(d <= 0 || (d - int(d)) != 0 || (y - int(y)) != 0)
             return false;
@@ -108,10 +108,10 @@ namespace Chrono_ns
 
     Date operator ++ (Date& d)
     {
-        unsigned day = d.day();
+        int day = d.day();
         Month month = d.month();
-        unsigned year = d.year();
-        unsigned days_in_month = Chrono_ns::days_in_month(month, year);
+        int year = d.year();
+        int days_in_month = Chrono_ns::days_in_month(month, year);
         ++day;
         if(day > days_in_month)
         {
@@ -176,14 +176,14 @@ namespace Chrono_ns
     }
 
 
-    Period::Period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
+    Period::Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
         :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
     {
         if(!is_period(start_hour, start_min, start_date, end_hour, end_min, end_date))
             throw std::runtime_error("Uncorrect period value"); 
     }
 
-    bool is_period(unsigned start_hour, unsigned start_min, Date start_date, unsigned end_hour, unsigned end_min, Date end_date)
+    bool is_period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
     {
         if((end_hour == start_hour && end_min <= start_min || end_hour < start_hour) && end_date == start_date
                                                                                      || end_date < start_date)
@@ -218,12 +218,12 @@ namespace Chrono_ns
     }
 
 
-    unsigned days_in_month(Month month, float year)
+    int days_in_month(Month month, int year)
     {
         if(year - int(year) != 0)
             throw std::runtime_error("Year must have integer type");
 
-        unsigned days_in_month = 31;
+        int days_in_month = 31;
 
         switch(month)
         {
@@ -253,17 +253,17 @@ namespace Chrono_ns
         time_t mytime = time(NULL);
         struct tm *now = localtime(&mytime);
         Date today = Chrono_ns::today();
-        unsigned days_after_sunday = now->tm_wday;
-        unsigned days_after_monday = days_after_sunday == 0 ? 6 : days_after_sunday - 1;
+        int days_after_sunday = now->tm_wday;
+        int days_after_monday = days_after_sunday == 0 ? 6 : days_after_sunday - 1;
 
         int monday_day = today.day() - days_after_monday;
         Month monday_month = today.month();
-        unsigned monday_year = today.year();
+        int monday_year = today.year();
         if(monday_day < 1)
         {
             --monday_month;
             int to_minus_from_prev_month = -monday_day;
-            unsigned days_in_prev_month = Chrono_ns::days_in_month(monday_month, today.year());
+            int days_in_prev_month = Chrono_ns::days_in_month(monday_month, today.year());
             monday_day = days_in_prev_month - to_minus_from_prev_month;
             if(monday_month == Month::dec)
                 --monday_year;
