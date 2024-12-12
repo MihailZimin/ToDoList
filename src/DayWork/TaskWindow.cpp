@@ -111,8 +111,7 @@ txt_time_end(Graph_lib::Text(Graph_lib::Point{25, 90}, ""))
 
 
 
-
-AddTaskWindow::AddTaskWindow(DayWindow *day_window):
+AddTaskWindow::AddTaskWindow(DayWindow* day_window):
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
 day_window{day_window},
 new_data_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
@@ -134,7 +133,7 @@ end_year_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, 
 go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", goBackCB)),
 show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Help", openHelpWindowCB))
+    "Help", openHelpWindowCB, FL_GREEN))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
@@ -282,4 +281,5 @@ void AddTaskWindow::goBackCB(Graph_lib::Address, Graph_lib::Address pw) {
 void AddTaskWindow::goBack() {
     std::cout << "went back" << std::endl;
     this->hide();
+    day_window->show();
 }

@@ -16,6 +16,7 @@ void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void DayWindow::showTaskInfoWindow(MyButton& btn) {
     TaskWindow* task_window = new TaskWindow(btn, this);
+    this->hide();
 }
 
 void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -25,6 +26,7 @@ void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void DayWindow::addTaskWindow() {
     AddTaskWindow* task_window = new AddTaskWindow(this);
+    this->hide();
 }
 
 void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -32,15 +34,6 @@ void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     reinterpret_cast<DayWindow&>(btn.window()).hide();
 }
 
-// void DayWindow::openNotesCB(Graph_lib::Address, Graph_lib::Address pw) {
-//     MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
-//     reinterpret_cast<DayWindow&>(btn.window()).openNotes();
-// }
-//
-// void DayWindow::openNotes() {
-//     NoteWindow* note_window = new NoteWindow(this);
-//     this->hide();
-// }
 
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :

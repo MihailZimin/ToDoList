@@ -73,7 +73,7 @@ new_info_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, 0}, BUTTON_WIDTH, BUT
 go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", button_from_called.task, goBackCB)),
 show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BUTTON_HEIGHT}, BUTTON_WIDTH, BUTTON_HEIGHT,
-    "Help", button_from_called.task, openHelpWindowCB))
+    "Help", button_from_called.task, openHelpWindowCB, FL_GREEN))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 

@@ -38,6 +38,7 @@ add_executable(
         src/DayWork/HelpWindow.h
         src/MainWindowPart/date_button.cpp
         src/MainWindowPart/date_button.h
+        src/DayWork/MyButton.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE
