@@ -6,6 +6,8 @@
 
 #include "NoteWindow.h"
 #include "TaskWindow.h"
+#include "PARAMETERS.h"
+
 std::vector<TaskManager_ns::Task> tasks;
 
 void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -84,11 +86,13 @@ note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
 
     std::string information_about_day = std::to_string(m_day) + "/" + std::to_string(month) + "/" + std::to_string(year);
     information = new Graph_lib::Text{Graph_lib::Point(200, 10+MARGIN), information_about_day};
+
     dayName->set_color(Graph_lib::Color::cyan);
     dayName->set_font(Graph_lib::Font::helvetica);
     information->set_color(Graph_lib::Color::black);
     information->set_font(Graph_lib::Font::helvetica);
     dayName->set_font_size(font_size);
+
     attach(*dayName);
     attach(*add_task_button);
     attach(*information);

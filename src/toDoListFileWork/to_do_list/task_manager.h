@@ -7,14 +7,11 @@
 
 #include <fstream>
 
-// #include <stdio.h>
-// #include "sqlite3.h"
-
-
 namespace TaskManager_ns
 {
     struct Task{
-        Task(std::string task_name, std::string task_text, Chrono_ns::Period period);
+        Task(std::string task_name, std::string task_text, Chrono_ns::Period period):
+            name {task_name}, text {task_text}, period {period} {}
         std::string name {"My note"};
         std::string text;
         Chrono_ns::Period period;
@@ -36,10 +33,9 @@ namespace TaskManager_ns
 
     public:
         TaskManager();
-        //~TaskManager();
         void set_id_to_file();
-        void add_task(Task task); // может тут тоже нужно передавать по ссылке?
-        void delete_task(Task task); // и тут? посмотри вызде!
+        void add_task(Task task);
+        void delete_task(Task task);
         void update_task(Task old_task, Task new_task);
 
         std::vector<Task> get_tasks() const;
@@ -47,7 +43,6 @@ namespace TaskManager_ns
         
     private:
         std::vector<Task> tasks;
-        //sqlite3 *db;    // указатель на базу данных
         std::ifstream in;
         std::ofstream out;
 
@@ -59,7 +54,6 @@ namespace TaskManager_ns
 
 
 
-    //int upload_tasks(void *notUsed, int colCount, char **columns, char **colNames);
 
 }
 

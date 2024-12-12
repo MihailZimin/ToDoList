@@ -96,23 +96,25 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         hours_start = std::stoi(start.substr(0, colonPos));
         minutes_start = std::stoi(start.substr(colonPos + 1));
         if (hours_start < 0 || hours_start >= 24 || minutes_start < 0 || minutes_start >= 60) {
-            hours_start = 0;
-            minutes_start = 0;
+            hours_start = START_DEFAULT_HOURS;
+            minutes_start = START_DEFAULT_MINUTES;
         }
     }
     catch (...) {
         hours_start = task.period.start_hour();
         minutes_start = task.period.start_min();
     }
+
     int hours_end{INVALID_TIME}, minutes_end{INVALID_TIME};
+
     try {
         size_t colonPos = end.find(':');
 
         hours_end = std::stoi(end.substr(0, colonPos));
         minutes_end = std::stoi(end.substr(colonPos + 1));
         if (hours_end < 0 || hours_end >= 24 || minutes_end < 0 || minutes_end >= 60) {
-            hours_end = 1;
-            minutes_end = 1;
+            hours_end = END_DEFAULT_HOURS;
+            minutes_end = END_DEFAULT_MINUTES;
         }
     }
     catch(...) {
@@ -124,9 +126,11 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     int day_start = task_window->day_window->date.day();
     int month_start = static_cast<int>(task_window->day_window->date.month());
     int year_start = task_window->day_window->date.year();
+
     int day_end_current = task.period.end_date().day();
     int month_end_current = static_cast<int>(task.period.end_date().month());
     int year_end_current = task.period.end_date().year();
+
     int day_end{0};
     int month_end{0};
     int year_end{0};
@@ -156,6 +160,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         month_end = month_end_current;
         year_end = year_end_current;
     }
+
     task_window->day_window->removeTask(task);
 
     try {
@@ -171,10 +176,10 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         task_window->redraw();
     }
     catch(...) {
-        hours_end = 1;
-        minutes_end = 1;
-        minutes_start = 0;
-        hours_start = 0;
+        hours_end = END_DEFAULT_HOURS;
+        minutes_end = END_DEFAULT_MINUTES;
+        hours_start = START_DEFAULT_HOURS;
+        minutes_start = START_DEFAULT_MINUTES;
         Chrono_ns::Period p = {hours_start, minutes_start,
                 task.period.start_date(), hours_end, minutes_end,
                 {task.period.end_date()}};

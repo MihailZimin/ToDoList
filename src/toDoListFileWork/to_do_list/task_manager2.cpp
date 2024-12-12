@@ -7,12 +7,6 @@
 
 namespace TaskManager_ns
 {
-// Task
-    Task::Task(std::string task_name, std::string task_text, Chrono_ns::Period period)
-            : name {task_name}, text {task_text}, period {period}
-    {
-    }
-
 
     std::ostream& operator << (std::ostream& os, const Task& t)
     {
@@ -55,8 +49,6 @@ namespace TaskManager_ns
             throw std::runtime_error("Can't add amount of ids to file");
         out_id.close();
     }
-
-    //std::istringstream iss;
 
     void TaskManager::download_tasks()
     {
@@ -113,14 +105,11 @@ namespace TaskManager_ns
         if(in.fail()) {
             throw std::runtime_error("Uncorrect data in file");
         }
-        // if(in.bad())
-            // throw std::runtime_error("Ifstream \"in\" is damaged");
-
         in.close();
     }
 
 
-    void TaskManager::add_task(Task task) // ПОПРОБУЙ СДЕЛАТЬ ТАК, ЧТОБЫ ЗАДАЧИ ДОБАВЛЯЛИСЬ УЖЕ В НУЖНОМ ПОРЯДККЕ (ЧТОБЫ НЕ СОРТИРОВАТЬ ИХ)
+    void TaskManager::add_task(Task task)
     {
         out.open("tasks.txt", std::ios::app);
         out.clear();
@@ -148,9 +137,9 @@ namespace TaskManager_ns
         out.close();
     }
 
-    void TaskManager::delete_task(Task task) // пожалуй, лучше ввести id у задач
-    {                                        // МОЖНО ПОЛУЧАТЬ ИЗ ФАЙЛА СТРОКИ, А НЕ ПО ЭЛЕМЕНТАМ ВСЁ.
-        using namespace Chrono_ns;           // СООТВЕТСТВЕННО И ПЕРЕЗАПИСЫВАТЬ СТРОКАМИ     !!!!!!
+    void TaskManager::delete_task(Task task)
+    {
+        using namespace Chrono_ns;
 
         std::ofstream buf_out("buf.txt");
         std::cout << "delete_task()\n";

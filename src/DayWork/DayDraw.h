@@ -11,9 +11,6 @@
 #include "Graph_lib/GUI.h"
 #include "Graph_lib/Graph.h"
 #include "MyButton.h"
-#include "PARAMETERS.h"
-
-extern TaskManager_ns::TaskManager task_manager;
 
 class DayWindow: public Graph_lib::Window {
 public:
@@ -73,4 +70,4 @@ private:
     const std::string day;
 };
 
-#endif //DAYWINDOW_H
+#endif //DAYDRAW_H

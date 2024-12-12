@@ -63,11 +63,14 @@ delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_
 
     int hours_start = button->task->period.start_hour();
     int minutes_start = button->task->period.start_min();
+
     int hours_end = button->task->period.end_hour();
     int minutes_end = button->task->period.end_min();
+
     int day_start = button->task->period.start_date().day();
     int month_start = static_cast<int>(button->task->period.start_date().month());
     int year_start = button->task->period.start_date().year();
+
     int day_end = button->task->period.end_date().day();
     int month_end = static_cast<int>(button->task->period.end_date().month());
     int year_end = button->task->period.end_date().year();
@@ -89,11 +92,13 @@ delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_
         ": " + timeString_start;
     std::string time_end = std::to_string(day_end) + '/' + std::to_string(month_end) + '/' + std::to_string(year_end) +
         ": " + timeString_end;
+
     txt_time_start = new Graph_lib::Text(Graph_lib::Point{25, 70}, "Time start: "+ time_start);
     txt_time_end = new Graph_lib::Text(Graph_lib::Point{25, 90}, "Time end: "+ time_end);
     txt_time_start->set_font_size(20);
     txt_time_end->set_font_size(20);
     txt_info->set_font_size(20);
+
     attach(*changeTaskName);
     attach(*txt_info);
     attach(*txt_time_start);
@@ -166,34 +171,37 @@ void AddTaskWindow::SetTask() {
         hours_start = std::stoi(start.substr(0, colonPos));
         minutes_start = std::stoi(start.substr(colonPos + 1));
         if (hours_start < 0 || hours_start >= 24 || minutes_start < 0 || minutes_start >= 60) {
-            hours_start = 0;
-            minutes_start = 0;
+            hours_start = START_DEFAULT_HOURS;
+            minutes_start = START_DEFAULT_MINUTES;
         }
     }
     catch (...) {
-        hours_start = 0;
-        minutes_start = 0;
+        hours_start = START_DEFAULT_HOURS;
+        minutes_start = START_DEFAULT_MINUTES;
     }
+
     int hours_end{INVALID_TIME}, minutes_end{INVALID_TIME};
+
     try {
         size_t colonPos = end.find(':');
 
         hours_end = std::stoi(end.substr(0, colonPos));
         minutes_end = std::stoi(end.substr(colonPos + 1));
         if (hours_end < 0 || hours_end >= 24 || minutes_end < 0 || minutes_end >= 60) {
-            hours_end = 0;
-            minutes_end = 0;
+            hours_end = END_DEFAULT_HOURS;
+            minutes_end = END_DEFAULT_MINUTES;
         }
     }
     catch(...) {
-        hours_end = 1;
-        minutes_end = 1;
+        hours_end = END_DEFAULT_HOURS;
+        minutes_end = END_DEFAULT_MINUTES;
     }
 
 
     int day_start{day_window->date.day()};
     int month_start{static_cast<int>(day_window->date.month())};
     int year_start{day_window->date.year()};
+
     int day_end{0};
     int month_end{0};
     int year_end{0};
@@ -237,10 +245,10 @@ void AddTaskWindow::SetTask() {
     }
 
     catch(...) {
-        hours_end = 1;
-        minutes_end = 1;
-        minutes_start = 0;
-        hours_start = 0;
+        hours_end = END_DEFAULT_HOURS;
+        minutes_end = END_DEFAULT_MINUTES;
+        hours_start = START_DEFAULT_HOURS;
+        minutes_start = START_DEFAULT_MINUTES;
         TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
             {hours_start, minutes_start,
                 {day_start, day_window->date.month(), year_start},

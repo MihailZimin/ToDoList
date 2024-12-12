@@ -59,7 +59,7 @@ public:
 
 class AddTaskWindow: Graph_lib::Window {
 public:
-    AddTaskWindow(DayWindow* day_window);
+    explicit AddTaskWindow(DayWindow* day_window);
 
     Graph_lib::In_box* new_name_field;
     Graph_lib::In_box* new_info_field;
