@@ -6,11 +6,8 @@
 #define MYBUTTON_H
 
 #include "../Graph_lib/GUI.h"
+#include "toDoListFileWork/to_do_list/task_manager.h"
 
-
-namespace TaskManager_ns {
-    struct Task;
-}
 
 class ChangeTaskInfo;
 class TaskWindow;
@@ -31,6 +28,10 @@ public:
     int x_coord{0};
     int y_coord{0};
     TaskManager_ns::Task* task;
+
+    ~MyButton() override {
+        delete task;
+    }
 };
 
 #endif //MYBUTTON_H

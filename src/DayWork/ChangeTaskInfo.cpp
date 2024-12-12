@@ -21,69 +21,67 @@ bool is_end_date_greater(int start_day, int start_month, int start_year, int end
     return end_day > start_day;
 }
 
-void ChangeTaskInfo::changeTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
+void ChangeTaskInfo::ChangeTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<ChangeTaskInfo&>(btn.window()).changeTask(*btn.task);
+    reinterpret_cast<ChangeTaskInfo&>(btn.window()).ChangeTask(*btn.task);
 }
 
 void ChangeTaskInfo::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<ChangeTaskInfo&>(btn.window()).goBack();
+    reinterpret_cast<ChangeTaskInfo&>(btn.window()).GoBack();
 }
 
 
-void ChangeTaskInfo::goBack() {
-    std::cout << "went back" << std::endl;
+void ChangeTaskInfo::GoBack() {
     this->hide();
+    task_window->show();
 }
 
 
 
-ChangeTaskInfo::ChangeTaskInfo(MyButton* button, TaskWindow* taskWindow):
+ChangeTaskInfo::ChangeTaskInfo(MyButton& button_from_called, TaskWindow* taskWindow):
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Change Window"),
-task_window(taskWindow),
-new_name_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y),
+task_window(taskWindow), button_from_called(button_from_called),
+new_name_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new name:")),
-new_text_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+FIELD_HEIGHT),
+new_text_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new information:")),
-new_start_time_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+2*FIELD_HEIGHT),
+new_start_time_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+2*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new start time:")),
-new_end_time_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+3*FIELD_HEIGHT),
+new_end_time_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+3*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new end time:")),
-new_end_day_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+4*FIELD_HEIGHT),
+new_end_day_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+4*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter day end:")),
-new_end_month_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+5*FIELD_HEIGHT),
+new_end_month_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+5*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter month end:")),
-new_end_year_field(new Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+6*FIELD_HEIGHT),
+new_end_year_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+6*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter year end:")),
-new_info_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, 0}, BUTTON_WIDTH, BUTTON_HEIGHT,
-    "Change", button->task, changeTaskCB)),
-go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", button->task, GoBackCB)),
-Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
+new_info_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, 0}, BUTTON_WIDTH, BUTTON_HEIGHT,
+    "Change", button_from_called.task, ChangeTaskCB)),
+go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Back", button_from_called.task, GoBackCB))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
-    attach(*new_name_field);
-    attach(*new_text_field);
-    attach(*new_start_time_field);
-    attach(*new_end_time_field);
-    attach(*new_end_day_field);
-    attach(*new_end_month_field);
-    attach(*new_end_year_field);
-    attach(*new_info_button);
-    attach(*go_back);
-    attach(*Note0_0);
+    attach(new_name_field);
+    attach(new_text_field);
+    attach(new_start_time_field);
+    attach(new_end_time_field);
+    attach(new_end_day_field);
+    attach(new_end_month_field);
+    attach(new_end_year_field);
+    attach(new_info_button);
+    attach(go_back);
 }
 
-void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
-    std::string name = new_name_field->get_string();
-    std::string text = new_text_field->get_string();
-    std::string start = new_start_time_field->get_string();
-    std::string end = new_end_time_field->get_string();
-    std::string end_day = new_end_day_field->get_string();
-    std::string end_month = new_end_month_field->get_string();
-    std::string end_year = new_end_year_field->get_string();
+void ChangeTaskInfo::ChangeTask(TaskManager_ns::Task& task) {
+    std::string name = new_name_field.get_string();
+    std::string text = new_text_field.get_string();
+    std::string start = new_start_time_field.get_string();
+    std::string end = new_end_time_field.get_string();
+    std::string end_day = new_end_day_field.get_string();
+    std::string end_month = new_end_month_field.get_string();
+    std::string end_year = new_end_year_field.get_string();
 
     if (name.empty()) name = task.name;
     if (text.empty()) text = task.text;
@@ -190,16 +188,4 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         task_window->day_window->redraw();
         task_window->redraw();
     }
-}
-
-ChangeTaskInfo::~ChangeTaskInfo() {
-    std::cout << "Destructor ChangeTaskInfo" << std::endl;
-    delete new_name_field;
-    delete new_text_field;
-    delete new_start_time_field;
-    delete new_end_time_field;
-    delete new_end_day_field;
-    delete new_end_month_field;
-    delete new_end_year_field;
-    delete go_back;
 }

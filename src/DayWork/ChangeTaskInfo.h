@@ -14,37 +14,32 @@ bool is_end_date_greater(int day_start, int month_start, int year_start,
 
 class ChangeTaskInfo: public Graph_lib::Window{
 public:
-    ChangeTaskInfo(MyButton* button, TaskWindow* window);
+    ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
 
-    static void changeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void ChangeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
 
-    Graph_lib::In_box* new_name_field;
-    Graph_lib::In_box* new_text_field;
-    Graph_lib::In_box* new_start_time_field;
-    Graph_lib::In_box* new_end_time_field;
-    Graph_lib::In_box* new_end_day_field;
-    Graph_lib::In_box* new_end_month_field;
-    Graph_lib::In_box* new_end_year_field;
+    void ChangeTask(TaskManager_ns::Task& task);
+    void GoBack();
 
-    MyButton* new_info_button;
-    MyButton* go_back;
+    Graph_lib::In_box new_name_field;
+    Graph_lib::In_box new_text_field;
+    Graph_lib::In_box new_start_time_field;
+    Graph_lib::In_box new_end_time_field;
+    Graph_lib::In_box new_end_day_field;
+    Graph_lib::In_box new_end_month_field;
+    Graph_lib::In_box new_end_year_field;
+
+    MyButton new_info_button;
+    MyButton go_back;
+    MyButton& button_from_called;
 
     TaskWindow* task_window{nullptr};
 
-    Graph_lib::Text* Note0_0;
 
-    void changeTask(TaskManager_ns::Task& task);
-    void goBack();
-
-    void hide() override{
-        Window::hide();
-        this->task_window->day_window->show();
-        this->task_window->need_to_be_destroyed = true;
-        delete this;
+    ~ChangeTaskInfo() override {
+        task_window = nullptr;
     }
-
-    ~ChangeTaskInfo() override;
 
 };
 

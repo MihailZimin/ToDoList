@@ -16,9 +16,7 @@ void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void DayWindow::showTaskInfoWindow(MyButton& btn) {
-    TaskWindow* task_window = new TaskWindow(&btn, this);
-    this->need_to_be_destroyed = false;
-    this->hide();
+    TaskWindow* task_window = new TaskWindow(btn, this);
 }
 
 void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -28,8 +26,6 @@ void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void DayWindow::addTaskWindow() {
     AddTaskWindow* task_window = new AddTaskWindow(this);
-    this->need_to_be_destroyed = false;
-    this->hide();
 }
 
 void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -44,7 +40,6 @@ void DayWindow::openNotesCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void DayWindow::openNotes() {
     NoteWindow* note_window = new NoteWindow(this);
-    this->need_to_be_destroyed = false;
     this->hide();
 }
 
@@ -68,19 +63,15 @@ note_window_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
 
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
 
-    for (const auto& task : tasks.size()) {
+    for (auto& task : tasks) {
         TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
             task.name, task.text, task.period
         );
-        task->set_id(task.get_id());
+        new_task->set_id(task.get_id());
         tasks_ref.push_back(new_task);
 
         buttons.push_back(CreateButton(new_task));
         attach(buttons.back());
-    }
-
-    for (int i = 0; i < buttons.size(); i++) {
-        attach(buttons[i]);
     }
 
     int m_day = date.day();

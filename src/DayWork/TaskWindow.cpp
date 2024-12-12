@@ -12,68 +12,68 @@
 #include <sstream>
 
 
-void TaskWindow::ChangeTaskNameCB(Graph_lib::Address, Graph_lib::Address pw) {
+void TaskWindow::ChangeTaskDetailsCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<TaskWindow&>(btn.window()).ChangeTaskName(btn);
+    reinterpret_cast<TaskWindow&>(btn.window()).ChangeTaskDetails(btn);
 }
 
-void TaskWindow::ChangeTaskName(MyButton& btn) {
-    ChangeTaskInfo* changeNameWin = new ChangeTaskInfo(&btn, &reinterpret_cast<TaskWindow&>(btn.window()));
-    this->need_to_be_destroyed = false;
+void TaskWindow::ChangeTaskDetails(MyButton& btn) {
+    ChangeTaskInfo* change_task_info = new ChangeTaskInfo(btn, &reinterpret_cast<TaskWindow&>(btn.window()));
     this->hide();
 }
 
 void TaskWindow::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<TaskWindow&>(btn.window()).goBack();
+    reinterpret_cast<TaskWindow&>(btn.window()).GoBack();
 }
 
-void TaskWindow::goBack() {
-    std::cout << "went back" << std::endl;
-    this->need_to_be_destroyed = true;
+void TaskWindow::GoBack() {
     this->hide();
+    day_window->show();
 }
 
 void TaskWindow::DeleteTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<TaskWindow&>(btn.window()).deleteTask();
+    reinterpret_cast<TaskWindow&>(btn.window()).DeleteTask();
 }
 
-void TaskWindow::deleteTask() {
-    day_window->removeTask(*button->task);
+void TaskWindow::DeleteTask() {
+    day_window->removeTask(*(button_from_called.task));
     day_window->redraw();
-    this->need_to_be_destroyed = true;
     this->hide();
+    day_window->show();
 }
 
 
 
-TaskWindow::TaskWindow(MyButton* button, DayWindow* day_window) :
-day_window(day_window), button(button),
+TaskWindow::TaskWindow(MyButton& button_from_called, DayWindow* day_window) :
+day_window(day_window), button_from_called(button_from_called),
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
-txt_info(new Graph_lib::Text(Graph_lib::Point{25, 120}, "Info: "+ button->task->text)),
-changeTaskName(new MyButton({10, 10}, 80, 30, "Change info",
-        button->task, ChangeTaskNameCB)),
-go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", button->task, GoBackCB)),
-delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Delete", button->task, DeleteTaskCB))
+txt_info(Graph_lib::Text(Graph_lib::Point{25, 120}, "Info: "+ button_from_called.task->text)),
+changeTaskName(MyButton({10, 10}, 80, 30, "Change info",
+        button_from_called.task, ChangeTaskDetailsCB)),
+go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Back", button_from_called.task, GoBackCB)),
+delete_task_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Delete", button_from_called.task, DeleteTaskCB)),
+txt_time_start(Graph_lib::Text(Graph_lib::Point{25, 70}, "")),
+txt_time_end(Graph_lib::Text(Graph_lib::Point{25, 90}, ""))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
-    int hours_start = button->task->period.start_hour();
-    int minutes_start = button->task->period.start_min();
+    int hours_start = button_from_called.task->period.start_hour();
+    int minutes_start = button_from_called.task->period.start_min();
 
-    int hours_end = button->task->period.end_hour();
-    int minutes_end = button->task->period.end_min();
+    int hours_end = button_from_called.task->period.end_hour();
+    int minutes_end = button_from_called.task->period.end_min();
 
-    int day_start = button->task->period.start_date().day();
-    int month_start = static_cast<int>(button->task->period.start_date().month());
-    int year_start = button->task->period.start_date().year();
+    int day_start = button_from_called.task->period.start_date().day();
+    int month_start = static_cast<int>(button_from_called.task->period.start_date().month());
+    int year_start = button_from_called.task->period.start_date().year();
 
-    int day_end = button->task->period.end_date().day();
-    int month_end = static_cast<int>(button->task->period.end_date().month());
-    int year_end = button->task->period.end_date().year();
+    int day_end = button_from_called.task->period.end_date().day();
+    int month_end = static_cast<int>(button_from_called.task->period.end_date().month());
+    int year_end = button_from_called.task->period.end_date().year();
 
 
     std::ostringstream oss;
@@ -93,57 +93,56 @@ delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_
     std::string time_end = std::to_string(day_end) + '/' + std::to_string(month_end) + '/' + std::to_string(year_end) +
         ": " + timeString_end;
 
-    txt_time_start = new Graph_lib::Text(Graph_lib::Point{25, 70}, "Time start: "+ time_start);
-    txt_time_end = new Graph_lib::Text(Graph_lib::Point{25, 90}, "Time end: "+ time_end);
-    txt_time_start->set_font_size(20);
-    txt_time_end->set_font_size(20);
-    txt_info->set_font_size(20);
+    txt_time_start.set_label("Time start: "+ time_start);
+    txt_time_end.set_label("Time end: "+ time_end);
+    txt_time_start.set_font_size(20);
+    txt_time_end.set_font_size(20);
+    txt_info.set_font_size(20);
 
-    attach(*changeTaskName);
-    attach(*txt_info);
-    attach(*txt_time_start);
-    attach(*txt_time_end);
-    attach(*go_back);
-    attach(*delete_task_button);
+    attach(changeTaskName);
+    attach(txt_info);
+    attach(txt_time_start);
+    attach(txt_time_end);
+    attach(go_back);
+    attach(delete_task_button);
 }
+
 
 
 
 AddTaskWindow::AddTaskWindow(DayWindow *day_window):
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
 day_window{day_window},
-new_data_button(new MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+new_data_button(MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Set task", SetTaskCB)),
-new_name_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, MARGIN),
+new_name_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, MARGIN),
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Enter task name:")),
-new_info_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Information about task:")),
-start_time_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*2-MARGIN),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Start (hours:minutes):")),
-end_time_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*3-MARGIN*2),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "End (hours:minutes):")),
-end_day_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*4-MARGIN*3),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Day end: ")),
-end_month_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*5-MARGIN*4),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Month end: ")),
-end_year_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*6-MARGIN*5),
-    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Year end: ")),
-go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", GoBackCB)),
-Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
+new_info_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Details about task:")),
+start_time_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*2-MARGIN),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Start time:")),
+end_time_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*3-MARGIN*2),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "End time:")),
+end_day_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*4-MARGIN*3),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Day of end: ")),
+end_month_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*5-MARGIN*4),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Month of end: ")),
+end_year_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*6-MARGIN*5),
+    BUTTON_WIDTH, BUTTON_HEIGHT-20, "Year of end: ")),
+go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Back", GoBackCB))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
-    attach(*new_data_button);
-    attach(*new_name_field);
-    attach(*new_info_field);
-    attach(*start_time_field);
-    attach(*end_time_field);
-    attach(*go_back);
-    attach(*Note0_0);
-    attach(*end_day_field);
-    attach(*end_month_field);
-    attach(*end_year_field);
+    attach(new_data_button);
+    attach(new_name_field);
+    attach(new_info_field);
+    attach(start_time_field);
+    attach(end_time_field);
+    attach(go_back);
+    attach(end_day_field);
+    attach(end_month_field);
+    attach(end_year_field);
 }
 
 void AddTaskWindow::SetTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
@@ -152,13 +151,13 @@ void AddTaskWindow::SetTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void AddTaskWindow::SetTask() {
-    std::string name = new_name_field->get_string();
-    std::string info = new_info_field->get_string();
-    std::string start = start_time_field->get_string();
-    std::string end = end_time_field->get_string();
-    std::string end_day = end_day_field->get_string();
-    std::string end_month = end_month_field->get_string();
-    std::string end_year = end_year_field->get_string();
+    std::string name = new_name_field.get_string();
+    std::string info = new_info_field.get_string();
+    std::string start = start_time_field.get_string();
+    std::string end = end_time_field.get_string();
+    std::string end_day = end_day_field.get_string();
+    std::string end_month = end_month_field.get_string();
+    std::string end_year = end_year_field.get_string();
 
     if (name.empty()) name = "default";
     if (info.empty()) info = "default";

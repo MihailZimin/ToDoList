@@ -40,22 +40,11 @@ public:
 
     Graph_lib::Text information;
     Graph_lib::Text dayName;
-    bool need_to_be_destroyed{true};
 
     MyButton* CreateButton(TaskManager_ns::Task* task);
 
-    // void hide() override {
-    //     Window::hide();
-    // }
-
-    // ~DayWindow() override{
-    //     std::cout << "DayWindow::~DayWindow" << std::endl;
-    //     for (size_t i = 0; i < buttons.size(); i++) {
-    //         delete buttons[i].task;
-    //     }
-    // }
-
     Chrono_ns::Date date;
+
 private:
     int pos_x = 50;
     int pos_y = 10;
