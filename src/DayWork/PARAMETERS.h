@@ -24,6 +24,7 @@ const std::string NOTE3 = "3) If you will enter wrong day, year or month those p
 const std::string NOTE4 = "setted default;";
 const std::string NOTE5 = "4) default parameters: start - 00:00, end - 01:01, end date: current day date";
 const std::string NOTE6 = "5) your task information need to be not really long if you want to see all task info";
+const std::string NOTE7 = "6) if you will enter only hours in time, minutes will be setted like hours";
 constexpr unsigned INVALID_TIME = 100;
 constexpr int FIELDS_START_POSITION_X = 170;
 constexpr int FIELDS_START_POSITION_Y = 10;

@@ -23,7 +23,7 @@ namespace Chrono_ns
     {
     public:
         Date(int d, Month m, int y);
-        Date() = delete;
+        Date(): d{0}, m{Month::jan}, y{0} {}
 
         int day() const { return d; }
         Month month() const { return m; }
@@ -56,7 +56,7 @@ namespace Chrono_ns
     {
     public:
         Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date);
-        Period() = delete;
+        Period(): start_h{0}, start_m{0}, end_h{0}, end_m{0}, start_d{}, end_d{} {}
 
         int start_hour() const { return start_h; }
         int start_min() const { return start_m; }

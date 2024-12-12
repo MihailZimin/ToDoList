@@ -54,6 +54,9 @@ public:
 
     ~DayWindow() override{
         std::cout << "DayWindow::~DayWindow" << std::endl;
+        for (size_t i = 0; i < buttons.size(); i++) {
+            delete buttons[i].task;
+        }
         delete add_task_button;
         delete close_window_button;
         delete note_window_button;

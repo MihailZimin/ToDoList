@@ -15,7 +15,6 @@ namespace TaskManager_ns
 {
     struct Task{
         Task(std::string task_name, std::string task_text, Chrono_ns::Period period);
-        
         std::string name {"My note"};
         std::string text;
         Chrono_ns::Period period;

@@ -83,7 +83,7 @@ public:
         Window::hide();
         this->day_window->need_to_be_destroyed = true;
         this->day_window->show();
-        // delete this;
+        delete this;
     }
 
     ~AddTaskWindow() override {

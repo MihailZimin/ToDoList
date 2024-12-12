@@ -159,7 +159,6 @@ namespace TaskManager_ns
         {
             if(tasks[i].get_id() == task.get_id()) {
                 tasks.erase(tasks.begin() + i);
-                break;
             }
         }
 
@@ -264,7 +263,6 @@ namespace TaskManager_ns
     std::vector<Task> TaskManager::get_tasks() const
     {
         std::cout << "get_tasks()\n";
-        std::cout << "vector size: " << tasks.size() << std::endl;
         return tasks;
     }
 

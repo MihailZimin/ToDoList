@@ -28,6 +28,7 @@ public:
     Graph_lib::Text* Note4;
     Graph_lib::Text* Note5;
     Graph_lib::Text* Note6;
+    Graph_lib::Text* Note7;
 
     void hide() override {
         Window::hide();

@@ -102,7 +102,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     }
     catch (...) {
         hours_start = task.period.start_hour();
-        minutes_start = task.period.end_hour();
+        minutes_start = task.period.start_min();
     }
     int hours_end{INVALID_TIME}, minutes_end{INVALID_TIME};
     try {
@@ -111,8 +111,8 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         hours_end = std::stoi(end.substr(0, colonPos));
         minutes_end = std::stoi(end.substr(colonPos + 1));
         if (hours_end < 0 || hours_end >= 24 || minutes_end < 0 || minutes_end >= 60) {
-            hours_end = 0;
-            minutes_end = 0;
+            hours_end = 1;
+            minutes_end = 1;
         }
     }
     catch(...) {
@@ -152,10 +152,9 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
 
     if (!is_end_date_greater(day_start, month_start, year_start,
         day_end, month_end, year_end)) {
-        std::cout << "not greater" << '\n';
-        day_end = day_start;
-        month_end = month_start;
-        year_end = year_start;
+        day_end = day_end_current;
+        month_end = month_end_current;
+        year_end = year_end_current;
     }
     task_window->day_window->removeTask(task);
 
