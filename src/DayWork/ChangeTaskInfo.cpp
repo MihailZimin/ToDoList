@@ -157,14 +157,13 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         month_end = month_start;
         year_end = year_start;
     }
-
+    task_window->day_window->removeTask(task);
 
     try {
         Chrono_ns::Period p = {hours_start, minutes_start,
                 {task.period.start_date()},
                 hours_end, minutes_end,
                 {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}};
-        task_window->day_window->removeTask(task);
         task.name = name;
         task.text = text;
         task.period = p;
@@ -179,8 +178,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         hours_start = 0;
         Chrono_ns::Period p = {hours_start, minutes_start,
                 task.period.start_date(), hours_end, minutes_end,
-                {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}};
-        task_window->day_window->removeTask(task);
+                {task.period.end_date()}};
         task.name = name;
         task.text = text;
         task.period = p;

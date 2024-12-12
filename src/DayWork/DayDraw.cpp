@@ -19,7 +19,7 @@ void DayWindow::showTaskInfoWindow(MyButton& btn) {
     this->hide();
 }
 
-void DayWindow::addTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
+void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
     reinterpret_cast<DayWindow&>(btn.window()).addTaskWindow(btn);
 }
@@ -51,7 +51,7 @@ DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::st
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day"),
 dayName(new Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
 add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
-    BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
+    BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskWindowCB)),
 close_window_button(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", closeWindowCB)),
 date(date),

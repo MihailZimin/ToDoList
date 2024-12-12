@@ -26,7 +26,7 @@ public:
     void addTask(TaskManager_ns::Task* task);
     TaskManager_ns::TaskManager task_manager;
 
-    static void addTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw);
     static void showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw);
     static void removeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void closeWindowCB(Graph_lib::Address, Graph_lib::Address pw);
