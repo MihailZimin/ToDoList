@@ -20,7 +20,6 @@ class WeekWindow : public Graph_lib::Window
 {
     public:
         WeekWindow(Point xy, int h, int w);
-        std::vector<DateButton> week_days;
         void years_page();
         void add_years();
         void week_page();
@@ -35,7 +34,7 @@ class WeekWindow : public Graph_lib::Window
         DateButton Friday;
         DateButton Saturday;
         DateButton Sunday;
-        Text current_week;
+        Text current_date;
         Button next;
         Button prev;
         int year_page_counter;

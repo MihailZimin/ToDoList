@@ -9,14 +9,15 @@ class Year: public Graph_lib::Window
 {
     public:
         Year(DateButton* btn, WeekWindow* week_win, const std::string year_number);
-        WeekWindow* week_win;
+        ~Year();
+        void current_month(DateButton& btn);
+        void hide_window();
     private:
+        WeekWindow* week_win;
+        DateButton* year_button;
+        Button week_page_btn;
         const std::string year_number;
         std::vector<DateButton*> months;
-        DateButton* year_button;
-        Button main_page_btn;
-        void current_year(DateButton& btn);
-        void hide_window();
         static void current_month_cb(Address, Address);
         static void main_page_cb(Address, Address);
 };

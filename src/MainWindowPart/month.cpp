@@ -4,7 +4,7 @@ Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string m
     Window{Point(100,100), 600, 400, month_name},
     month_button{month_button}, 
     week_win{week_win},
-    main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
+    week_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     std::string current_month = month_button->get_label();
@@ -80,13 +80,22 @@ Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string m
     {
         attach(*days[i]);
     }
-    attach(main_page_btn);
+    attach(week_page_btn);
+}
+
+Month::~Month()
+{
+    for (size_t i = 0; i < days.size(); ++i)
+    {
+        delete days[i];
+    }
 }
 
 void Month::hide_window()
 {
     week_win -> show();
     hide();
+    delete this;
 }
 
 void Month::main_page_cb(Address, Address pw)
