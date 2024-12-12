@@ -5,6 +5,8 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
+#include <Graph_lib/Graph.h>
+
 constexpr int BUTTON_WIDTH = 80;
 constexpr int BUTTON_HEIGHT = 50;
 constexpr int MARGIN = 20;

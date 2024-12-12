@@ -4,6 +4,7 @@
 
 #ifndef CHANGENAMEWINDOW_H
 #define CHANGENAMEWINDOW_H
+
 #include "../Graph_lib/GUI.h"
 #include "MyButton.h"
 #include "TaskWindow.h"
@@ -16,11 +17,13 @@ class ChangeTaskInfo: public Graph_lib::Window{
 public:
     ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
 
-    static void ChangeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
-    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void changeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void goBackCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw);
 
-    void ChangeTask(TaskManager_ns::Task& task);
-    void GoBack();
+    void changeTask(TaskManager_ns::Task& task);
+    void goBack();
+    void openHelpWindow();
 
     Graph_lib::In_box new_name_field;
     Graph_lib::In_box new_text_field;
@@ -32,6 +35,7 @@ public:
 
     MyButton new_info_button;
     MyButton go_back;
+    MyButton show_help;
     MyButton& button_from_called;
 
     TaskWindow* task_window{nullptr};

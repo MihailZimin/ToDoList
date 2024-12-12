@@ -4,7 +4,6 @@
 
 #include "DayDraw.h"
 
-#include "NoteWindow.h"
 #include "TaskWindow.h"
 #include "PARAMETERS.h"
 
@@ -33,15 +32,15 @@ void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     reinterpret_cast<DayWindow&>(btn.window()).hide();
 }
 
-void DayWindow::openNotesCB(Graph_lib::Address, Graph_lib::Address pw) {
-    MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<DayWindow&>(btn.window()).openNotes();
-}
-
-void DayWindow::openNotes() {
-    NoteWindow* note_window = new NoteWindow(this);
-    this->hide();
-}
+// void DayWindow::openNotesCB(Graph_lib::Address, Graph_lib::Address pw) {
+//     MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
+//     reinterpret_cast<DayWindow&>(btn.window()).openNotes();
+// }
+//
+// void DayWindow::openNotes() {
+//     NoteWindow* note_window = new NoteWindow(this);
+//     this->hide();
+// }
 
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :
@@ -52,10 +51,7 @@ add_task_button(MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
     BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskWindowCB)),
 close_window_button(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", closeWindowCB)),
-date(date),
-note_window_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
-    BUTTON_HEIGHT + MARGIN}, BUTTON_WIDTH, BUTTON_HEIGHT,
-    "NOTE", openNotesCB))
+date(date)
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
@@ -91,7 +87,6 @@ note_window_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
     attach(add_task_button);
     attach(information);
     attach(close_window_button);
-    attach(note_window_button);
 }
 
 
@@ -119,7 +114,7 @@ void DayWindow::addTask(TaskManager_ns::Task *task) {
     task_manager.set_id_to_file();
 }
 
-void DayWindow::RedrawButtons() {
+void DayWindow::redrawButtons() {
     pos_x = 50;
     pos_y = 10;
     for (int i = 0; i < buttons.size(); i++) {
@@ -145,5 +140,5 @@ void DayWindow::removeTask(TaskManager_ns::Task& task) {
             break;
         }
     }
-    RedrawButtons();
+    redrawButtons();
 }

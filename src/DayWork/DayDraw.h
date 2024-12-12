@@ -18,7 +18,7 @@ public:
 
     void removeTask();
     void updateTasks();
-    void RedrawButtons();
+    void redrawButtons();
     void removeTask(TaskManager_ns::Task& task);
     void addTask(TaskManager_ns::Task* task);
     TaskManager_ns::TaskManager task_manager;
@@ -36,7 +36,6 @@ public:
 
     MyButton add_task_button;
     MyButton close_window_button;
-    MyButton note_window_button;
 
     Graph_lib::Text information;
     Graph_lib::Text dayName;

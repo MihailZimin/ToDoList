@@ -24,6 +24,7 @@ public:
   virtual ~Window() {}
 
 
+
   int x_max () const { return w; }
 
   int y_max () const { return h; }

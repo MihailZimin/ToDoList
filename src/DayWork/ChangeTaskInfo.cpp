@@ -7,6 +7,7 @@
 #include <DayWork/DayDraw.h>
 #include <sstream>
 
+#include "HelpWindow.h"
 #include "PARAMETERS.h"
 #include "TaskWindow.h"
 
@@ -21,20 +22,31 @@ bool is_end_date_greater(int start_day, int start_month, int start_year, int end
     return end_day > start_day;
 }
 
-void ChangeTaskInfo::ChangeTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
+void ChangeTaskInfo::changeTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<ChangeTaskInfo&>(btn.window()).ChangeTask(*btn.task);
+    reinterpret_cast<ChangeTaskInfo&>(btn.window()).changeTask(*btn.task);
 }
 
-void ChangeTaskInfo::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
+void ChangeTaskInfo::goBackCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<ChangeTaskInfo&>(btn.window()).GoBack();
+    reinterpret_cast<ChangeTaskInfo&>(btn.window()).goBack();
 }
 
 
-void ChangeTaskInfo::GoBack() {
+void ChangeTaskInfo::goBack() {
     this->hide();
     task_window->show();
+}
+
+void ChangeTaskInfo::openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
+    MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
+    reinterpret_cast<ChangeTaskInfo&>(btn.window()).openHelpWindow();
+}
+
+
+void ChangeTaskInfo::openHelpWindow() {
+    this->hide();
+    HelpChangeTaskWindow* help_change_task_window = new HelpChangeTaskWindow(this);
 }
 
 
@@ -57,9 +69,11 @@ new_end_month_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, 
 new_end_year_field(Graph_lib::In_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+6*FIELD_HEIGHT),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter year end:")),
 new_info_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, 0}, BUTTON_WIDTH, BUTTON_HEIGHT,
-    "Change", button_from_called.task, ChangeTaskCB)),
+    "Change", button_from_called.task, changeTaskCB)),
 go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", button_from_called.task, GoBackCB))
+    "Back", button_from_called.task, goBackCB)),
+show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BUTTON_HEIGHT}, BUTTON_WIDTH, BUTTON_HEIGHT,
+    "Help", button_from_called.task, openHelpWindowCB))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
@@ -72,9 +86,10 @@ go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON
     attach(new_end_year_field);
     attach(new_info_button);
     attach(go_back);
+    attach(show_help);
 }
 
-void ChangeTaskInfo::ChangeTask(TaskManager_ns::Task& task) {
+void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     std::string name = new_name_field.get_string();
     std::string text = new_text_field.get_string();
     std::string start = new_start_time_field.get_string();

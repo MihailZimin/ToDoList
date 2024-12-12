@@ -11,6 +11,8 @@
 #include "DayDraw.h"
 #include <sstream>
 
+#include "HelpWindow.h"
+
 
 void TaskWindow::ChangeTaskDetailsCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
@@ -113,8 +115,8 @@ txt_time_end(Graph_lib::Text(Graph_lib::Point{25, 90}, ""))
 AddTaskWindow::AddTaskWindow(DayWindow *day_window):
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
 day_window{day_window},
-new_data_button(MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Set task", SetTaskCB)),
+new_data_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Set task", setTaskCB)),
 new_name_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, MARGIN),
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Enter task name:")),
 new_info_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT),
@@ -130,7 +132,9 @@ end_month_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130,
 end_year_field(Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*6-MARGIN*5),
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Year of end: ")),
 go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", GoBackCB))
+    "Back", goBackCB)),
+show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+    "Help", openHelpWindowCB))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
@@ -143,14 +147,26 @@ go_back(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON
     attach(end_day_field);
     attach(end_month_field);
     attach(end_year_field);
+    attach(show_help);
 }
 
-void AddTaskWindow::SetTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
+void AddTaskWindow::openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<AddTaskWindow&>(btn.window()).SetTask();
+    reinterpret_cast<AddTaskWindow&>(btn.window()).openHelpWindow();
 }
 
-void AddTaskWindow::SetTask() {
+void AddTaskWindow::openHelpWindow() {
+    this->hide();
+    HelpAddTaskWindow* help_add_task_window = new HelpAddTaskWindow(this);
+}
+
+
+void AddTaskWindow::setTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
+    auto& btn = Graph_lib::reference_to<MyButton>(pw);
+    reinterpret_cast<AddTaskWindow&>(btn.window()).setTask();
+}
+
+void AddTaskWindow::setTask() {
     std::string name = new_name_field.get_string();
     std::string info = new_info_field.get_string();
     std::string start = start_time_field.get_string();
@@ -258,7 +274,7 @@ void AddTaskWindow::SetTask() {
     }
 }
 
-void AddTaskWindow::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
+void AddTaskWindow::goBackCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
     reinterpret_cast<AddTaskWindow&>(btn.window()).goBack();
 }

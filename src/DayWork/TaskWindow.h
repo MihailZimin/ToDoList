@@ -33,6 +33,10 @@ public:
     MyButton& button_from_called;
     DayWindow* day_window{nullptr};
 
+    virtual void show() override {
+        Window::show();
+    }
+
 
     ~TaskWindow() override {
         day_window = nullptr;
@@ -40,9 +44,17 @@ public:
 };
 
 
-class AddTaskWindow: Graph_lib::Window {
+class AddTaskWindow: public Graph_lib::Window {
 public:
     explicit AddTaskWindow(DayWindow* day_window);
+
+    static void setTaskCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void goBackCB(Graph_lib::Address, Graph_lib::Address pw);
+    static void openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw);
+
+    void setTask();
+    void goBack();
+    void openHelpWindow();
 
     Graph_lib::In_box new_name_field;
     Graph_lib::In_box new_info_field;
@@ -53,13 +65,8 @@ public:
     Graph_lib::In_box end_year_field;
     MyButton new_data_button;
     MyButton go_back;
+    MyButton show_help;
     DayWindow* day_window{nullptr};
-
-    static void SetTaskCB(Graph_lib::Address, Graph_lib::Address pw);
-    static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);
-
-    void SetTask();
-    void goBack();
 
 
     ~AddTaskWindow() override {

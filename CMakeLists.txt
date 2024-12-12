@@ -34,8 +34,8 @@ add_executable(
         src/toDoListFileWork/to_do_list/task_manager2.cpp
         src/toDoListFileWork/to_do_list/chrono.cpp
         src/toDoListFileWork/to_do_list/chrono.h
-        src/DayWork/NoteWindow.cpp
-        src/DayWork/NoteWindow.h
+        src/DayWork/HelpWindow.cpp
+        src/DayWork/HelpWindow.h
         src/MainWindowPart/date_button.cpp
         src/MainWindowPart/date_button.h
 )
