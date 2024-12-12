@@ -1,4 +1,5 @@
 #include "year.h"
+#include "pictures.h"
 
 WeekWindow::WeekWindow(Point xy, int h, int w)
     : Window{xy, w, h, "ToDoList"},
@@ -13,27 +14,32 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     next{Point{w - 100 , h/2 - 35}, 100, 70, "years", cb_years},
     prev{Point{0 , y_max()-70}, 100, 70, "Back", cb_back},
     year_page_counter{0},
-    years{1}
+    years{1},
+    week_page_btn{Point{x_max() - 100 , y_max()-70}, 100, 70, "Week page", cb_week_page},
+    add_years_btn{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years},
+    picture{Point{x_max()-150, 0}, Chrono_ns::get_picture()}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+    std::cout << current_year << std::endl;
     for (int j = 0; j < 3; ++j)
     {
-        DateButton* year = new DateButton{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{30 + 110*j, 20}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        DateButton* year = new DateButton{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{30 + 110*j, 130}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
     for (int j = 0; j < 3; ++j)
     {
-        DateButton* year = new DateButton{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+        DateButton* year = new DateButton{Point{30 + 110*j, 240}, 100, 70, std::to_string(current_year), current_year_cb};
         years[year_page_counter].push_back(year);
         current_year += 1;
     }
+
     Chrono_ns::Date today = Chrono_ns::today();
     current_date.set_color(Color::Color_type::black);
     current_date.set_label("today: " 
@@ -42,6 +48,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     + Chrono_ns::month_to_string(today.month()) 
     + "/" 
     + std::to_string(today.year()));
+    attach(picture);
     attach(Monday);
     attach(Tuesday);
     attach(Wednesday);
@@ -56,7 +63,8 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
 
 void WeekWindow::week_page()
 {
-    for (size_t i = 0; i < years[year_page_counter].size(); ++i) {
+    for (size_t i = 0; i < years[year_page_counter].size(); ++i)
+    {
         detach(*years[year_page_counter][i]);
     }
     if (year_page_counter != 0)
@@ -89,7 +97,13 @@ void WeekWindow::add_years()
     {
         detach(*years[year_page_counter][i]);                  
     }
+
     year_page_counter += 1;
+
+    if (year_page_counter == 15)
+    {
+        detach(add_years_btn);
+    }
 
     if (year_page_counter < years.size())
     {
@@ -105,19 +119,19 @@ void WeekWindow::add_years()
 
         for (int j = 0; j < 3; ++j)
         {
-            DateButton* year = new DateButton{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{30 + 110*j, 20}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            DateButton* year = new DateButton{Point{140, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{30 + 110*j, 130}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
         for (int j = 0; j < 3; ++j)
         {
-            DateButton* year = new DateButton{Point{250, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};
+            DateButton* year = new DateButton{Point{30 + 110*j, 240}, 100, 70, std::to_string(current_year), current_year_cb};
             years[year_page_counter].push_back(year);
             current_year += 1;
         }
@@ -131,6 +145,10 @@ void WeekWindow::add_years()
 
 void WeekWindow::back_page()
 {
+    if (year_page_counter == 15)
+    {
+        attach(add_years_btn);
+    }
     for (size_t i = 0; i < years[year_page_counter].size(); ++i)
     {
         detach(*years[year_page_counter][i]);                  
@@ -168,10 +186,8 @@ void WeekWindow::years_page()
     detach(current_date);
     detach(next);
 
-    static Button more_years = Button{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years};
-    static Button week_page = Button{Point{x_max() - 100 , y_max()-70}, 100, 70, "Week page", cb_week_page};
-    attach(more_years);
-    attach(week_page);             
+    attach(add_years_btn);
+    attach(week_page_btn);             
 
     for (size_t i = 0; i < years[year_page_counter].size(); ++i)                
     {

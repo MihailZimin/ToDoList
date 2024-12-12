@@ -1,14 +1,14 @@
 #ifndef YEAR
 #define YEAR
 
-#include "month.h"
+#include "MainWindow.h"
 
 using namespace Graph_lib;
 
 class Year: public Graph_lib::Window
 {
     public:
-        Year(DateButton* btn, WeekWindow* week_win, const std::string year_number);
+        Year(DateButton* btn, WeekWindow* week_win, std::string year_number);
         ~Year();
         void current_month(DateButton& btn);
         void hide_window();
@@ -16,7 +16,8 @@ class Year: public Graph_lib::Window
         WeekWindow* week_win;
         DateButton* year_button;
         Button week_page_btn;
-        const std::string year_number;
+        std::string year_number;
+        Text current_year_text;
         std::vector<DateButton*> months;
         static void current_month_cb(Address, Address);
         static void main_page_cb(Address, Address);

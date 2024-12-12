@@ -1,10 +1,12 @@
-#include "year.h"
+#include "month.h"
 
-Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string month_name ,const std::string year_number): 
+Month::Month(DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
     Window{Point(100,100), 600, 400, month_name},
     month_button{month_button}, 
-    week_win{week_win},
-    week_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
+    year_win{year_win},
+    back_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", back_page_cb},
+    year_number{year_number},
+    current_month_text{Point{400, 30}, month_name + " / " + year_number}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     std::string current_month = month_button->get_label();
@@ -80,7 +82,10 @@ Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string m
     {
         attach(*days[i]);
     }
-    attach(week_page_btn);
+    current_month_text.set_font_size(20);
+    current_month_text.set_color(Color::black);
+    attach(back_page_btn);
+    attach(current_month_text);
 }
 
 Month::~Month()
@@ -93,12 +98,12 @@ Month::~Month()
 
 void Month::hide_window()
 {
-    week_win -> show();
+    year_win -> show();
+    year_win -> set_label(year_number);
     hide();
-    delete this;
 }
 
-void Month::main_page_cb(Address, Address pw)
+void Month::back_page_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<Button>(pw);
     reinterpret_cast<Month&>(btn.window()).hide_window();

@@ -1,22 +1,24 @@
 #ifndef MONTH
 #define MONTH
 
-#include "MainWindow.h"
+#include "year.h"
 
 class Month: public Graph_lib::Window
 {
     public:
-        Month(DateButton* month, WeekWindow* week_win, const std::string month_name, const std::string year_number);
+        Month(DateButton* month, Year* year_win, std::string month_name, std::string year_number);
         ~Month();
         void hide_window();
     private:
-        WeekWindow* week_win;
+        Year* year_win;
         DateButton* month_button;
-        Button week_page_btn;
-        const std::string month_name; 
+        Button back_page_btn;
+        std::string year_number;
+        std::string month_name; 
         std::vector<DateButton*> days;
+        Text current_month_text;
         static void current_day_cb(Address, Address);
-        static void main_page_cb(Address, Address);
+        static void back_page_cb(Address, Address);
 };
 
 #endif //MONTH
