@@ -48,7 +48,7 @@ void DayWindow::openNotes() {
 
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :
-Window(BASIC_WINDOW_POSITION, width, height, "Day"),
+Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day"),
 dayName(new Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
 add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
     BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskCB)),
@@ -60,6 +60,7 @@ note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
     "NOTE", openNotesCB))
 {
     tasks = task_manager.get_tasks(date);
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
     for (int i = 0; i < tasks.size(); i++) {
@@ -106,7 +107,6 @@ MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
 
 void DayWindow::addTask(TaskManager_ns::Task *task) {
     buttons.push_back(CreateButton(*task));
-    std::cout << "attached" << '\n';
     task_manager.add_task(*task);
     attach(buttons[buttons.size()-1]);
     task_manager.set_id_to_file();
@@ -127,7 +127,6 @@ void DayWindow::RedrawButtons() {
         }
     }
 }
-
 
 
 void DayWindow::removeTask(TaskManager_ns::Task& task) {

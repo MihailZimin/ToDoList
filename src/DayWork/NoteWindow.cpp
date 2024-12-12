@@ -34,6 +34,8 @@ Note4(new Graph_lib::Text(Graph_lib::Point{MARGIN, MARGIN+NOTES_SIZE*4}, NOTE4))
 Note5(new Graph_lib::Text(Graph_lib::Point{MARGIN, MARGIN+NOTES_SIZE*5}, NOTE5)),
 Note6(new Graph_lib::Text(Graph_lib::Point{MARGIN, MARGIN+NOTES_SIZE*6}, NOTE6))
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+
     attach(*go_back);
     attach(*Note0);
     attach(*Note1);

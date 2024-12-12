@@ -19,7 +19,6 @@ add_executable(
         src/Graph_lib/Window.cpp
         src/Graph_lib/Window.cpp
         src/DayWork/DayDraw.cpp
-        src/DayWork/MyButton.cpp
         src/DayWork/ChangeTaskInfo.cpp
         src/DayWork/ChangeTaskInfo.h
         src/DayWork/MyButton.h

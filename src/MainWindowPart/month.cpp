@@ -6,6 +6,7 @@ Month::Month(DateButton* month_button, WeekWindow* week_win, const std::string m
     week_win{week_win},
     main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     std::string current_month = month_button->get_label();
     for (int j = 1; j < 6; ++j)
     {

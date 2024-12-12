@@ -59,16 +59,18 @@ go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BU
 delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Delete", button->task, DeleteTaskCB))
 {
-    unsigned hours_start = button->task->period.start_hour();
-    unsigned minutes_start = button->task->period.start_min();
-    unsigned hours_end = button->task->period.end_hour();
-    unsigned minutes_end = button->task->period.end_min();
-    unsigned day_start = static_cast<unsigned>(button->task->period.start_date().day());
-    unsigned month_start = static_cast<unsigned>(button->task->period.start_date().month());
-    unsigned year_start = static_cast<unsigned>(button->task->period.start_date().year());
-    unsigned day_end = static_cast<unsigned>(button->task->period.end_date().day());
-    unsigned month_end = static_cast<unsigned>(button->task->period.end_date().month());
-    unsigned year_end = static_cast<unsigned>(button->task->period.end_date().year());
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+
+    int hours_start = button->task->period.start_hour();
+    int minutes_start = button->task->period.start_min();
+    int hours_end = button->task->period.end_hour();
+    int minutes_end = button->task->period.end_min();
+    int day_start = button->task->period.start_date().day();
+    int month_start = static_cast<int>(button->task->period.start_date().month());
+    int year_start = button->task->period.start_date().year();
+    int day_end = button->task->period.end_date().day();
+    int month_end = static_cast<int>(button->task->period.end_date().month());
+    int year_end = button->task->period.end_date().year();
 
 
     std::ostringstream oss;
@@ -103,7 +105,7 @@ delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_
 
 
 AddTaskWindow::AddTaskWindow(MyButton *button, DayWindow *day_window):
-Graph_lib::Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
+Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
 day_window{day_window},
 new_data_button(new MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Set task", button->task, SetTaskCB)),
@@ -125,6 +127,8 @@ go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BU
     "Back", button->task, GoBackCB)),
 Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+
     attach(*new_data_button);
     attach(*new_name_field);
     attach(*new_info_field);
@@ -151,8 +155,8 @@ void AddTaskWindow::SetTask() {
     std::string end_month = end_month_field->get_string();
     std::string end_year = end_year_field->get_string();
 
-    if (name.size() == 0) name = "default";
-    if (info.size() == 0) info = "default";
+    if (name.empty()) name = "default";
+    if (info.empty()) info = "default";
 
     int hours_start{INVALID_TIME}, minutes_start{INVALID_TIME};
 
@@ -212,6 +216,15 @@ void AddTaskWindow::SetTask() {
     catch(...) {
         year_end = day_start;
     }
+
+    if (!is_end_date_greater(day_start, month_start, year_start,
+            day_end, month_end, year_end))
+    {
+        day_end = day_start;
+        month_end = month_start;
+        year_end = year_start;
+    }
+
     try {
         TaskManager_ns::Task* task = new TaskManager_ns::Task(name, info,
             {hours_start, minutes_start,
@@ -222,6 +235,7 @@ void AddTaskWindow::SetTask() {
         day_window->addTask(task);
         day_window->redraw();
     }
+
     catch(...) {
         hours_end = 1;
         minutes_end = 1;

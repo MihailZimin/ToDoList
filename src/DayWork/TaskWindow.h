@@ -11,6 +11,7 @@
 #include "MyButton.h"
 #include "DayDraw.h"
 
+
 class TaskWindow: public Graph_lib::Window{
 public:
     TaskWindow(MyButton* button, DayWindow* day_window);

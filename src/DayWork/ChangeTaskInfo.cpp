@@ -62,6 +62,8 @@ go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BU
     "Back", button->task, GoBackCB)),
 Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+
     attach(*new_name_field);
     attach(*new_text_field);
     attach(*new_start_time_field);
@@ -128,6 +130,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     int day_end{0};
     int month_end{0};
     int year_end{0};
+
     try {
         month_end = std::stoi(end_month);
     }
@@ -189,15 +192,12 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
 
 ChangeTaskInfo::~ChangeTaskInfo() {
     std::cout << "Destructor ChangeTaskInfo" << std::endl;
-    // delete task_window;
-    // delete new_name_field;
-    // delete new_text_field;
-    // delete new_start_time_field;
-    // delete new_end_time_field;
-    // delete new_end_day_field;
-    // delete new_end_month_field;
-    // delete new_end_year_field;
-    // delete new_info_button;
-    // delete go_back;
-    // delete note_button;
+    delete new_name_field;
+    delete new_text_field;
+    delete new_start_time_field;
+    delete new_end_time_field;
+    delete new_end_day_field;
+    delete new_end_month_field;
+    delete new_end_year_field;
+    delete go_back;
 }

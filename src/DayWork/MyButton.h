@@ -22,11 +22,11 @@ public:
 
     MyButton(Graph_lib::Point xy, int w, int h, const std::string& label, Graph_lib::Callback cb):
         x_coord(xy.x), y_coord(xy.y),
-        Graph_lib::Button{xy, w, h, label, cb}{}
+        Button{xy, w, h, label, cb}{}
     MyButton(Graph_lib::Point xy, int w, int h, const std::string& label, TaskManager_ns::Task* task,
         Graph_lib::Callback cb) :
         x_coord(xy.x), y_coord(xy.y),
-        Graph_lib::Button{xy, w, h, label, cb}, task(task){}
+        Button{xy, w, h, label, cb}, task(task){}
 
     int x_coord{0};
     int y_coord{0};

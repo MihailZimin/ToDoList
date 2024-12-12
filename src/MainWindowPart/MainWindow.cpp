@@ -16,6 +16,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     year_page_counter{0},
     years{1}
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     for (int j = 0; j < 3; ++j)
     {
         DateButton* year = new DateButton{Point{30, 20 + 110*j}, 100, 70, std::to_string(current_year), current_year_cb};

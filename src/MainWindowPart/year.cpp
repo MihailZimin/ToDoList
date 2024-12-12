@@ -22,6 +22,7 @@ Year::Year(DateButton* btn, WeekWindow* win, const std::string year_number):
     week_win {win},
     main_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Week page", main_page_cb} 
 {
+    size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     for (int j = 0; j < 3; ++j)
     {
         DateButton* month_button = new DateButton{Point{20, 20 + 80*j}, 100, 80, Months_names[j], current_month_cb};
