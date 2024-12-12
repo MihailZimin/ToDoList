@@ -31,23 +31,18 @@ public:
     static void removeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void closeWindowCB(Graph_lib::Address, Graph_lib::Address pw);
     static void openNotesCB(Graph_lib::Address, Graph_lib::Address pw);
-    // static void NextDayWindowCB(Graph_lib::Address, Graph_lib::Address pw);
-    // static void PrevDayWindowCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void showTaskInfoWindow(MyButton& btn);
     void addTaskWindow(MyButton& btn);
     void openNotes();
-    // void NextDayWindow();
-    // void PrevDayWindow();
 
 
     MyButton* add_task_button;
     MyButton* close_window_button;
     MyButton* note_window_button;
-    // MyButton* next_day_window_button;
-    // MyButton* prev_day_window_button;
 
     Graph_lib::Text* information;
+    Graph_lib::Text* dayName;
     bool need_to_be_destroyed{true};
 
     MyButton* CreateButton(TaskManager_ns::Task& task);
@@ -64,17 +59,14 @@ public:
         delete note_window_button;
         delete information;
     }
-    Chrono_ns::Date date;
 
+    Chrono_ns::Date date;
 private:
     int pos_x = 50;
     int pos_y = 10;
-    int lowest_index = 0;
-    int highest_index = 0;
     int font_size{20};
     std::vector<TaskManager_ns::Task> tasks;
     Graph_lib::Vector_ref<MyButton> buttons;
-    Graph_lib::Text dayName;
     const std::string day;
 };
 
