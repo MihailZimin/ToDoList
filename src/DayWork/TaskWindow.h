@@ -59,7 +59,7 @@ public:
 
 class AddTaskWindow: Graph_lib::Window {
 public:
-    AddTaskWindow(MyButton* button, DayWindow* day_window);
+    AddTaskWindow(DayWindow* day_window);
 
     Graph_lib::In_box* new_name_field;
     Graph_lib::In_box* new_info_field;
@@ -83,15 +83,13 @@ public:
         Window::hide();
         this->day_window->need_to_be_destroyed = true;
         this->day_window->show();
-        delete this;
+        // delete this;
     }
 
     ~AddTaskWindow() override {
         std::cout << "AddTaskWindow::~AddTaskWindow" << std::endl;
         delete new_name_field;
         delete new_info_field;
-        delete new_data_button;
-        day_window = nullptr;
     }
 };
 

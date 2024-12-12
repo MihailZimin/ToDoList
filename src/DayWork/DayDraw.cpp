@@ -21,11 +21,11 @@ void DayWindow::showTaskInfoWindow(MyButton& btn) {
 
 void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
     auto& btn = Graph_lib::reference_to<MyButton>(pw);
-    reinterpret_cast<DayWindow&>(btn.window()).addTaskWindow(btn);
+    reinterpret_cast<DayWindow&>(btn.window()).addTaskWindow();
 }
 
-void DayWindow::addTaskWindow(MyButton &btn) {
-    AddTaskWindow* task_window = new AddTaskWindow(&btn, this);
+void DayWindow::addTaskWindow() {
+    AddTaskWindow* task_window = new AddTaskWindow(this);
     this->need_to_be_destroyed = false;
     this->hide();
 }
@@ -64,10 +64,14 @@ note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
 
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
     for (int i = 0; i < tasks.size(); i++) {
-        tasks_ref.push_back(tasks[i]);
+        TaskManager_ns::Task* task = new TaskManager_ns::Task(
+            tasks[i].name, tasks[i].text, tasks[i].period
+        );
+        task->set_id(tasks[i].get_id());
+        tasks_ref.push_back(task);
     }
     for (int i = 0; i < tasks_ref.size(); i++) {
-        buttons.push_back(CreateButton(tasks_ref[i]));
+        buttons.push_back(CreateButton(&tasks_ref[i]));
     }
 
     for (int i = 0; i < buttons.size(); i++) {
@@ -93,9 +97,13 @@ note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
 }
 
 
-MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
+MyButton* DayWindow::CreateButton(TaskManager_ns::Task* task) {
+    TaskManager_ns::Task* task1 = new TaskManager_ns::Task(
+                task->name, task->text, task->period
+            );
+    task1->set_id(task->get_id());
     MyButton* b = new MyButton({START_BUTTONS_POSITION_X+pos_x, START_BUTTONS_POSITION_Y+pos_y},
-        BUTTON_WIDTH, BUTTON_HEIGHT, task.name, &task, showTaskInfoCB);
+        BUTTON_WIDTH, BUTTON_HEIGHT, task1->name, task1, showTaskInfoCB);
     pos_y += BUTTON_HEIGHT;
     if ((buttons.size()+1) % 5 == 0) {
         pos_x += BUTTON_WIDTH + MARGIN;
@@ -106,8 +114,9 @@ MyButton* DayWindow::CreateButton(TaskManager_ns::Task& task) {
 
 
 void DayWindow::addTask(TaskManager_ns::Task *task) {
-    buttons.push_back(CreateButton(*task));
     task_manager.add_task(*task);
+    task->set_id(task_manager.get_tasks()[task_manager.get_tasks().size()-1].get_id());
+    buttons.push_back(CreateButton(task));
     attach(buttons[buttons.size()-1]);
     task_manager.set_id_to_file();
 }

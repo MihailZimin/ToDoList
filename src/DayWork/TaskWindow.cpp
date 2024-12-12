@@ -104,11 +104,11 @@ delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_
 
 
 
-AddTaskWindow::AddTaskWindow(MyButton *button, DayWindow *day_window):
+AddTaskWindow::AddTaskWindow(DayWindow *day_window):
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Add Task Window"),
 day_window{day_window},
 new_data_button(new MyButton({START_BUTTONS_POSITION_X+220, 10}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Set task", button->task, SetTaskCB)),
+    "Set task", SetTaskCB)),
 new_name_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, MARGIN),
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Enter task name:")),
 new_info_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT),
@@ -124,7 +124,7 @@ end_month_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+
 end_year_field(new Graph_lib::In_box(Graph_lib::Point(START_BUTTONS_POSITION_X+130, BUTTON_HEIGHT*6-MARGIN*5),
     BUTTON_WIDTH, BUTTON_HEIGHT-20, "Year end: ")),
 go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Back", button->task, GoBackCB)),
+    "Back", GoBackCB)),
 Note0_0(new Graph_lib::Text(Graph_lib::Point{MARGIN, BASIC_WINDOW_HEIGHT-MARGIN*5}, NOTE0_0))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);

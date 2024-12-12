@@ -33,7 +33,7 @@ public:
     static void openNotesCB(Graph_lib::Address, Graph_lib::Address pw);
 
     void showTaskInfoWindow(MyButton& btn);
-    void addTaskWindow(MyButton& btn);
+    void addTaskWindow();
     void openNotes();
 
 
@@ -45,7 +45,7 @@ public:
     Graph_lib::Text* dayName;
     bool need_to_be_destroyed{true};
 
-    MyButton* CreateButton(TaskManager_ns::Task& task);
+    MyButton* CreateButton(TaskManager_ns::Task* task);
 
     void hide() override {
         Window::hide();
