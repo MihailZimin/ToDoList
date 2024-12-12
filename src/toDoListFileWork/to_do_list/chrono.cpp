@@ -34,8 +34,18 @@ namespace Chrono_ns
         }
     }
 
-    bool leapyear(unsigned y) //ПЕРЕПИСАТЬ
+    bool leapyear(unsigned y)
     {
+        if(y % 4 == 0)
+        {
+            if(y % 100 == 0)
+            {
+                if(y % 400 != 0)
+                    return false;
+                return true;
+            }
+            return true;
+        }
         return false;
     }
 

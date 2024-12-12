@@ -179,6 +179,8 @@ public:
   const T& operator[] (int i) const { return *v.at(i); }
 
   int size () const { return v.size(); }
+
+  T& back() { return *v.back(); }
 };
 
 class Shape  // deals with color and style, and holds sequence of lines

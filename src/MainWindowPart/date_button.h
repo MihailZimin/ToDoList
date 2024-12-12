@@ -9,8 +9,8 @@ using namespace Graph_lib;
 struct DateButton: public Button
 {
     DateButton(Point xy, int w, int h, const std::string& label, Callback cb, Chrono_ns::Date date) : 
-    Button{xy, w, h, label, cb}, 
-    date{date} 
+        Button{xy, w, h, label, cb},
+        date{date}
     {}
     DateButton(Point xy, int w, int h, const std::string& label, Callback cb) : 
     Button{xy, w, h, label, cb}, 

@@ -56,8 +56,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
 
 void WeekWindow::week_page()
 {
-    for (size_t i = 0; i < years[year_page_counter].size(); ++i)
-    {
+    for (size_t i = 0; i < years[year_page_counter].size(); ++i) {
         detach(*years[year_page_counter][i]);
     }
     if (year_page_counter != 0)

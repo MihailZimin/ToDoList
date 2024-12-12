@@ -51,29 +51,32 @@ void DayWindow::openNotes() {
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day"),
-dayName(new Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
-add_task_button(new MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
+dayName(Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
+information(Graph_lib::Text{Graph_lib::Point(200, 10+MARGIN), ""}),
+add_task_button(MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
     BUTTON_WIDTH, BUTTON_HEIGHT, "add task", addTaskWindowCB)),
-close_window_button(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
+close_window_button(MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", closeWindowCB)),
 date(date),
-note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
+note_window_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
     BUTTON_HEIGHT + MARGIN}, BUTTON_WIDTH, BUTTON_HEIGHT,
     "NOTE", openNotesCB))
 {
-    tasks = task_manager.get_tasks(date);
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
+    tasks = task_manager.get_tasks(date);
+
     Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
-    for (int i = 0; i < tasks.size(); i++) {
-        TaskManager_ns::Task* task = new TaskManager_ns::Task(
-            tasks[i].name, tasks[i].text, tasks[i].period
+
+    for (const auto& task : tasks.size()) {
+        TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
+            task.name, task.text, task.period
         );
-        task->set_id(tasks[i].get_id());
-        tasks_ref.push_back(task);
-    }
-    for (int i = 0; i < tasks_ref.size(); i++) {
-        buttons.push_back(CreateButton(&tasks_ref[i]));
+        task->set_id(task.get_id());
+        tasks_ref.push_back(new_task);
+
+        buttons.push_back(CreateButton(new_task));
+        attach(buttons.back());
     }
 
     for (int i = 0; i < buttons.size(); i++) {
@@ -85,19 +88,19 @@ note_window_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-MARGIN,
     int year = date.year();
 
     std::string information_about_day = std::to_string(m_day) + "/" + std::to_string(month) + "/" + std::to_string(year);
-    information = new Graph_lib::Text{Graph_lib::Point(200, 10+MARGIN), information_about_day};
+    information.set_label(information_about_day);
 
-    dayName->set_color(Graph_lib::Color::cyan);
-    dayName->set_font(Graph_lib::Font::helvetica);
-    information->set_color(Graph_lib::Color::black);
-    information->set_font(Graph_lib::Font::helvetica);
-    dayName->set_font_size(font_size);
+    dayName.set_color(Graph_lib::Color::black);
+    dayName.set_font(Graph_lib::Font::helvetica);
+    information.set_color(Graph_lib::Color::black);
+    information.set_font(Graph_lib::Font::helvetica);
+    dayName.set_font_size(font_size);
 
-    attach(*dayName);
-    attach(*add_task_button);
-    attach(*information);
-    attach(*close_window_button);
-    attach(*note_window_button);
+    attach(dayName);
+    attach(add_task_button);
+    attach(information);
+    attach(close_window_button);
+    attach(note_window_button);
 }
 
 

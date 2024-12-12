@@ -34,31 +34,26 @@ public:
     void openNotes();
 
 
-    MyButton* add_task_button;
-    MyButton* close_window_button;
-    MyButton* note_window_button;
+    MyButton add_task_button;
+    MyButton close_window_button;
+    MyButton note_window_button;
 
-    Graph_lib::Text* information;
-    Graph_lib::Text* dayName;
+    Graph_lib::Text information;
+    Graph_lib::Text dayName;
     bool need_to_be_destroyed{true};
 
     MyButton* CreateButton(TaskManager_ns::Task* task);
 
-    void hide() override {
-        Window::hide();
-        if (need_to_be_destroyed) delete this;
-    }
+    // void hide() override {
+    //     Window::hide();
+    // }
 
-    ~DayWindow() override{
-        std::cout << "DayWindow::~DayWindow" << std::endl;
-        for (size_t i = 0; i < buttons.size(); i++) {
-            delete buttons[i].task;
-        }
-        delete add_task_button;
-        delete close_window_button;
-        delete note_window_button;
-        delete information;
-    }
+    // ~DayWindow() override{
+    //     std::cout << "DayWindow::~DayWindow" << std::endl;
+    //     for (size_t i = 0; i < buttons.size(); i++) {
+    //         delete buttons[i].task;
+    //     }
+    // }
 
     Chrono_ns::Date date;
 private:
