@@ -47,6 +47,7 @@ void TaskWindow::deleteTask() {
 }
 
 
+
 TaskWindow::TaskWindow(MyButton* button, DayWindow* day_window) :
 day_window(day_window), button(button),
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
@@ -56,7 +57,8 @@ changeTaskName(new MyButton({10, 10}, 80, 30, "Change info",
 go_back(new MyButton({0, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
     "Back", button->task, GoBackCB)),
 delete_task_button(new MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH-30, 0}, BUTTON_WIDTH+30, BUTTON_HEIGHT,
-    "Delete", button->task, DeleteTaskCB)) {
+    "Delete", button->task, DeleteTaskCB))
+{
     unsigned hours_start = button->task->period.start_hour();
     unsigned minutes_start = button->task->period.start_min();
     unsigned hours_end = button->task->period.end_hour();

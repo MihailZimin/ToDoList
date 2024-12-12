@@ -37,6 +37,8 @@ add_executable(
         src/toDoListFileWork/to_do_list/chrono.h
         src/DayWork/NoteWindow.cpp
         src/DayWork/NoteWindow.h
+        src/MainWindowPart/date_button.cpp
+        src/MainWindowPart/date_button.h
 )
 
 target_include_directories(${TARGET} PRIVATE

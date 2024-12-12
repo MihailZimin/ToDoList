@@ -124,7 +124,7 @@ void WeekWindow::add_years()
     }
     for (size_t i = 0; i < years[year_page_counter].size(); ++i)
     {
-        detach(*years[year_page_counter][i]);                  
+        detach(*years[year_page_counter][i]);
     }
     year_page_counter += 1;
 
@@ -132,9 +132,9 @@ void WeekWindow::add_years()
     {
         for (size_t i = 0; i < years[year_page_counter].size(); ++i)
         {
-            attach(*years[year_page_counter][i]);                  
+            attach(*years[year_page_counter][i]);
         }
-        redraw();  
+        redraw();
     }
     else
     {
@@ -160,7 +160,7 @@ void WeekWindow::add_years()
         }
         for (size_t i = 0; i < years[year_page_counter].size(); ++i)
         {
-            attach(*years[year_page_counter][i]);                  
+            attach(*years[year_page_counter][i]);
         }
         redraw();
     }
@@ -170,14 +170,14 @@ void WeekWindow::back_page()
 {
     for (size_t i = 0; i < years[year_page_counter].size(); ++i)
     {
-        detach(*years[year_page_counter][i]);                  
+        detach(*years[year_page_counter][i]);
     }
     if (year_page_counter == 1)
     {
         year_page_counter -= 1;
         for (size_t i = 0; i < years[year_page_counter].size(); ++i)
         {
-            attach(*years[year_page_counter][i]); 
+            attach(*years[year_page_counter][i]);
         }
         detach(prev);
         redraw();
@@ -187,7 +187,7 @@ void WeekWindow::back_page()
         year_page_counter -= 1;
         for (size_t i = 0; i < years[year_page_counter].size(); ++i)
         {
-            attach(*years[year_page_counter][i]); 
+            attach(*years[year_page_counter][i]);
         }
         redraw();
     }
@@ -208,9 +208,9 @@ void WeekWindow::years_page()
     static Button more_years = Button{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years};
     static Button week_page = Button{Point{x_max() - 100 , y_max()-70}, 100, 70, "Week page", cb_week_page};
     attach(more_years);
-    attach(week_page);             
+    attach(week_page);
 
-    for (size_t i = 0; i < years[year_page_counter].size(); ++i)                
+    for (size_t i = 0; i < years[year_page_counter].size(); ++i)
     {
         attach(*years[year_page_counter][i]);
     }

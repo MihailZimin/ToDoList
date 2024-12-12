@@ -28,8 +28,8 @@ public:
         x_coord(xy.x), y_coord(xy.y),
         Graph_lib::Button{xy, w, h, label, cb}, task(task){}
 
-    int x_coord;
-    int y_coord;
+    int x_coord{0};
+    int y_coord{0};
     TaskManager_ns::Task* task;
 };
 
