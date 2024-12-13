@@ -25,8 +25,8 @@ class WeekWindow : public Graph_lib::Window
         void week_page();
         void back_page();
     private:
-        int current_year = 2024;
-        std::vector<std::vector<DateButton*>> years;
+        int current_year{Chrono_ns::today().year()};
+        std::vector<std::vector<DateButton*>> years{1};
         DateButton Monday;
         DateButton Tuesday;
         DateButton Wednesday;
@@ -35,8 +35,11 @@ class WeekWindow : public Graph_lib::Window
         DateButton Saturday;
         DateButton Sunday;
         Text current_date;
+        Image picture;
         Button next;
         Button prev;
+        Button add_years_btn;
+        Button week_page_btn;
         int year_page_counter;
         static void cb_day(Address, Address);
         static void cb_years(Address, Address);
