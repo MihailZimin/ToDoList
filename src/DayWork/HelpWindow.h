@@ -7,7 +7,7 @@
 #include <Graph_lib/GUI.h>
 #include <Graph_lib/Window.h>
 
-#include "MyButton.h"
+#include "MyWidgets.h"
 
 
 class HelpWindow: public Graph_lib::Window {

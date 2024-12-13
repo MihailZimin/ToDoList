@@ -6,7 +6,7 @@
 #define CHANGENAMEWINDOW_H
 
 #include "../Graph_lib/GUI.h"
-#include "MyButton.h"
+#include "MyWidgets.h"
 #include "TaskWindow.h"
 
 
@@ -17,6 +17,7 @@ class ChangeTaskInfo: public Graph_lib::Window{
 public:
     ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
 
+
     static void changeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void goBackCB(Graph_lib::Address, Graph_lib::Address pw);
     static void openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw);
@@ -24,14 +25,19 @@ public:
     void changeTask(TaskManager_ns::Task& task);
     void goBack();
     void openHelpWindow();
+    void setColor(Fl_Color color);
+    void setPeriodColor(Fl_Color color);
+    void reattachFields(const std::string &name, const std::string &text, const std::string &start_time,
+                    const std::string &end_time, const std::string &end_day, const std::string &end_month,
+                    const std::string &end_year);
 
-    Graph_lib::In_box new_name_field;
-    Graph_lib::In_box new_text_field;
-    Graph_lib::In_box new_start_time_field;
-    Graph_lib::In_box new_end_time_field;
-    Graph_lib::In_box new_end_day_field;
-    Graph_lib::In_box new_end_month_field;
-    Graph_lib::In_box new_end_year_field;
+    MyIn_box new_name_field;
+    MyIn_box new_text_field;
+    MyIn_box new_start_time_field;
+    MyIn_box new_end_time_field;
+    MyIn_box new_end_day_field;
+    MyIn_box new_end_month_field;
+    MyIn_box new_end_year_field;
 
     MyButton new_info_button;
     MyButton go_back;

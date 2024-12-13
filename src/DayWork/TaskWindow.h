@@ -8,7 +8,7 @@
 
 #include "../Graph_lib/Window.h"
 #include "../Graph_lib/GUI.h"
-#include "MyButton.h"
+#include "MyWidgets.h"
 #include "DayDraw.h"
 
 

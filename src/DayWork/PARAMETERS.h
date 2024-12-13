@@ -34,9 +34,10 @@ constexpr int FIELD_HEIGHT = 30;
 constexpr int FIELD_WIDTH = 80;
 constexpr int START_NOTES = 300;
 constexpr int NOTES_SIZE = 20;
-constexpr int END_DEFAULT_HOURS = 1;
-constexpr int END_DEFAULT_MINUTES = 1;
+constexpr int END_DEFAULT_HOURS = 23;
+constexpr int END_DEFAULT_MINUTES = 59;
 constexpr int START_DEFAULT_HOURS = 0;
 constexpr int START_DEFAULT_MINUTES = 0;
+const Fl_Color DEFAULT_COLOR = fl_rgb_color(192, 192, 192);
 
 #endif //PARAMETERS_H

@@ -21,7 +21,7 @@ add_executable(
         src/DayWork/DayDraw.cpp
         src/DayWork/ChangeTaskInfo.cpp
         src/DayWork/ChangeTaskInfo.h
-        src/DayWork/MyButton.h
+        src/DayWork/MyWidgets.h
         src/DayWork/TaskWindow.cpp
         src/DayWork/TaskWindow.h
         src/DayWork/PARAMETERS.h
@@ -38,7 +38,7 @@ add_executable(
         src/DayWork/HelpWindow.h
         src/MainWindowPart/date_button.cpp
         src/MainWindowPart/date_button.h
-        src/DayWork/MyButton.cpp
+        src/DayWork/MyWidgets.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE

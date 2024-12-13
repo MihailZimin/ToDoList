@@ -10,7 +10,7 @@
 #include "Graph_lib/Window.h"
 #include "Graph_lib/GUI.h"
 #include "Graph_lib/Graph.h"
-#include "MyButton.h"
+#include "MyWidgets.h"
 
 class DayWindow: public Graph_lib::Window {
 public:

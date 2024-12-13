@@ -37,7 +37,7 @@ void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
     :
-Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day"),
+Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day Window"),
 dayName(Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
 information(Graph_lib::Text{Graph_lib::Point(200, 10+MARGIN), ""}),
 add_task_button(MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},

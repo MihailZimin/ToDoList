@@ -31,6 +31,7 @@ void TaskWindow::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void TaskWindow::GoBack() {
     this->hide();
+    day_window->set_label("Day Window");
     day_window->show();
 }
 
@@ -43,6 +44,7 @@ void TaskWindow::DeleteTask() {
     day_window->removeTask(*(button_from_called.task));
     day_window->redraw();
     this->hide();
+    day_window->set_label("Day Window");
     day_window->show();
 }
 
@@ -281,5 +283,6 @@ void AddTaskWindow::goBackCB(Graph_lib::Address, Graph_lib::Address pw) {
 void AddTaskWindow::goBack() {
     std::cout << "went back" << std::endl;
     this->hide();
+    day_window->set_label("Day Window");
     day_window->show();
 }

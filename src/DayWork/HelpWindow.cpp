@@ -44,6 +44,7 @@ Note7(Graph_lib::Text(Graph_lib::Point{MARGIN, MARGIN+NOTES_SIZE*7}, NOTE7))
 
 void HelpAddTaskWindow::goBack() {
     this->hide();
+    add_task_window->set_label("Add task");
     add_task_window->show();
 }
 
@@ -54,6 +55,7 @@ HelpAddTaskWindow::HelpAddTaskWindow(AddTaskWindow *add_task_window)
 
 void HelpChangeTaskWindow::goBack() {
     this->hide();
+    change_task_info->set_label("Change task");
     change_task_info->show();
 }
 
