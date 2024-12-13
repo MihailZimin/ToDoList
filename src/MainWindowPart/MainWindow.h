@@ -7,7 +7,7 @@
 #include <Graph_lib/GUI.h>
 #include <Graph_lib/Window.h>
 #include <vector>
-#include "DayWork/MyButton.h"
+#include "DayWork/MyWidgets.h"
 #include "DayWork/TaskWindow.h"
 #include "DayWork/ChangeTaskInfo.h"
 #include "DayWork/TaskWindow.h"

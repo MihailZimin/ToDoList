@@ -6,6 +6,7 @@
 
 #include "TaskWindow.h"
 #include "PARAMETERS.h"
+#include "ChangeTaskInfo.h"
 
 std::vector<TaskManager_ns::Task> tasks;
 

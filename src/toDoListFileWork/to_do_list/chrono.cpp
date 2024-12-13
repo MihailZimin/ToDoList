@@ -195,8 +195,8 @@ namespace Chrono_ns
 
     bool is_period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
     {
-        if((end_hour == start_hour && end_min <= start_min || end_hour < start_hour) && end_date == start_date
-                                                                                     || end_date < start_date)
+        if((end_hour <= start_hour && end_min <= start_min) && end_date == start_date
+                                                            || end_date < start_date)
             return false;
         return true;
     }

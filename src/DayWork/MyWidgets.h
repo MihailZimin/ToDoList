@@ -42,7 +42,7 @@ public:
 
     int x_coord{0};
     int y_coord{0};
-    TaskManager_ns::Task* task;
+    TaskManager_ns::Task* task{nullptr};
 
 
     Graph_lib::Font fnt{fl_font()};

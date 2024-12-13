@@ -9,27 +9,40 @@
 #include "MyWidgets.h"
 #include "TaskWindow.h"
 
+struct Information {
+    std::string name;
+    std::string text;
+    std::string start;
+    std::string end;
+    std::string end_day;
+    std::string end_month;
+    std::string end_year;
+};
+
 
 bool is_end_date_greater(int day_start, int month_start, int year_start,
         int day_end, int month_end, int year_end);
 
-class ChangeTaskInfo: public Graph_lib::Window{
-public:
-    ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
 
+class WindowTaskChanger: public Graph_lib::Window {
+public:
+
+    explicit WindowTaskChanger(const MyButton& button_from_called);
+    explicit WindowTaskChanger();
 
     static void changeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void goBackCB(Graph_lib::Address, Graph_lib::Address pw);
     static void openHelpWindowCB(Graph_lib::Address, Graph_lib::Address pw);
 
-    void changeTask(TaskManager_ns::Task& task);
-    void goBack();
-    void openHelpWindow();
-    void setColor(Fl_Color color);
-    void setPeriodColor(Fl_Color color);
-    void reattachFields(const std::string &name, const std::string &text, const std::string &start_time,
-                    const std::string &end_time, const std::string &end_day, const std::string &end_month,
-                    const std::string &end_year);
+    virtual void changeTask(TaskManager_ns::Task& task) {}
+    virtual void setTask() {}
+    virtual void goBack() {}
+    virtual void openHelpWindow() {}
+    virtual void setColor(Fl_Color color);
+    virtual void setPeriodColor(Fl_Color color);
+    virtual Information processData();
+    virtual void checkDefaultStates(Information& info);
+    virtual void reattachFields(const Information& info);
 
     MyIn_box new_name_field;
     MyIn_box new_text_field;
@@ -42,15 +55,34 @@ public:
     MyButton new_info_button;
     MyButton go_back;
     MyButton show_help;
-    MyButton& button_from_called;
-
-    TaskWindow* task_window{nullptr};
-
-
-    ~ChangeTaskInfo() override {
-        task_window = nullptr;
-    }
 
 };
+
+
+class ChangeTaskInfo: public WindowTaskChanger{
+public:
+    ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
+
+    void changeTask(TaskManager_ns::Task& task) override;
+    void goBack() override;
+    void openHelpWindow() override;
+
+
+    MyButton& button_from_called;
+    TaskWindow* task_window{nullptr};
+};
+
+
+class AddTaskWindow: public WindowTaskChanger {
+public:
+    explicit AddTaskWindow(DayWindow* day_window);
+
+    void setTask() override;
+    void goBack() override;
+    void openHelpWindow() override;
+
+    DayWindow* day_window{nullptr};
+};
+
 
 #endif //CHANGENAMEWINDOW_H

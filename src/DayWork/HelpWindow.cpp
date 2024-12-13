@@ -31,6 +31,8 @@ Note7(Graph_lib::Text(Graph_lib::Point{MARGIN, MARGIN+NOTES_SIZE*7}, NOTE7))
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
+    set_label("Help");
+
     attach(go_back);
     attach(Note0);
     attach(Note1);
