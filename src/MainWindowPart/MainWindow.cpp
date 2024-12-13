@@ -1,5 +1,4 @@
 #include "year.h"
-#include "pictures.h"
 
 WeekWindow::WeekWindow(Point xy, int h, int w)
     : Window{xy, w, h, "ToDoList"},
@@ -16,8 +15,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     year_page_counter{0},
     years{1},
     week_page_btn{Point{x_max() - 100 , y_max()-70}, 100, 70, "Week page", cb_week_page},
-    add_years_btn{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years},
-    picture{Point{x_max()-150, 0}, Chrono_ns::get_picture()}
+    add_years_btn{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     std::cout << current_year << std::endl;
@@ -48,7 +46,6 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     + Chrono_ns::month_to_string(today.month()) 
     + "/" 
     + std::to_string(today.year()));
-    attach(picture);
     attach(Monday);
     attach(Tuesday);
     attach(Wednesday);

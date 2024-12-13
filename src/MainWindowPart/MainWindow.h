@@ -7,7 +7,7 @@
 #include <Graph_lib/GUI.h>
 #include <Graph_lib/Window.h>
 #include <vector>
-#include "DayWork/MyWidgets.h"
+#include "DayWork/MyButton.h"
 #include "DayWork/TaskWindow.h"
 #include "DayWork/ChangeTaskInfo.h"
 #include "DayWork/TaskWindow.h"
@@ -35,7 +35,6 @@ class WeekWindow : public Graph_lib::Window
         DateButton Saturday;
         DateButton Sunday;
         Text current_date;
-        Image picture;
         Button next;
         Button prev;
         Button add_years_btn;
