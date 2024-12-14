@@ -1,5 +1,8 @@
 #include "month.h"
 
+extern TaskManager_ns::TaskManager task_manager;
+
+
 Month::Month(DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
     Window{Point(100,100), 600, 400, month_name},
     month_button{month_button}, 
@@ -13,26 +16,42 @@ Month::Month(DateButton* month_button, Year* year_win, std::string month_name , 
     for (int j = 1; j < 6; ++j)
     {
         DateButton* day_button = new DateButton{Point{20, 20 + 40*j}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+
+        colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
     for (int j = 6; j < 11; ++j)
     {
         DateButton* day_button = new DateButton{Point{90, 20 + 40*(j-5)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+
+        colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
     for (int j = 11; j < 16; ++j)
     {
         DateButton* day_button = new DateButton{Point{160, 20 + 40*(j-10)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+
+        colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
         for (int j = 16; j < 21; ++j)
     {
         DateButton* day_button = new DateButton{Point{230, 20 + 40*(j-15)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+
+
+        colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
         for (int j = 21; j < 26; ++j)
     {
         DateButton* day_button = new DateButton{Point{300, 20 + 40*(j-20)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+
+        colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
     if (current_month == "January" 
@@ -46,11 +65,15 @@ Month::Month(DateButton* month_button, Year* year_win, std::string month_name , 
         for (int j = 26; j < 31; ++j)
         {
             DateButton* day_button = new DateButton{Point{370, 20 + 40*(j-25)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+            int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+            colorButton(day_button, tasks_count);
             days.push_back(day_button);
         }
             for (int j = 31; j < 32; ++j)
         {
             DateButton* day_button = new DateButton{Point{440, 20 + 40*(j-30)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+            int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+            colorButton(day_button, tasks_count);
             days.push_back(day_button);
         }
     }
@@ -59,6 +82,8 @@ Month::Month(DateButton* month_button, Year* year_win, std::string month_name , 
         for (int j = 26; j < 31; ++j)
         {
             DateButton* day_button = new DateButton{Point{370, 20 + 40*(j-25)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+            int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+            colorButton(day_button, tasks_count);
             days.push_back(day_button);
         }
     }
@@ -75,6 +100,8 @@ Month::Month(DateButton* month_button, Year* year_win, std::string month_name , 
                 break;
             }
             DateButton* day_button = new DateButton{Point{370, 20 + 40*(j-25)}, 60, 40, std::to_string(j), current_day_cb, Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}};
+            int tasks_count = task_manager.get_tasks(Chrono_ns::Date{j, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+            colorButton(day_button, tasks_count);
             days.push_back(day_button);
         }
     }

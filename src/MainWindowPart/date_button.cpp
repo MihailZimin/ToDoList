@@ -27,3 +27,24 @@ std::string DateButton::get_day_of_week(int day, const std::string& month, int y
 
     return days[day_of_week];
 }
+
+
+void DateButton::attach(Graph_lib::Window& win) {
+    pw = new Fl_Button{loc.x, loc.y, width, height, label.c_str()};
+    pw->callback(reinterpret_cast<Fl_Callback*>(do_it), this);  // pass this widget
+    pw->color(color);
+    own = &win;
+}
+
+
+void colorButton(DateButton* btn, int count_of_tasks) {
+    if (count_of_tasks <= 5) {
+        btn->color = FL_GREEN;
+    }
+    else if (count_of_tasks <= 10) {
+        btn->color = FL_YELLOW;
+    }
+    else {
+        btn->color = FL_RED;
+    }
+}

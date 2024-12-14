@@ -18,6 +18,7 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     add_years_btn{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
+
     std::cout << current_year << std::endl;
     for (int j = 0; j < 3; ++j)
     {
