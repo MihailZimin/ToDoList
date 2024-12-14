@@ -39,5 +39,6 @@ constexpr int END_DEFAULT_MINUTES = 59;
 constexpr int START_DEFAULT_HOURS = 0;
 constexpr int START_DEFAULT_MINUTES = 0;
 const Fl_Color DEFAULT_COLOR = fl_rgb_color(192, 192, 192);
+constexpr int BUTTONS_COUNT_IN_WINDOW = 20;
 
 #endif //PARAMETERS_H
