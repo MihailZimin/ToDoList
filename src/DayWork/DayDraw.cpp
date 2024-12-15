@@ -78,7 +78,7 @@ void DayWindow::prevWindow() {
 }
 
 
-DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day)
+DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton)
     :
 Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day Window"),
 dayName(Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
@@ -91,7 +91,8 @@ next_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BASIC_WINDOW_HEIGHT-BUTTO
     BUTTON_WIDTH, BUTTON_HEIGHT, "Next", nextWindowCB)),
 prev_button(MyButton({BASIC_WINDOW_WIDTH-2*BUTTON_WIDTH, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT},
     BUTTON_WIDTH, BUTTON_HEIGHT, "Prev", prevWindowCB)),
-date(date)
+date(date),
+day_from_called(datebutton)
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 

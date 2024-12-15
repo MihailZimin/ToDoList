@@ -229,5 +229,5 @@ void WeekWindow::current_year_cb(Address, Address pw)
 void WeekWindow::cb_day(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<DateButton>(pw);
-    DayWindow* day_window = new DayWindow(600, 400, btn.date, btn.get_label());
+    DayWindow* day_window = new DayWindow(600, 400, btn.date, btn.get_label(), &btn);
 }

@@ -25,6 +25,7 @@ struct DateButton: public Button
     std::string get_day_of_week(int day, const std::string& month, int year);
 
     void attach(Graph_lib::Window &) override;
+    void set_color();
 
     Chrono_ns::Date date;
     Fl_Color color{fl_rgb_color(192, 192, 192)};

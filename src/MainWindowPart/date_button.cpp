@@ -36,6 +36,11 @@ void DateButton::attach(Graph_lib::Window& win) {
     own = &win;
 }
 
+void DateButton::set_color() {
+    pw->color(color);
+}
+
+
 
 void colorButton(DateButton* btn, int count_of_tasks) {
     if (count_of_tasks <= 5) {

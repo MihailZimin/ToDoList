@@ -139,8 +139,15 @@ void Month::back_page_cb(Address, Address pw)
 void Month::current_day_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<DateButton>(pw);
-    DayWindow* day_window = new DayWindow(600, 400, btn.date, 
-    btn.get_day_of_week(btn.date.day(), 
-    Chrono_ns::month_to_string(btn.date.month()), 
-    btn.date.year()));
+    reinterpret_cast<Month&>(btn.window()).current_day(btn);
+}
+
+
+void Month::current_day(DateButton& btn) {
+    DayWindow* day_window = new DayWindow(600, 400, btn.date,
+    btn.get_day_of_week(btn.date.day(),
+    Chrono_ns::month_to_string(btn.date.month()),
+    btn.date.year()), &btn);
+    day_window->month_window = this;
+    day_window->from_month = true;
 }

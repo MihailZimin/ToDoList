@@ -10,6 +10,8 @@
 #include "HelpWindow.h"
 #include "PARAMETERS.h"
 #include "TaskWindow.h"
+#include "MainWindowPart/MainWindow.h"
+#include "MainWindowPart/month.h"
 
 bool is_end_date_greater(int start_day, int start_month, int start_year, int end_day, int end_month, int end_year) {
 
@@ -502,5 +504,10 @@ void AddTaskWindow::setTask() {
         day_window->addTask(task);
     }
     day_window->redraw();
+    //day_window->week_window->month_window->redraw();
+    colorButton(day_window->day_from_called, day_window->buttons.size());
+    day_window->day_from_called->set_color();
+    day_window->day_from_called->hide();
+    day_window->day_from_called->show();
     reattachFields(info);
 }
