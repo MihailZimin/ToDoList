@@ -1,5 +1,7 @@
 #include "year.h"
 
+extern TaskManager_ns::TaskManager task_manager;
+
 WeekWindow::WeekWindow(Point xy, int h, int w)
     : Window{xy, w, h, "ToDoList"},
     Monday{Point{30,20}, 100, 70, "Monday", cb_day, Chrono_ns::get_week_dates()[0]},
@@ -47,6 +49,16 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     + Chrono_ns::month_to_string(today.month()) 
     + "/" 
     + std::to_string(today.year()));
+
+
+    colorButton(&Monday, task_manager.get_tasks(Chrono_ns::get_week_dates()[0]).size());
+    colorButton(&Tuesday, task_manager.get_tasks(Chrono_ns::get_week_dates()[1]).size());
+    colorButton(&Wednesday, task_manager.get_tasks(Chrono_ns::get_week_dates()[2]).size());
+    colorButton(&Thursday, task_manager.get_tasks(Chrono_ns::get_week_dates()[3]).size());
+    colorButton(&Friday, task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size());
+    colorButton(&Saturday, task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size());
+    colorButton(&Sunday, task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size());
+
     attach(Monday);
     attach(Tuesday);
     attach(Wednesday);
