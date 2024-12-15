@@ -3,6 +3,8 @@
 #include "TaskWindow.h"
 #include "PARAMETERS.h"
 #include "ChangeTaskInfo.h"
+#include "MainWindowPart/MainWindow.h"
+#include "MainWindowPart/month.h"
 
 std::vector<TaskManager_ns::Task> tasks;
 extern TaskManager_ns::TaskManager task_manager;
@@ -34,6 +36,14 @@ void DayWindow::closeWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 
 void DayWindow::closeWindow() {
     this->hide();
+    if (from_month) {
+        month_window->label(month_window->month_name.c_str());
+        month_window->show();
+    }
+    else {
+        week_window->label("ToDoList");
+        week_window->show();
+    }
 }
 
 

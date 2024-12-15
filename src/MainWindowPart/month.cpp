@@ -9,6 +9,7 @@ Month::Month(DateButton* month_button, Year* year_win, std::string month_name , 
     year_win{year_win},
     back_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", back_page_cb},
     year_number{year_number},
+    month_name(month_name),
     current_month_text{Point{400, 30}, month_name + " / " + year_number}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
@@ -150,4 +151,5 @@ void Month::current_day(DateButton& btn) {
     btn.date.year()), &btn);
     day_window->month_window = this;
     day_window->from_month = true;
+    this->hide();
 }

@@ -48,8 +48,6 @@ void TaskWindow::DeleteTask() {
     day_window->show();
     colorButton(day_window->day_from_called, day_window->buttons.size());
     day_window->day_from_called->set_color();
-    day_window->day_from_called->hide();
-    day_window->day_from_called->show();
 }
 
 

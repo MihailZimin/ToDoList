@@ -504,10 +504,7 @@ void AddTaskWindow::setTask() {
         day_window->addTask(task);
     }
     day_window->redraw();
-    //day_window->week_window->month_window->redraw();
     colorButton(day_window->day_from_called, day_window->buttons.size());
     day_window->day_from_called->set_color();
-    day_window->day_from_called->hide();
-    day_window->day_from_called->show();
     reattachFields(info);
 }

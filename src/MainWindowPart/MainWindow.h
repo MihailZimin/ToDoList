@@ -47,6 +47,8 @@ class WeekWindow : public Graph_lib::Window
         static void cb_add_years(Address, Address);
         static void cb_week_page(Address, Address);
         static void cb_back(Address, Address);
+
+        void show_day(DateButton& btn);
 };
 
 #endif //MAINWINDOW
