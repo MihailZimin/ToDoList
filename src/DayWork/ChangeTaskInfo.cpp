@@ -506,5 +506,12 @@ void AddTaskWindow::setTask() {
     day_window->redraw();
     colorButton(day_window->day_from_called, day_window->buttons.size());
     day_window->day_from_called->set_color();
+    if (!day_window->from_month) {
+        std::string lab = day_window->day_from_called->get_label();
+        std::istringstream iss(lab);
+        std::string real_name;
+        iss >> real_name;
+        day_window->day_from_called->label = real_name + " " + std::to_string(day_window->buttons.size());
+    }
     reattachFields(info);
 }

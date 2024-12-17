@@ -59,6 +59,7 @@ public:
 
     Graph_lib::Vector_ref<MyButton> buttons;
 
+
 private:
     int pos_x = START_BUTTONS_POSITION_X;
     int pos_y = START_BUTTONS_POSITION_Y;

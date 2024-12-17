@@ -58,6 +58,13 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     colorButton(&Friday, task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size());
     colorButton(&Saturday, task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size());
     colorButton(&Sunday, task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size());
+    Monday.label = "Monday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[0]).size());
+    Tuesday.label = "Tuesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[1]).size());
+    Wednesday.label = "Wednesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[2]).size());
+    Thursday.label = "Thursday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[3]).size());
+    Friday.label = "Friday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size());
+    Saturday.label = "Saturday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size());
+    Sunday.label = "Sunday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size());
 
     attach(Monday);
     attach(Tuesday);
