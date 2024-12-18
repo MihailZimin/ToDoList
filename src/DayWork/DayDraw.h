@@ -16,7 +16,7 @@ class Month;
 
 class DayWindow: public Graph_lib::Window {
 public:
-    DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton);
+    DayWindow(Graph_lib::Point pos, int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton);
 
     void removeTask();
     void updateTasks();
@@ -59,13 +59,14 @@ public:
 
     Graph_lib::Vector_ref<MyButton> buttons;
 
+    const std::string day;
+
 
 private:
     int pos_x = START_BUTTONS_POSITION_X;
     int pos_y = START_BUTTONS_POSITION_Y;
     int font_size{20};
     std::vector<TaskManager_ns::Task> tasks;
-    const std::string day;
     int current_buttons_window = 0;
 };
 

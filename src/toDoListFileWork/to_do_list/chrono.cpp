@@ -216,6 +216,20 @@ namespace Chrono_ns
         return !(t1 == t2);
     }
 
+    bool operator < (const Period& p1, const Period& p2)
+    {
+        if (p1.start_date() > p2.start_date())
+            return false;
+        else if (p1.start_date() < p2.start_date())
+            return true;
+        else
+        {
+            if (p1.start_hour() != p2.start_hour())
+                return p1.start_hour() < p2.start_hour();
+            return p1.start_min() < p2.start_min();
+        }
+    }
+
     std::ostream& operator << (std::ostream& os, const Period& t)
     {
         return os << '(' << t.start_hour()

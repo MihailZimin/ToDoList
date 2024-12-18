@@ -1,4 +1,5 @@
 #include "year.h"
+#include <sstream>
 
 extern TaskManager_ns::TaskManager task_manager;
 
@@ -15,7 +16,6 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     next{Point{w - 100 , h/2 - 35}, 100, 70, "years", cb_years},
     prev{Point{0 , y_max()-70}, 100, 70, "Back", cb_back},
     year_page_counter{0},
-    years{1},
     week_page_btn{Point{x_max() - 100 , y_max()-70}, 100, 70, "Week page", cb_week_page},
     add_years_btn{Point{x_max() - 100 , y_max()/2 - 35}, 100, 70, "Next", cb_add_years}
 {
@@ -77,6 +77,13 @@ WeekWindow::WeekWindow(Point xy, int h, int w)
     attach(next);
 };
 
+WeekWindow::~WeekWindow()
+{
+    for (size_t i = 0; i < years.size(); ++i) 
+    {
+        for (size_t j = 0; j < years[i].size(); ++j) { delete years[i][j]; }
+    }
+};
 
 void WeekWindow::week_page()
 {
@@ -87,6 +94,10 @@ void WeekWindow::week_page()
     if (year_page_counter != 0)
     {
         detach(prev);
+    }
+    if (year_page_counter != 5)
+    {
+        detach(add_years_btn);
     }
 
     year_page_counter = 0;
@@ -117,7 +128,7 @@ void WeekWindow::add_years()
 
     year_page_counter += 1;
 
-    if (year_page_counter == 15)
+    if (year_page_counter == 5)
     {
         detach(add_years_btn);
     }
@@ -162,7 +173,7 @@ void WeekWindow::add_years()
 
 void WeekWindow::back_page()
 {
-    if (year_page_counter == 15)
+    if (year_page_counter == 5)
     {
         attach(add_years_btn);
     }
@@ -252,7 +263,11 @@ void WeekWindow::cb_day(Address, Address pw)
 }
 
 void WeekWindow::show_day(DateButton& btn) {
-    DayWindow* day_window = new DayWindow(600, 400, btn.date, btn.get_label(), &btn);
+    std::string lab = btn.get_label();
+    std::istringstream iss(lab);
+    std::string real_name;
+    iss >> real_name;
+    DayWindow* day_window = new DayWindow(Graph_lib::Point{this->x(), this->y()}, 600, 400, btn.date,  real_name, &btn);
     day_window->week_window = this;
     this->hide();
 }

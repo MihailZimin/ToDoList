@@ -37,7 +37,7 @@ namespace TaskManager_ns
         void add_task(Task task);
         void delete_task(Task task);
         void update_task(Task old_task, Task new_task);
-
+        void sort_task();
         std::vector<Task> get_tasks() const;
         std::vector<Task> get_tasks(Chrono_ns::Date date) const;
         

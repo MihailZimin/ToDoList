@@ -15,7 +15,7 @@ void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void DayWindow::showTaskInfoWindow(MyButton& btn) {
-    TaskWindow* task_window = new TaskWindow(btn, this);
+    TaskWindow* task_window = new TaskWindow(Graph_lib::Point{this->x(), this->y()}, btn, this);
     this->hide();
 }
 
@@ -25,7 +25,7 @@ void DayWindow::addTaskWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void DayWindow::addTaskWindow() {
-    AddTaskWindow* task_window = new AddTaskWindow(this);
+    AddTaskWindow* task_window = new AddTaskWindow(Graph_lib::Point{this->x(), this->y()}, this);
     this->hide();
 }
 
@@ -38,10 +38,12 @@ void DayWindow::closeWindow() {
     this->hide();
     if (from_month) {
         month_window->label(month_window->month_name.c_str());
+        month_window->position(this->x(), this->y());
         month_window->show();
     }
     else {
         week_window->label("ToDoList");
+        week_window->position(this->x(), this->y());
         week_window->show();
     }
 }
@@ -55,7 +57,7 @@ void DayWindow::nextWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 void DayWindow::nextWindow() {
     int left = current_buttons_window*20;
     int right = std::min(current_buttons_window*20+20, buttons.size());
-    for (int i = left; i < right; i++) {
+    for (int i = left; i < right; ++i) {
         detach(buttons[i]);
     }
     ++current_buttons_window;
@@ -88,9 +90,9 @@ void DayWindow::prevWindow() {
 }
 
 
-DayWindow::DayWindow(int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton)
+DayWindow::DayWindow(Graph_lib::Point pos, int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton)
     :
-Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day Window"),
+Window(pos, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Day Window"),
 dayName(Graph_lib::Text(Graph_lib::Point(MARGIN, 10+MARGIN), day)),
 information(Graph_lib::Text{Graph_lib::Point(200, 10+MARGIN), ""}),
 add_task_button(MyButton({width-BUTTON_WIDTH-MARGIN, MARGIN},
@@ -102,7 +104,8 @@ next_button(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BASIC_WINDOW_HEIGHT-BUTTO
 prev_button(MyButton({BASIC_WINDOW_WIDTH-2*BUTTON_WIDTH, BASIC_WINDOW_HEIGHT-BUTTON_HEIGHT},
     BUTTON_WIDTH, BUTTON_HEIGHT, "Prev", prevWindowCB)),
 date(date),
-day_from_called(datebutton)
+day_from_called(datebutton),
+day(day)
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
 
@@ -116,7 +119,7 @@ day_from_called(datebutton)
             task.name, task.text, task.period
         );
         new_task->set_id(task.get_id());
-        tasks_ref.push_back(new_task);
+        //tasks_ref.push_back(new_task);
 
         buttons.push_back(CreateButton(new_task));
         attach(buttons.back());
@@ -150,12 +153,12 @@ day_from_called(datebutton)
 
 
 MyButton* DayWindow::CreateButton(TaskManager_ns::Task* task) {
-    TaskManager_ns::Task* task1 = new TaskManager_ns::Task(
-                task->name, task->text, task->period
-            );
-    task1->set_id(task->get_id());
+    // TaskManager_ns::Task* task1 = new TaskManager_ns::Task(
+    //             task->name, task->text, task->period
+    //         );
+    //task1->set_id(task->get_id());
     MyButton* b = new MyButton({pos_x, pos_y},
-        BUTTON_WIDTH, BUTTON_HEIGHT, task1->name, task1, showTaskInfoCB);
+        BUTTON_WIDTH, BUTTON_HEIGHT, task->name, task, showTaskInfoCB);
     pos_y += BUTTON_HEIGHT;
     if ((buttons.size()+1) % 5 == 0) {
         pos_x += BUTTON_WIDTH + MARGIN;
@@ -170,10 +173,20 @@ MyButton* DayWindow::CreateButton(TaskManager_ns::Task* task) {
 
 void DayWindow::addTask(TaskManager_ns::Task *task) {
     task_manager.add_task(*task);
-    task->set_id(task_manager.get_tasks()[task_manager.get_tasks().size()-1].get_id());
-    buttons.push_back(CreateButton(task));
-    attach(buttons.back());
-    if (buttons.size() >= 20) { detach(buttons.back()); }
+    tasks = task_manager.get_tasks(date);
+    for (size_t i = 0; i < buttons.size(); ++i) { detach(buttons[i]); }
+    buttons.clear();
+    for (auto& task : tasks) {
+        TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
+            task.name, task.text, task.period
+        );
+        new_task->set_id(task.get_id());
+        buttons.push_back(CreateButton(new_task));
+        attach(buttons.back());
+        if (buttons.size() > 20) {
+            detach(buttons.back());
+        }
+    }
     if ((buttons.size()-1) % 20 == 0 && buttons.size() > 20) {attach(next_button); }
     redrawButtons();
     task_manager.set_id_to_file();
@@ -199,6 +212,23 @@ void DayWindow::redrawButtons() {
 
 
 void DayWindow::removeTask(TaskManager_ns::Task& task) {
+    tasks = task_manager.get_tasks(date);
+    // for (size_t i = 0; i < buttons.size(); ++i) { detach(buttons[i]); }
+    // buttons.clear();
+    // for (auto& task : tasks) {
+    //     TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
+    //         task.name, task.text, task.period
+    //     );
+    //     new_task->set_id(task.get_id());
+    //     buttons.push_back(CreateButton(new_task));
+    //     attach(buttons.back());
+    //     if (buttons.size() > 20) {
+    //         detach(buttons.back());
+    //     }
+    // }
+    for (size_t i = 0; i < tasks.size(); ++i){
+        buttons[i].task->set_id(tasks[i].get_id());
+    }
     for (int i = 0; i < buttons.size(); i++) {
         if (buttons[i].task->get_id() == task.get_id()) {
             detach(buttons[i]);

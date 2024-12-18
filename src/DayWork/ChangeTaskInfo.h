@@ -27,8 +27,8 @@ bool is_end_date_greater(int day_start, int month_start, int year_start,
 class WindowTaskChanger: public Graph_lib::Window {
 public:
 
-    explicit WindowTaskChanger(const MyButton& button_from_called);
-    explicit WindowTaskChanger();
+    explicit WindowTaskChanger(Graph_lib::Point pos, const MyButton& button_from_called);
+    explicit WindowTaskChanger(Graph_lib::Point pos);
 
     static void changeTaskCB(Graph_lib::Address, Graph_lib::Address pw);
     static void goBackCB(Graph_lib::Address, Graph_lib::Address pw);
@@ -61,7 +61,7 @@ public:
 
 class ChangeTaskInfo: public WindowTaskChanger{
 public:
-    ChangeTaskInfo(MyButton& button_from_called, TaskWindow* window);
+    ChangeTaskInfo(Graph_lib::Point pos, MyButton& button_from_called, TaskWindow* window);
 
     void changeTask(TaskManager_ns::Task& task) override;
     void goBack() override;
@@ -75,7 +75,7 @@ public:
 
 class AddTaskWindow: public WindowTaskChanger {
 public:
-    explicit AddTaskWindow(DayWindow* day_window);
+    explicit AddTaskWindow(Graph_lib::Point pos, DayWindow* day_window);
 
     void setTask() override;
     void goBack() override;

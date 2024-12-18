@@ -43,8 +43,8 @@ void WindowTaskChanger::openHelpWindowCB(Graph_lib::Address, Graph_lib::Address 
 }
 
 
-WindowTaskChanger::WindowTaskChanger(const MyButton& button_from_called) :
-Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, ""),
+WindowTaskChanger::WindowTaskChanger(Graph_lib::Point pos, const MyButton& button_from_called) :
+Window(pos, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, ""),
 new_name_field(MyIn_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new name:")),
 new_text_field(MyIn_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+FIELD_HEIGHT),
@@ -82,8 +82,8 @@ show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BUTTON_HEIGHT}, BUTTON_WIDT
     attach(show_help);
 }
 
-WindowTaskChanger::WindowTaskChanger() :
-Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, ""),
+WindowTaskChanger::WindowTaskChanger(Graph_lib::Point pos) :
+Window(pos, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, ""),
 new_name_field(MyIn_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y),
     FIELD_WIDTH, FIELD_HEIGHT, "Enter new name:")),
 new_text_field(MyIn_box(Graph_lib::Point(FIELDS_START_POSITION_X, FIELDS_START_POSITION_Y+FIELD_HEIGHT),
@@ -124,6 +124,7 @@ show_help(MyButton({BASIC_WINDOW_WIDTH-BUTTON_WIDTH, BUTTON_HEIGHT}, BUTTON_WIDT
 
 void ChangeTaskInfo::goBack() {
     this->hide();
+    task_window->day_window->position(this->x(), this->y());
     task_window->day_window->set_label("Day Window");
     task_window->day_window->show();
 }
@@ -133,8 +134,8 @@ void ChangeTaskInfo::openHelpWindow() {
     HelpChangeTaskWindow* help_change_task_window = new HelpChangeTaskWindow(this);
 }
 
-ChangeTaskInfo::ChangeTaskInfo(MyButton& button_from_called, TaskWindow* task_window):
-    WindowTaskChanger(button_from_called),
+ChangeTaskInfo::ChangeTaskInfo(Graph_lib::Point pos, MyButton& button_from_called, TaskWindow* task_window):
+    WindowTaskChanger(pos, button_from_called),
     task_window(task_window), button_from_called(button_from_called){}
 
 
@@ -349,8 +350,8 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
 
 
 
-AddTaskWindow::AddTaskWindow(DayWindow* day_window):
-    WindowTaskChanger(),
+AddTaskWindow::AddTaskWindow(Graph_lib::Point pos, DayWindow* day_window):
+    WindowTaskChanger(pos),
     day_window{day_window} {
 
 }
@@ -364,6 +365,7 @@ void AddTaskWindow::goBack() {
     std::cout << "went back" << std::endl;
     this->hide();
     day_window->set_label("Day Window");
+    day_window->position(this->x(), this->y());
     day_window->show();
 }
 

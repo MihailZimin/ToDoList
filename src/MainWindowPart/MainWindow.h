@@ -20,6 +20,7 @@ class WeekWindow : public Graph_lib::Window
 {
     public:
         WeekWindow(Point xy, int h, int w);
+        ~WeekWindow();
         void years_page();
         void add_years();
         void week_page();

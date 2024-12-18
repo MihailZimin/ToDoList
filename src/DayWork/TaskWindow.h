@@ -14,7 +14,7 @@
 
 class TaskWindow: public Graph_lib::Window{
 public:
-    TaskWindow(MyButton& button_from_called, DayWindow* day_window);
+    TaskWindow(Graph_lib::Point pos, MyButton& button_from_called, DayWindow* day_window);
 
     static void ChangeTaskDetailsCB(Graph_lib::Address, Graph_lib::Address pw);
     static void GoBackCB(Graph_lib::Address, Graph_lib::Address pw);

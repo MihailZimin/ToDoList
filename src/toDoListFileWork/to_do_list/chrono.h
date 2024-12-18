@@ -78,6 +78,7 @@ namespace Chrono_ns
                    int end_hour, int end_min, Date end_date);
     bool operator == (const Period& t1, const Period& t2);
     bool operator != (const Period& t1, const Period& t2);
+    bool operator < (const Period& p1, const Period& p2);
     std::ostream& operator << (std::ostream& os, const Period& t);
 
     int days_in_month(Month month, int year);

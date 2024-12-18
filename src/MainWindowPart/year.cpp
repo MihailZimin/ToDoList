@@ -65,6 +65,7 @@ Year::~Year()
 
 void Year::hide_window()
 {
+    week_win->set_label("ToDoList");
     week_win->show();
     hide();
 }

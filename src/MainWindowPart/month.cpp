@@ -145,7 +145,7 @@ void Month::current_day_cb(Address, Address pw)
 
 
 void Month::current_day(DateButton& btn) {
-    DayWindow* day_window = new DayWindow(600, 400, btn.date,
+    DayWindow* day_window = new DayWindow(Point{this->x(),this-> y()}, 600, 400, btn.date,
     btn.get_day_of_week(btn.date.day(),
     Chrono_ns::month_to_string(btn.date.month()),
     btn.date.year()), &btn);

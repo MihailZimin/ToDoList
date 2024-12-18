@@ -134,6 +134,7 @@ namespace TaskManager_ns
             << task.name << ' ' << task.text << std::endl;
 
         tasks.push_back(task);
+        sort_task();
         out.close();
     }
 
@@ -143,17 +144,28 @@ namespace TaskManager_ns
 
         std::ofstream buf_out("buf.txt");
         std::cout << "delete_task()\n";
-
-        for (size_t i {0}; i < tasks.size(); ++i)
+        std::cout << task.get_id() << std::endl;
+        for (size_t i = 0; i < tasks.size(); ++i)
         {
-            if(tasks[i].get_id() == task.get_id()) {
+            std::cout << tasks[i].get_id() << std::endl;
+            if(tasks[i].get_id() == task.get_id()) 
+            {
+                std::cout << tasks[i].get_id() << std::endl;
                 tasks.erase(tasks.begin() + i);
+                for (size_t j = i; j < tasks.size(); ++j)
+                {
+                    unsigned long long id = tasks[j].get_id();
+                    tasks[j].set_id(id - 1);
+                }
+                break;
             }
         }
 
         out.open("tasks.txt", std::ios::trunc);
         out.clear();
         out.seekp(0, std::ios::beg);
+        --counter;
+        set_id_to_file();
         for (int i = 0; i < tasks.size(); ++i) {
             task = tasks[i];
             std::string task_text_1 = std::to_string(task.get_id()) + ' ' +
@@ -247,6 +259,18 @@ namespace TaskManager_ns
         }
         if(in.fail())
             throw std::runtime_error("1Uncorrect data in file");
+    }
+
+    void TaskManager::sort_task()
+    {
+        for (size_t i = 0; i+1 < tasks.size(); ++i)
+        {
+            for (size_t j = 0; j+1 < tasks.size() - i; ++j)
+            {
+                if (tasks[j+1].period < tasks[j].period)
+                    std::swap(tasks[j], tasks[j+1]);
+            }
+        }
     }
 
     std::vector<Task> TaskManager::get_tasks() const

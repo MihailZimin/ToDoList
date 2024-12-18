@@ -20,7 +20,7 @@ void TaskWindow::ChangeTaskDetailsCB(Graph_lib::Address, Graph_lib::Address pw) 
 }
 
 void TaskWindow::ChangeTaskDetails(MyButton& btn) {
-    ChangeTaskInfo* change_task_info = new ChangeTaskInfo(btn, &reinterpret_cast<TaskWindow&>(btn.window()));
+    ChangeTaskInfo* change_task_info = new ChangeTaskInfo(Graph_lib::Point{this->x(), this->y()}, btn, &reinterpret_cast<TaskWindow&>(btn.window()));
     this->hide();
 }
 
@@ -32,6 +32,7 @@ void TaskWindow::GoBackCB(Graph_lib::Address, Graph_lib::Address pw) {
 void TaskWindow::GoBack() {
     this->hide();
     day_window->set_label("Day Window");
+    day_window->position(this->x(), this->y());
     day_window->show();
 }
 
@@ -45,23 +46,22 @@ void TaskWindow::DeleteTask() {
     day_window->redraw();
     this->hide();
     day_window->set_label("Day Window");
+    day_window->position(this->x(), this->y());
     day_window->show();
     colorButton(day_window->day_from_called, day_window->buttons.size());
     day_window->day_from_called->set_color();
     if (!day_window->from_month) {
-        std::string lab = day_window->day_from_called->get_label();
-        std::istringstream iss(lab);
-        std::string real_name;
-        iss >> real_name;
-        day_window->day_from_called->label = real_name + " " + std::to_string(day_window->buttons.size());
+        std::string lab = day_window->day;
+        lab = lab + " " + std::to_string(day_window->buttons.size());
+        day_window->day_from_called->label = lab;
     }
 }
 
 
 
-TaskWindow::TaskWindow(MyButton& button_from_called, DayWindow* day_window) :
+TaskWindow::TaskWindow(Graph_lib::Point pos, MyButton& button_from_called, DayWindow* day_window) :
 day_window(day_window), button_from_called(button_from_called),
-Window(BASIC_WINDOW_POSITION, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
+Window(pos, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, "Task"),
 txt_info(Graph_lib::Text(Graph_lib::Point{25, 120}, "Info: "+ button_from_called.task->text)),
 change_task_details(MyButton({10, 10}, 80, 30, "Change info",
         button_from_called.task, ChangeTaskDetailsCB)),
