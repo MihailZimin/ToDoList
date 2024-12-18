@@ -112,7 +112,7 @@ day(day)
     tasks = task_manager.get_tasks(date);
     std::cout << tasks.size() << '\n';
 
-    Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
+    // Graph_lib::Vector_ref<TaskManager_ns::Task> tasks_ref;
 
     for (auto& task : tasks) {
         TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
@@ -212,23 +212,6 @@ void DayWindow::redrawButtons() {
 
 
 void DayWindow::removeTask(TaskManager_ns::Task& task) {
-    tasks = task_manager.get_tasks(date);
-    // for (size_t i = 0; i < buttons.size(); ++i) { detach(buttons[i]); }
-    // buttons.clear();
-    // for (auto& task : tasks) {
-    //     TaskManager_ns::Task* new_task = new TaskManager_ns::Task(
-    //         task.name, task.text, task.period
-    //     );
-    //     new_task->set_id(task.get_id());
-    //     buttons.push_back(CreateButton(new_task));
-    //     attach(buttons.back());
-    //     if (buttons.size() > 20) {
-    //         detach(buttons.back());
-    //     }
-    // }
-    for (size_t i = 0; i < tasks.size(); ++i){
-        buttons[i].task->set_id(tasks[i].get_id());
-    }
     for (int i = 0; i < buttons.size(); i++) {
         if (buttons[i].task->get_id() == task.get_id()) {
             detach(buttons[i]);
@@ -236,6 +219,11 @@ void DayWindow::removeTask(TaskManager_ns::Task& task) {
             buttons.erase(i);
             break;
         }
+    }
+    tasks = task_manager.get_tasks(date);
+    for (size_t i = 0; i < buttons.size(); ++i)
+    {
+        buttons[i].task->set_id(tasks[i].get_id());   
     }
     redrawButtons();
 }

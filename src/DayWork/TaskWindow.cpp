@@ -42,6 +42,7 @@ void TaskWindow::DeleteTaskCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void TaskWindow::DeleteTask() {
+    std::cout << "from called " << button_from_called.task->get_id() << '\n';
     day_window->removeTask(*(button_from_called.task));
     day_window->redraw();
     this->hide();

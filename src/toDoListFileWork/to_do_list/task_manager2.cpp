@@ -143,19 +143,20 @@ namespace TaskManager_ns
         using namespace Chrono_ns;
 
         std::ofstream buf_out("buf.txt");
-        std::cout << "delete_task()\n";
         std::cout << task.get_id() << std::endl;
         for (size_t i = 0; i < tasks.size(); ++i)
         {
-            std::cout << tasks[i].get_id() << std::endl;
+            std::cout << tasks[i].get_id() << " / " << task.get_id() << std::endl;
             if(tasks[i].get_id() == task.get_id()) 
             {
-                std::cout << tasks[i].get_id() << std::endl;
                 tasks.erase(tasks.begin() + i);
-                for (size_t j = i; j < tasks.size(); ++j)
+                std::cout << "delete_task()\n";
+                for (size_t j = 0; j < tasks.size(); ++j)
                 {
-                    unsigned long long id = tasks[j].get_id();
-                    tasks[j].set_id(id - 1);
+                    if (tasks[j].get_id() >= task.get_id())
+                    {
+                        tasks[j].set_id(tasks[j].get_id() - 1);
+                    }
                 }
                 break;
             }
@@ -273,14 +274,15 @@ namespace TaskManager_ns
         }
     }
 
-    std::vector<Task> TaskManager::get_tasks() const
+    std::vector<Task> TaskManager::get_tasks()
     {
         std::cout << "get_tasks()\n";
         return tasks;
     }
 
-    std::vector<Task> TaskManager::get_tasks(Chrono_ns::Date date) const
+    std::vector<Task> TaskManager::get_tasks(Chrono_ns::Date date)
     {
+        this->sort_task();
         std::vector<Task> day_tasks;
         for(Task task : tasks)
         {
