@@ -170,7 +170,7 @@ public:
 
   // ???void erase(???)
   void erase(int index) {
-    //delete v[index]; // Освобождаем память
+    //delete v[index]; - делать не нужно, вектор сам освободит память
     v.erase(v.begin() + index); // Удаляем указатель из вектора
   }
 
