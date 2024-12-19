@@ -8,7 +8,7 @@
 #include <Graph_lib/Graph.h>
 
 constexpr int BUTTONS_COUNT_IN_WINDOW = 20;
-constexpr int BUTTONS_COUNT_IN_COL = 20;
+constexpr int BUTTONS_COUNT_IN_COL = 5;
 constexpr int BUTTON_WIDTH = 80;
 constexpr int BUTTON_HEIGHT = 50;
 constexpr int MARGIN = 20;
@@ -41,6 +41,5 @@ constexpr int END_DEFAULT_MINUTES = 59;
 constexpr int START_DEFAULT_HOURS = 0;
 constexpr int START_DEFAULT_MINUTES = 0;
 const Fl_Color DEFAULT_COLOR = fl_rgb_color(192, 192, 192);
-constexpr int BUTTONS_COUNT_IN_WINDOW = 20;
 
 #endif //PARAMETERS_H
