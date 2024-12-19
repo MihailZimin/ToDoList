@@ -90,25 +90,13 @@ namespace Chrono_ns
 
     bool is_date(int d, Month m, int y)
     {
-        if(d <= 0 || (d - int(d)) != 0 || (y - int(y)) != 0)
+        if(d <= 0)
             return false;
 
         if(m < Month::jan || Month::dec < m)
             return false;
 
-        int days_in_month = 31;
-
-        switch(m)
-        {
-        case Month::feb:
-        case Month::apr:
-        case Month::jun:
-        case Month::sep:
-        case Month::nov:
-            days_in_month = 30;
-            break;
-        }
-        if(d > days_in_month)
+        if(d > days_in_month(m, y))
             return false;
 
         return true;
@@ -244,9 +232,6 @@ namespace Chrono_ns
 
     int days_in_month(Month month, int year)
     {
-        if(year - int(year) != 0)
-            throw std::runtime_error("Year must have integer type");
-
         int days_in_month = 31;
 
         switch(month)
