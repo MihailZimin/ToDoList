@@ -64,7 +64,7 @@ namespace TaskManager_ns
             throw std::runtime_error("File isn't open");
 
         unsigned long long id;
-        Time start_time {0,0};
+        Time start_time {0,0}; 
         int start_day;
         int start_month;
         int start_year;

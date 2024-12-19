@@ -86,7 +86,7 @@ namespace Chrono_ns
         Date end_date() const { return end_d; }
 
     private:
-        Time start_t;
+        Time start_t; 
         Time end_t;
         Date start_d;
         Date end_d;
