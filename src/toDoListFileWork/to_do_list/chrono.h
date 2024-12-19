@@ -46,8 +46,6 @@ namespace Chrono_ns
     bool operator > (const Date& d1, const Date& d2);
     bool operator >= (const Date& d1, const Date& d2);
     std::ostream& operator << (std::ostream& os, const Date& d);
-    //std::istream& operator >> (std::istream& is, Date& dd);
-    //Date operator - (const Date& d); // ЭТО ДЕЛАТЬ В ПОСЛЕДНЮЮ ОЧЕРЕДЬБ ВЕДЬ В ctime может быть функция, возвращающая текущую неделю.
     Date today();
     Date monday_date();
 

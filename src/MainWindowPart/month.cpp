@@ -3,9 +3,15 @@
 extern TaskManager_ns::TaskManager task_manager;
 
 
+<<<<<<< HEAD
+Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std::string month_name , std::string year_number):
+    Window{pos, 600, 400, month_name},
+    month_button{month_button},
+=======
 Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
     Window{pos, 600, 400, month_name},
     month_button{month_button}, 
+>>>>>>> origin/main
     year_win{year_win},
     back_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", back_page_cb},
     year_number{year_number},
@@ -55,9 +61,9 @@ Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std
         colorButton(day_button, tasks_count);
         days.push_back(day_button);
     }
-    if (current_month == "January" 
-    || current_month == "March" 
-    || current_month == "May" 
+    if (current_month == "January"
+    || current_month == "March"
+    || current_month == "May"
     || current_month == "July"
     || current_month == "August"
     || current_month == "October"
@@ -130,6 +136,17 @@ void Month::hide_window()
     year_win -> set_label(year_number);
     year_win -> position(this->x(), this->y());
     hide();
+}
+
+void Month::redraw_buttons() {
+    std::string current_month = month_button->get_label();
+    for (int i = 0; i < days.size(); ++i) {
+        detach(*days[i]);
+        int tasks_count = task_manager.get_tasks(Chrono_ns::Date{i+1, Chrono_ns::conversion(current_month), std::stoi(year_number)}).size();
+        colorButton(days[i], tasks_count);
+        attach(*days[i]);
+    }
+    this->redraw();
 }
 
 void Month::back_page_cb(Address, Address pw)

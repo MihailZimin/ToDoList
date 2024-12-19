@@ -138,7 +138,7 @@ namespace Chrono_ns
     {
         if (d1.year() > d2.year())
             return false;
-        else 
+        else
         {
             if(d1.year() == d2.year() && d1.month() > d2.month())
                 return false;
@@ -178,7 +178,7 @@ namespace Chrono_ns
         :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
     {
         if(!is_period(start_hour, start_min, start_date, end_hour, end_min, end_date))
-            throw std::runtime_error("Uncorrect period value"); 
+            throw std::runtime_error("Uncorrect period value");
     }
 
     bool is_period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)

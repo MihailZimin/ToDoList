@@ -5,6 +5,23 @@
 
 class Month: public Graph_lib::Window
 {
+<<<<<<< HEAD
+public:
+    Month(Graph_lib::Point pos, DateButton* month, Year* year_win, std::string month_name, std::string year_number);
+    ~Month();
+    void hide_window();
+    void redraw_buttons();
+    std::string month_name;
+private:
+    Year* year_win;
+    DateButton* month_button;
+    Button back_page_btn;
+    std::string year_number;
+    std::vector<DateButton*> days;
+    Text current_month_text;
+    static void current_day_cb(Address, Address);
+    static void back_page_cb(Address, Address);
+=======
     public:
         Month(Graph_lib::Point pos, DateButton* month, Year* year_win, std::string month_name, std::string year_number);
         ~Month();
@@ -19,8 +36,9 @@ class Month: public Graph_lib::Window
         Text current_month_text;
         static void current_day_cb(Address, Address);
         static void back_page_cb(Address, Address);
+>>>>>>> origin/main
 
-        void current_day(DateButton& btn);
+    void current_day(DateButton& btn);
 };
 
 #endif //MONTH

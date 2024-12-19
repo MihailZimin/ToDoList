@@ -17,12 +17,16 @@ std::vector<std::string> Months_names
     "December"
 };
 
+<<<<<<< HEAD
+Year::Year(Graph_lib::Point pos, DateButton* btn, WeekWindow* win, std::string year_number):
+=======
 Year::Year(Graph_lib::Point pos, DateButton* btn, WeekWindow* win, std::string year_number): 
+>>>>>>> origin/main
     Window{pos, 600, 400, year_number},
     year_button{btn},
     week_win {win},
     week_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", main_page_cb},
-    current_year_text{Point{500, 50}, year_number} 
+    current_year_text{Point{500, 50}, year_number}
 {
     size_range(BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT, BASIC_WINDOW_WIDTH, BASIC_WINDOW_HEIGHT);
     for (int j = 0; j < 3; ++j)

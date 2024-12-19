@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW
 #define MAINWINDOW
 
@@ -18,6 +19,15 @@ using namespace Graph_lib;
 
 class WeekWindow : public Graph_lib::Window
 {
+<<<<<<< HEAD
+public:
+    WeekWindow(Point xy, int h, int w);
+    ~WeekWindow();
+    void years_page();
+    void add_years();
+    void week_page();
+    void back_page();
+=======
     public:
         WeekWindow(Point xy, int h, int w);
         ~WeekWindow();
@@ -25,32 +35,39 @@ class WeekWindow : public Graph_lib::Window
         void add_years();
         void week_page();
         void back_page();
+>>>>>>> origin/main
 
-    private:
-        int current_year{Chrono_ns::today().year()};
-        std::vector<std::vector<DateButton*>> years{1};
-        DateButton Monday;
-        DateButton Tuesday;
-        DateButton Wednesday;
-        DateButton Thursday;
-        DateButton Friday;
-        DateButton Saturday;
-        DateButton Sunday;
-        Text current_date;
-        Button next;
-        Button prev;
-        Button add_years_btn;
-        Button week_page_btn;
-        int year_page_counter;
-        static void cb_day(Address, Address);
-        static void cb_years(Address, Address);
-        static void current_year_cb(Address, Address);
-        static void cb_add_years(Address, Address);
-        static void cb_week_page(Address, Address);
-        static void cb_back(Address, Address);
+    DateButton Monday;
+    DateButton Tuesday;
+    DateButton Wednesday;
+    DateButton Thursday;
+    DateButton Friday;
+    DateButton Saturday;
+    DateButton Sunday;
 
+<<<<<<< HEAD
+private:
+    int current_year{Chrono_ns::today().year()};
+    std::vector<std::vector<DateButton*>> years{1};
+    Text current_date;
+    Button next;
+    Button prev;
+    Button add_years_btn;
+    Button week_page_btn;
+    int year_page_counter;
+    static void cb_day(Address, Address);
+    static void cb_years(Address, Address);
+    static void current_year_cb(Address, Address);
+    static void cb_add_years(Address, Address);
+    static void cb_week_page(Address, Address);
+    static void cb_back(Address, Address);
+
+    void show_day(DateButton& btn);
+    void show_current_year(DateButton& btn);
+=======
         void show_day(DateButton& btn);
         void show_current_year(DateButton& btn);
+>>>>>>> origin/main
 };
 
 #endif //MAINWINDOW

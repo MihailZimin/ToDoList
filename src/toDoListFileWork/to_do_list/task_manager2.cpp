@@ -143,14 +143,54 @@ namespace TaskManager_ns
     {
         using namespace Chrono_ns;
 
+<<<<<<< HEAD
+        std::ofstream buf_out("buf.txt");
+        std::cout << task.get_id() << std::endl;
+        for (size_t i = 0; i < tasks.size(); ++i)
+=======
         for (size_t i {0}; i < tasks.size(); ++i)
+>>>>>>> origin/main
         {
-            if(tasks[i].get_id() == task.get_id()) {
+            std::cout << tasks[i].get_id() << " / " << task.get_id() << std::endl;
+            if(tasks[i].get_id() == task.get_id())
+            {
                 tasks.erase(tasks.begin() + i);
+<<<<<<< HEAD
+                std::cout << "delete_task()\n";
+                for (size_t j = 0; j < tasks.size(); ++j)
+                {
+                    if (tasks[j].get_id() >= task.get_id())
+                    {
+                        tasks[j].set_id(tasks[j].get_id() - 1);
+                    }
+                }
+=======
+>>>>>>> origin/main
                 break;
             }
         }
 
+<<<<<<< HEAD
+        out.open("tasks.txt", std::ios::trunc);
+        out.clear();
+        out.seekp(0, std::ios::beg);
+        --counter;
+        set_id_to_file();
+        for (int i = 0; i < tasks.size(); ++i) {
+            task = tasks[i];
+            std::string task_text_1 = std::to_string(task.get_id()) + ' ' +
+                std::to_string(task.period.start_hour()) + ' ' +
+                std::to_string(task.period.start_min()) + ' ' +
+                std::to_string(task.period.start_date().day()) + ' ' +
+                std::to_string(static_cast<int>(task.period.start_date().month())) + ' ' +
+                std::to_string(task.period.start_date().year()) + ' ' +
+                std::to_string(task.period.end_hour()) + ' ' +
+                std::to_string(task.period.end_min()) + ' ' +
+                std::to_string(task.period.end_date().day()) + ' ' +
+                std::to_string(static_cast<int>(task.period.end_date().month())) + ' ' +
+                std::to_string(task.period.end_date().year()) + ' ' +
+                task.name + ' ' + task.text;
+=======
         out.open("tasks.txt");
   
         for (Task t : tasks)
@@ -167,6 +207,7 @@ namespace TaskManager_ns
                 std::to_string(int(t.period.end_date().month())) + ' ' +
                 std::to_string(t.period.end_date().year()) + ' ' +
                 t.name + ';' + t.text;
+>>>>>>> origin/main
             out << task_text_1 << '\n';
         }
         if(!out)
@@ -217,14 +258,27 @@ namespace TaskManager_ns
         }
     }
 
-    std::vector<Task> TaskManager::get_tasks() const
+    void TaskManager::sort_task()
+    {
+        for (size_t i = 0; i+1 < tasks.size(); ++i)
+        {
+            for (size_t j = 0; j+1 < tasks.size() - i; ++j)
+            {
+                if (tasks[j+1].period < tasks[j].period)
+                    std::swap(tasks[j], tasks[j+1]);
+            }
+        }
+    }
+
+    std::vector<Task> TaskManager::get_tasks()
     {
         std::cout << "get_tasks()\n";
         return tasks;
     }
 
-    std::vector<Task> TaskManager::get_tasks(Chrono_ns::Date date) const
+    std::vector<Task> TaskManager::get_tasks(Chrono_ns::Date date)
     {
+        this->sort_task();
         std::vector<Task> day_tasks;
         for(auto& task : tasks)
         {
