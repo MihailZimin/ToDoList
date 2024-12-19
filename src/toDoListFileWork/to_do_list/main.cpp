@@ -220,7 +220,7 @@ try
     // std::cout << monday_date() << std::endl;
 
 // TASK_MANAGER_2
-    int status = remove("tasks.txt");
+    //int status = remove("tasks.txt");
     TaskManager tm{};
     Period p1{15,30,Date(3,Month::apr,2024), 17,20,Date(3,Month::may,2024)};
     Task task1{"Task1", "Text1", p1};
@@ -231,20 +231,20 @@ try
     Period p3{7,50,Date(8,Month::aug,2022), 9,47,Date(8,Month::aug,2022)};
     Task task3{"Task3", "Text3", p3};
     tm.add_task(task3);
-    Period p4{8,20,Date(6,Month::aug,2022), 12,16,Date(8,Month::aug,2022)};
+    Period p4{8,20,Date(7,Month::sep,2022), 12,16,Date(7,Month::sep,2022)};
     Task task4{"Task4", "Text4", p4};
     tm.add_task(task4);
     Period p5{23,00,Date(7,Month::aug,2022), 23,47,Date(9,Month::aug,2022)};
     Task task5{"Task5", "Text5", p5};
     tm.add_task(task5);
-    std::vector<Task> tasks_list = tm.get_tasks();
+    std::vector<Task> tasks_list = tm.get_tasks(Date(7,Month::sep,2022));
     // tm.delete_task();
 
-    Period p6{9,10,Date(3,Month::apr,2024), 22,13,Date(3,Month::may,2024)};
-    tm.update_task(task1, Task("Task1.v2","Updated task1", p6)); // будет ПРОБЛЕМА, ЕСЛИ в тексте задачи или имени ЕСТЬ ПРОБЕЛ
+    // Period p6{9,10,Date(3,Month::apr,2024), 22,13,Date(3,Month::may,2024)};
+    // tm.update_task(task1, Task("Task1.v2","Updated task1", p6)); // будет ПРОБЛЕМА, ЕСЛИ в тексте задачи или имени ЕСТЬ ПРОБЕЛ
     // std::cout << "all tasks\n";
-    // for(Task t : tasks_list)
-    //     std::cout << t.get_id() << std::endl;
+    for(Task t : tasks_list)
+        std::cout <<"y:" << t.name << std::endl;
 
     // std::cout << "day tasks\n";
     // std::vector<Task> day_tasks = tm.get_tasks(Date(2,Month::oct,2023));

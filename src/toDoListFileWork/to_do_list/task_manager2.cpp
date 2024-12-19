@@ -27,9 +27,8 @@ namespace TaskManager_ns
     TaskManager::TaskManager()
     {
         std::ifstream in_id;
-        in_id.open("id_counter.txt", std::ios_base::app);
-        in_id.seekg(0, std::ios_base::beg);
-        if(in_id.is_open())
+        in_id.open("id_counter.txt");
+        if(in_id)
         {
             in_id >> counter;
             in_id.close();
@@ -42,8 +41,7 @@ namespace TaskManager_ns
     }
 
     void TaskManager::set_id_to_file(){
-        std::ofstream out_id("id_counter.txt", std::ios_base::trunc);
-        out_id.seekp(0, std::ios_base::beg);
+        std::ofstream out_id("id_counter.txt");
         out_id << counter;
         if(!out_id)
             throw std::runtime_error("Can't add amount of ids to file");
@@ -54,39 +52,46 @@ namespace TaskManager_ns
     {
         std::cout << "download_tasks()\n";
         using namespace Chrono_ns;
-        std::string line;
 
-        in.open("tasks.txt", std::ios_base::app);
-        in.clear();
-        in.seekg(0, std::ios::beg);
+        in.open("tasks.txt");
 
-        if(!in.is_open())
+        if(!in)
             throw std::runtime_error("File isn't open");
 
-        unsigned long long id;
-        int start_hour;
-        int start_min;
-        int start_day;
-        int start_month;
-        int start_year;
-        int end_hour;
-        int end_min;
-        int end_day;
-        int end_month;
-        int end_year;
-        std::string task_name;
-        std::string task_text;
+        
 
         std::string line1;
         while (std::getline(in, line1)) {
+            unsigned long long id{1};
+            int start_hour{1};
+            int start_min{1};
+            int start_day{1};
+            int start_month{1};
+            int start_year{1};
+            int end_hour{1};
+            int end_min{1};
+            int end_day{1};
+            int end_month{1};
+            int end_year{1};
+            std::string task_name;
+            std::string task_text;
+
             std::istringstream iss(line1);
-            iss.clear();
-            iss.seekg(0, std::ios::beg);
+
             iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year;
+
+            if(!iss)
+                throw std::runtime_error("Dowloading tasks is faild");
 
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
+
+            std::string name_line;
+            task_name = "";
+            std::getline(iss, task_name, ';');
+            task_name.erase(task_name.begin());
+
 
             std::string line2;
             task_text = "";
@@ -112,14 +117,10 @@ namespace TaskManager_ns
     void TaskManager::add_task(Task task)
     {
         out.open("tasks.txt", std::ios::app);
-        out.clear();
-        out.seekp(0, std::ios::end);
 
         std::cout << "add_task()\n";
 
         if(!out)
-            throw std::runtime_error("Can't get access to file");
-        if(!out.is_open())
             throw std::runtime_error("Can't open file");
 
         std::cout << task.text << '\n';
@@ -131,7 +132,7 @@ namespace TaskManager_ns
             << task.period.start_date().year() << ' '  << task.period.end_hour() << ' '
             << task.period.end_min() << ' ' << task.period.end_date().day() << ' '
             << int(task.period.end_date().month()) << ' ' << task.period.end_date().year() << ' '
-            << task.name << ' ' << task.text << std::endl;
+            << task.name << ';' << task.text << std::endl;
 
         tasks.push_back(task);
         sort_task();
@@ -142,44 +143,30 @@ namespace TaskManager_ns
     {
         using namespace Chrono_ns;
 
-        std::ofstream buf_out("buf.txt");
-        std::cout << "delete_task()\n";
-        std::cout << task.get_id() << std::endl;
-        for (size_t i = 0; i < tasks.size(); ++i)
+        for (size_t i {0}; i < tasks.size(); ++i)
         {
-            std::cout << tasks[i].get_id() << std::endl;
-            if(tasks[i].get_id() == task.get_id()) 
-            {
-                std::cout << tasks[i].get_id() << std::endl;
+            if(tasks[i].get_id() == task.get_id()) {
                 tasks.erase(tasks.begin() + i);
-                for (size_t j = i; j < tasks.size(); ++j)
-                {
-                    unsigned long long id = tasks[j].get_id();
-                    tasks[j].set_id(id - 1);
-                }
                 break;
             }
         }
 
-        out.open("tasks.txt", std::ios::trunc);
-        out.clear();
-        out.seekp(0, std::ios::beg);
-        --counter;
-        set_id_to_file();
-        for (int i = 0; i < tasks.size(); ++i) {
-            task = tasks[i];
-            std::string task_text_1 = std::to_string(task.get_id()) + ' ' +
-                std::to_string(task.period.start_hour()) + ' ' +
-                std::to_string(task.period.start_min()) + ' ' +
-                std::to_string(task.period.start_date().day()) + ' ' +
-                std::to_string(static_cast<int>(task.period.start_date().month())) + ' ' +
-                std::to_string(task.period.start_date().year()) + ' ' +
-                std::to_string(task.period.end_hour()) + ' ' +
-                std::to_string(task.period.end_min()) + ' ' +
-                std::to_string(task.period.end_date().day()) + ' ' +
-                std::to_string(static_cast<int>(task.period.end_date().month())) + ' ' +
-                std::to_string(task.period.end_date().year()) + ' ' +
-                task.name + ' ' + task.text;
+        out.open("tasks.txt");
+  
+        for (Task t : tasks)
+        {
+            std::string task_text_1 = std::to_string(t.get_id()) + ' ' +
+                std::to_string(t.period.start_hour()) + ' ' +
+                std::to_string(t.period.start_min()) + ' ' +
+                std::to_string(t.period.start_date().day()) + ' ' +
+                std::to_string(int(t.period.start_date().month())) + ' ' +
+                std::to_string(t.period.start_date().year()) + ' ' +
+                std::to_string(t.period.end_hour()) + ' ' +
+                std::to_string(t.period.end_min()) + ' ' +
+                std::to_string(t.period.end_date().day()) + ' ' +
+                std::to_string(int(t.period.end_date().month())) + ' ' +
+                std::to_string(t.period.end_date().year()) + ' ' +
+                t.name + ';' + t.text;
             out << task_text_1 << '\n';
         }
         if(!out)
@@ -187,79 +174,36 @@ namespace TaskManager_ns
         out.close();
     }
 
-
-
-    void TaskManager::update_task(Task old_task, Task new_task)
+    void TaskManager::update_task(Task& old_task, Task& new_task)
     {
-        std::ofstream buf_out("buf.txt");
-        std::cout << "update_task()\n";
-
-        if(!buf_out)
-            throw std::runtime_error("Can't open buffer file");
-
-        in.open("tasks.txt");
-        in.clear();
-        in.seekg(0, std::ios_base::beg);
-
-        if(!in.is_open())
-            throw std::runtime_error("File with tasks isn't open");
-
-        std::string line;
-        int i {1};
-        // if(getline(in, line))
-        //     std::cout << "is successful\n";
-
-        std::cout << "old id = " << old_task.get_id() << std::endl;
-        while(getline(in, line))
+        size_t start_tasks_lenth {tasks.size()};
+        delete_task(old_task);
+        if(start_tasks_lenth != tasks.size())
         {
-            std::cout << line << std::endl;
-            std::cout << line[0] << std::endl;
-            if(line[0] == old_task.get_id())
-            {
-                std::cout << "equal id" << std::endl;
-                line = (std::to_string(new_task.get_id()) + ' '
-                    + std::to_string(new_task.period.start_hour()) + ' '
-                    + std::to_string(new_task.period.start_min()) + ' '
-                    + std::to_string(new_task.period.start_date().day()) + ' '
-                    + std::to_string(int(new_task.period.start_date().month())) + ' '
-                    + std::to_string(new_task.period.start_date().year()) + ' '
-                    + std::to_string(new_task.period.end_hour()) + ' '
-                    + std::to_string(new_task.period.end_min()) + ' '
-                    + std::to_string(new_task.period.end_date().day()) + ' '
-                    + std::to_string(int(new_task.period.end_date().month())) + ' '
-                    + std::to_string(new_task.period.end_date().year()) + ' '
-                    + new_task.name + ' ' + new_task.text);
-            }
-            buf_out << line << '\n';
-            if(!buf_out)
-                throw std::runtime_error("Buf_out failed during updating file");
-            ++i;
-        }
-        buf_out.close();
-        if(in.eof())
-        {
-            in.close();
-            std::ifstream buf_in("buf.txt");
-            out.open("tasks.txt");
-            out.clear();
-            out.seekp(0, std::ios::beg);
-            // добавить проверку открытости файла
-            while(getline(buf_in, line))
-            {
-                out << line << '\n';
-                if(!out)
-                    throw std::runtime_error("Out failed during updating file");
-            }
+            new_task.set_id(old_task.get_id());
+
+            out.open("tasks.txt", std::ios::app);
+
+            std::cout << "add_task()\n";
+
+            if(!out)
+                throw std::runtime_error("Can't open file");
+
+            std::cout << new_task.text << '\n';
+
+            out << new_task.get_id() << ' ' << new_task.period.start_hour() << ' ' << new_task.period.start_min() << ' '
+                << new_task.period.start_date().day() << ' ' << int(new_task.period.start_date().month()) << ' '
+                << new_task.period.start_date().year() << ' '  << new_task.period.end_hour() << ' '
+                << new_task.period.end_min() << ' ' << new_task.period.end_date().day() << ' '
+                << int(new_task.period.end_date().month()) << ' ' << new_task.period.end_date().year() << ' '
+                << new_task.name << ';' << new_task.text << std::endl;
+
+            tasks.push_back(new_task);
+            sort_task();
             out.close();
-            if(buf_in.eof())
-                buf_in.close();
-
-            if(buf_in.fail())
-                throw std::runtime_error("2Uncorrect data in buffer file");
         }
-        if(in.fail())
-            throw std::runtime_error("1Uncorrect data in file");
     }
+
 
     void TaskManager::sort_task()
     {
@@ -282,7 +226,7 @@ namespace TaskManager_ns
     std::vector<Task> TaskManager::get_tasks(Chrono_ns::Date date) const
     {
         std::vector<Task> day_tasks;
-        for(Task task : tasks)
+        for(auto& task : tasks)
         {
             if(date.in_period(task.period))
             {
