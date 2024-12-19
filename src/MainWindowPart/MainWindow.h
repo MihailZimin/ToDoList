@@ -50,6 +50,7 @@ class WeekWindow : public Graph_lib::Window
         static void cb_back(Address, Address);
 
         void show_day(DateButton& btn);
+        void show_current_year(DateButton& btn);
 };
 
 #endif //MAINWINDOW

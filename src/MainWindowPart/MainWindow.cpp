@@ -252,8 +252,7 @@ void WeekWindow::cb_back(Address, Address back)
 void WeekWindow::current_year_cb(Address, Address pw)
 {
     auto& btn = Graph_lib::reference_to<DateButton>(pw);
-    Year* year_window = new Year(&btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
-    dynamic_cast<WeekWindow&>(btn.window()).hide();
+    reinterpret_cast<WeekWindow&>(btn.window()).show_current_year(btn);
 }
 
 void WeekWindow::cb_day(Address, Address pw)
@@ -269,5 +268,11 @@ void WeekWindow::show_day(DateButton& btn) {
     iss >> real_name;
     DayWindow* day_window = new DayWindow(Graph_lib::Point{this->x(), this->y()}, 600, 400, btn.date,  real_name, &btn);
     day_window->week_window = this;
+    this->hide();
+}
+
+void WeekWindow::show_current_year(DateButton& btn)
+{
+    Year* year_window = new Year(Graph_lib::Point{this->x(), this->y()}, &btn, &reinterpret_cast<WeekWindow&>(btn.window()), btn.get_label());
     this->hide();
 }

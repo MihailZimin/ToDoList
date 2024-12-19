@@ -8,7 +8,7 @@ using namespace Graph_lib;
 class Year: public Graph_lib::Window
 {
     public:
-        Year(DateButton* btn, WeekWindow* week_win, std::string year_number);
+        Year(Graph_lib::Point pos, DateButton* btn, WeekWindow* week_win, std::string year_number);
         ~Year();
         void current_month(DateButton& btn);
         void hide_window();

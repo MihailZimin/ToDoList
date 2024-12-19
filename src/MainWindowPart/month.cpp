@@ -3,8 +3,8 @@
 extern TaskManager_ns::TaskManager task_manager;
 
 
-Month::Month(DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
-    Window{Point(100,100), 600, 400, month_name},
+Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
+    Window{pos, 600, 400, month_name},
     month_button{month_button}, 
     year_win{year_win},
     back_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", back_page_cb},
@@ -128,6 +128,7 @@ void Month::hide_window()
 {
     year_win -> show();
     year_win -> set_label(year_number);
+    year_win -> position(this->x(), this->y());
     hide();
 }
 

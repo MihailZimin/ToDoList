@@ -11,7 +11,6 @@
 
 namespace Chrono_ns
 {
-// Month
     Month operator ++ (Month& m)
     {
         m = (m == Month::dec) ? Month::jan : Month(int(m) + 1);
@@ -187,7 +186,7 @@ namespace Chrono_ns
     }
 
 
-   Period::Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
+    Period::Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
         :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
     {
         if(!is_period(start_hour, start_min, start_date, end_hour, end_min, end_date))

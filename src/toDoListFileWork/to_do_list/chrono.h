@@ -6,7 +6,6 @@
 
 namespace Chrono_ns
 {
-// Month
     enum class Month
     {
         jan = 1, feb, mar, apr, may, jun,
@@ -20,7 +19,6 @@ namespace Chrono_ns
 
     class Period;
 
-// Date
     class Date
     {
     public:
@@ -50,8 +48,10 @@ namespace Chrono_ns
     std::ostream& operator << (std::ostream& os, const Date& d);
     //std::istream& operator >> (std::istream& is, Date& dd);
     //Date operator - (const Date& d); // ЭТО ДЕЛАТЬ В ПОСЛЕДНЮЮ ОЧЕРЕДЬБ ВЕДЬ В ctime может быть функция, возвращающая текущую неделю.
-   
-// Period
+    Date today();
+    Date monday_date();
+
+
     class Period
     {
     public:
@@ -62,6 +62,8 @@ namespace Chrono_ns
         int start_min() const { return start_m; }
         int end_hour() const { return end_h; }
         int end_min() const { return end_m; }
+        Date start_date() const { return start_d; }
+        Date end_date() const { return end_d; }
 
     private:
         int start_h;
@@ -79,12 +81,8 @@ namespace Chrono_ns
     bool operator < (const Period& p1, const Period& p2);
     std::ostream& operator << (std::ostream& os, const Period& t);
 
-// Other
     int days_in_month(Month month, int year);
     std::vector<Date> get_week_dates();
-    Date today();
-    Date monday_date();
-
 }
 
 

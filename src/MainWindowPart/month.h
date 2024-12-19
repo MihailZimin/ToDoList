@@ -6,7 +6,7 @@
 class Month: public Graph_lib::Window
 {
     public:
-        Month(DateButton* month, Year* year_win, std::string month_name, std::string year_number);
+        Month(Graph_lib::Point pos, DateButton* month, Year* year_win, std::string month_name, std::string year_number);
         ~Month();
         void hide_window();
         std::string month_name;

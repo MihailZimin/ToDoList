@@ -38,6 +38,7 @@ namespace TaskManager_ns
             throw std::runtime_error("Can't open file with ids");
 
         download_tasks();
+
     }
 
     void TaskManager::set_id_to_file(){
@@ -83,6 +84,7 @@ namespace TaskManager_ns
             iss.seekg(0, std::ios::beg);
             iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
                     >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
 
