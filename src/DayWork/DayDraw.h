@@ -14,6 +14,9 @@ class WeekWindow;
 class Month;
 
 
+void RedrawButtons(WeekWindow& week);
+
+
 class DayWindow: public Graph_lib::Window {
 public:
     DayWindow(Graph_lib::Point pos, int width, int height, Chrono_ns::Date& date, const std::string& day, DateButton* datebutton);

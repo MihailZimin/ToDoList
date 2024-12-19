@@ -17,11 +17,7 @@ std::vector<std::string> Months_names
     "December"
 };
 
-<<<<<<< HEAD
 Year::Year(Graph_lib::Point pos, DateButton* btn, WeekWindow* win, std::string year_number):
-=======
-Year::Year(Graph_lib::Point pos, DateButton* btn, WeekWindow* win, std::string year_number): 
->>>>>>> origin/main
     Window{pos, 600, 400, year_number},
     year_button{btn},
     week_win {win},

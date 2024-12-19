@@ -30,7 +30,7 @@ namespace Chrono_ns
         if(!is_date(dd, mm, yy))
         {
             std::cout << static_cast<int> (m) << " " << dd << " " << yy << std::endl;
-            throw std::runtime_error("Uncorrect date"/* + dd + '.' + int(mm) + '.' + yy*/);
+            throw std::runtime_error("Uncorrect date " + std::to_string(dd) + '.' + std::to_string(int(mm)) + '.' + std::to_string(yy));
         }
     }
 
@@ -69,7 +69,7 @@ namespace Chrono_ns
     return it->second;
     }
 
-    std::string month_to_string(Month month) 
+    std::string month_to_string(Month month)
     {
     switch (month) {
         case Month::jan: return "January";
@@ -101,6 +101,7 @@ namespace Chrono_ns
 
         return true;
     }
+
 
     bool Date::in_period(Period p) { return (p.start_date() <= *this && p.end_date() >= *this); }
 
@@ -236,15 +237,17 @@ namespace Chrono_ns
 
         switch(month)
         {
-        case Month::feb:
-            days_in_month = leapyear(year) ? 29 : 28;
+            case Month::feb:
+                days_in_month = leapyear(year) ? 29 : 28;
             break;
-        case Month::apr:
-        case Month::jun:
-        case Month::sep:
-        case Month::nov:
-            days_in_month = 30;
-            break;
+            case Month::apr:
+            case Month::jun:
+            case Month::sep:
+            case Month::nov:
+                days_in_month = 30;
+                break;
+            default:
+                break;
         }
         return days_in_month;
     }
@@ -252,14 +255,14 @@ namespace Chrono_ns
 
     Date today()
     {
-        time_t mytime = time(NULL);
+        time_t mytime = time(nullptr);
         struct tm *now = localtime(&mytime);
         return Date(now->tm_mday,static_cast<Month>(1 + now->tm_mon), 1900 + now->tm_year);
     }
 
     Date monday_date()
     {
-        time_t mytime = time(NULL);
+        time_t mytime = time(nullptr);
         struct tm *now = localtime(&mytime);
         Date today = Chrono_ns::today();
         int days_after_sunday = now->tm_wday;

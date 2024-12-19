@@ -9,6 +9,41 @@
 std::vector<TaskManager_ns::Task> tasks;
 extern TaskManager_ns::TaskManager task_manager;
 
+
+void RedrawButtons(WeekWindow& week_window) {
+    int sizeMonday = task_manager.get_tasks(Chrono_ns::get_week_dates()[0]).size();
+    int sizeTuesday = task_manager.get_tasks(Chrono_ns::get_week_dates()[1]).size();
+    int sizeWednesday = task_manager.get_tasks(Chrono_ns::get_week_dates()[2]).size();
+    int sizeThursday = task_manager.get_tasks(Chrono_ns::get_week_dates()[3]).size();
+    int sizeFriday = task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size();
+    int sizeSaturday = task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size();
+    int sizeSunday = task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size();
+    week_window.Monday.label = "Monday " + std::to_string(sizeMonday);
+    colorButton(&week_window.Monday, sizeMonday);
+    week_window.Monday.set_color();
+    week_window.Tuesday.label = "Tuesday " + std::to_string(sizeTuesday);
+    colorButton(&week_window.Tuesday, sizeTuesday);
+    week_window.Tuesday.set_color();
+    week_window.Wednesday.label = "Wednesday " + std::to_string(sizeWednesday);
+    colorButton(&week_window.Wednesday, sizeWednesday);
+    week_window.Wednesday.set_color();
+    week_window.Thursday.label = "Thursday " + std::to_string(sizeThursday);
+    colorButton(&week_window.Thursday, sizeThursday);
+    week_window.Thursday.set_color();
+    week_window.Friday.label = "Friday " + std::to_string(sizeFriday);
+    colorButton(&week_window.Friday, sizeFriday);
+    week_window.Friday.set_color();
+    week_window.Saturday.label = "Saturday " + std::to_string(sizeSaturday);
+    colorButton(&week_window.Saturday, sizeSaturday);
+    week_window.Saturday.set_color();
+    week_window.Sunday.label = "Sunday " + std::to_string(sizeSunday);
+    colorButton(&week_window.Sunday, sizeSunday);
+    week_window.Sunday.set_color();
+}
+
+
+
+
 void DayWindow::showTaskInfoCB(Graph_lib::Address, Graph_lib::Address pw) {
     MyButton& btn = Graph_lib::reference_to<MyButton>(pw);
     reinterpret_cast<DayWindow&>(btn.window()).showTaskInfoWindow(btn);
@@ -55,16 +90,16 @@ void DayWindow::nextWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void DayWindow::nextWindow() {
-    int left = current_buttons_window*20;
-    int right = std::min(current_buttons_window*20+20, buttons.size());
+    int left = current_buttons_window*BUTTONS_COUNT_IN_WINDOW;
+    int right = std::min(current_buttons_window*BUTTONS_COUNT_IN_WINDOW+BUTTONS_COUNT_IN_WINDOW, buttons.size());
     for (int i = left; i < right; ++i) {
         detach(buttons[i]);
     }
     ++current_buttons_window;
     redrawButtons();
-    left = current_buttons_window*20;
-    right = std::min(current_buttons_window*20+20, buttons.size());
-    if (right - left != 20) {
+    left = current_buttons_window*BUTTONS_COUNT_IN_WINDOW;
+    right = std::min(current_buttons_window*BUTTONS_COUNT_IN_WINDOW+BUTTONS_COUNT_IN_WINDOW, buttons.size());
+    if (right - left != BUTTONS_COUNT_IN_WINDOW) {
         detach(next_button);
     }
     attach(prev_button);
@@ -76,8 +111,8 @@ void DayWindow::prevWindowCB(Graph_lib::Address, Graph_lib::Address pw) {
 }
 
 void DayWindow::prevWindow() {
-    int left = current_buttons_window*20;
-    int right = std::min(current_buttons_window*20+20, buttons.size());
+    int left = current_buttons_window*BUTTONS_COUNT_IN_WINDOW;
+    int right = std::min(current_buttons_window*BUTTONS_COUNT_IN_WINDOW+BUTTONS_COUNT_IN_WINDOW, buttons.size());
     for (int i = left; i < right; i++) {
         detach(buttons[i]);
     }
@@ -123,7 +158,7 @@ day(day)
 
         buttons.push_back(CreateButton(new_task));
         attach(buttons.back());
-        if (buttons.size() > 20) {
+        if (buttons.size() > BUTTONS_COUNT_IN_WINDOW) {
             detach(buttons.back());
         }
     }
@@ -146,25 +181,21 @@ day(day)
     attach(information);
     attach(close_window_button);
 
-    if (buttons.size() > 20) {
+    if (buttons.size() > BUTTONS_COUNT_IN_WINDOW) {
         attach(next_button);
     }
 }
 
 
 MyButton* DayWindow::CreateButton(TaskManager_ns::Task* task) {
-    // TaskManager_ns::Task* task1 = new TaskManager_ns::Task(
-    //             task->name, task->text, task->period
-    //         );
-    //task1->set_id(task->get_id());
     MyButton* b = new MyButton({pos_x, pos_y},
         BUTTON_WIDTH, BUTTON_HEIGHT, task->name, task, showTaskInfoCB);
     pos_y += BUTTON_HEIGHT;
-    if ((buttons.size()+1) % 5 == 0) {
+    if ((buttons.size()+1) % BUTTONS_COUNT_IN_COL == 0) {
         pos_x += BUTTON_WIDTH + MARGIN;
         pos_y = START_BUTTONS_POSITION_X;
     }
-    if ((buttons.size()+1) % 20 == 0) {
+    if ((buttons.size()+1) % BUTTONS_COUNT_IN_WINDOW == 0) {
         pos_x = START_BUTTONS_POSITION_X;
     }
     return b;
@@ -183,11 +214,11 @@ void DayWindow::addTask(TaskManager_ns::Task *task) {
         new_task->set_id(task.get_id());
         buttons.push_back(CreateButton(new_task));
         attach(buttons.back());
-        if (buttons.size() > 20) {
+        if (buttons.size() > BUTTONS_COUNT_IN_WINDOW) {
             detach(buttons.back());
         }
     }
-    if ((buttons.size()-1) % 20 == 0 && buttons.size() > 20) {attach(next_button); }
+    if ((buttons.size()-1) % BUTTONS_COUNT_IN_WINDOW == 0 && buttons.size() > BUTTONS_COUNT_IN_WINDOW) {attach(next_button); }
     redrawButtons();
     task_manager.set_id_to_file();
 }
@@ -195,17 +226,17 @@ void DayWindow::addTask(TaskManager_ns::Task *task) {
 void DayWindow::redrawButtons() {
     pos_x = START_BUTTONS_POSITION_X;
     pos_y = START_BUTTONS_POSITION_Y;
-    int left = current_buttons_window*20;
-    int right = std::min(current_buttons_window*20+20, buttons.size());
+    int left = current_buttons_window*BUTTONS_COUNT_IN_WINDOW;
+    int right = std::min(current_buttons_window*BUTTONS_COUNT_IN_WINDOW+BUTTONS_COUNT_IN_WINDOW, buttons.size());
     for (int i = left; i < right; i++) {
         buttons[i].move_to_coordinates(pos_x, pos_y);
         pos_y += BUTTON_HEIGHT;
-        if ((i+1) % 5 == 0) {
+        if ((i+1) % BUTTONS_COUNT_IN_COL == 0) {
             pos_x += BUTTON_WIDTH + MARGIN;
             pos_y = START_BUTTONS_POSITION_X;
         }
     }
-    if ((buttons.size()+1) % 20 == 0) {
+    if ((buttons.size()+1) % BUTTONS_COUNT_IN_WINDOW == 0) {
         pos_x = START_BUTTONS_POSITION_X;
     }
 }

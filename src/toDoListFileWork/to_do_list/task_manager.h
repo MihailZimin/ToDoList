@@ -15,7 +15,7 @@ namespace TaskManager_ns
         std::string name {"My note"};
         std::string text;
         Chrono_ns::Period period;
-        unsigned long long get_id() const { return id; }
+        unsigned long long get_id() { return id; }
         void set_id(unsigned long long i_d){ id = i_d; }
 
         private:
@@ -36,19 +36,11 @@ namespace TaskManager_ns
         void set_id_to_file();
         void add_task(Task task);
         void delete_task(Task task);
-<<<<<<< HEAD
-        void update_task(Task old_task, Task new_task);
-        void sort_task();
-        std::vector<Task> get_tasks();
-        std::vector<Task> get_tasks(Chrono_ns::Date date);
-
-=======
         void update_task(Task& old_task, Task& new_task);
         void sort_task();
         std::vector<Task> get_tasks() const;
-        std::vector<Task> get_tasks(Chrono_ns::Date date) const;
-        
->>>>>>> origin/main
+        std::vector<Task> get_tasks(Chrono_ns::Date date);
+
     private:
         std::vector<Task> tasks;
         std::ifstream in;

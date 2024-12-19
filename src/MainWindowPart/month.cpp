@@ -3,15 +3,9 @@
 extern TaskManager_ns::TaskManager task_manager;
 
 
-<<<<<<< HEAD
 Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std::string month_name , std::string year_number):
     Window{pos, 600, 400, month_name},
     month_button{month_button},
-=======
-Month::Month(Graph_lib::Point pos, DateButton* month_button, Year* year_win, std::string month_name , std::string year_number): 
-    Window{pos, 600, 400, month_name},
-    month_button{month_button}, 
->>>>>>> origin/main
     year_win{year_win},
     back_page_btn{Point(x_max() - 100,y_max() - 80), 100, 80, "Back", back_page_cb},
     year_number{year_number},

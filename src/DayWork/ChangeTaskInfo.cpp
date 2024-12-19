@@ -349,27 +349,7 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     task_window->redraw();
     reattachFields(info);
     if (!task_window->day_window->from_month) {
-        task_window->day_window->week_window->Monday.label = "Monday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[0]).size());
-        colorButton(&task_window->day_window->week_window->Monday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Monday.set_color();
-        task_window->day_window->week_window->Tuesday.label = "Tuesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[1]).size());
-        colorButton(&task_window->day_window->week_window->Tuesday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Tuesday.set_color();
-        task_window->day_window->week_window->Wednesday.label = "Wednesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[2]).size());
-        colorButton(&task_window->day_window->week_window->Wednesday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Wednesday.set_color();
-        task_window->day_window->week_window->Thursday.label = "Thursday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[3]).size());
-        colorButton(&task_window->day_window->week_window->Thursday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Thursday.set_color();
-        task_window->day_window->week_window->Friday.label = "Friday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size());
-        colorButton(&task_window->day_window->week_window->Friday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Friday.set_color();
-        task_window->day_window->week_window->Saturday.label = "Saturday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size());
-        colorButton(&task_window->day_window->week_window->Saturday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Saturday.set_color();
-        task_window->day_window->week_window->Sunday.label = "Sunday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size());
-        colorButton(&task_window->day_window->week_window->Sunday, task_window->day_window->buttons.size());
-        task_window->day_window->week_window->Sunday.set_color();
+        RedrawButtons(*task_window->day_window->week_window);
     }
     else {
         task_window->day_window->month_window->redraw_buttons();
@@ -535,27 +515,7 @@ void AddTaskWindow::setTask() {
     }
     day_window->redraw();
     if (!day_window->from_month) {
-        day_window->week_window->Monday.label = "Monday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[0]).size());
-        colorButton(&day_window->week_window->Monday, day_window->buttons.size());
-        day_window->week_window->Monday.set_color();
-        day_window->week_window->Tuesday.label = "Tuesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[1]).size());
-        colorButton(&day_window->week_window->Tuesday, day_window->buttons.size());
-        day_window->week_window->Tuesday.set_color();
-        day_window->week_window->Wednesday.label = "Wednesday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[2]).size());
-        colorButton(&day_window->week_window->Wednesday, day_window->buttons.size());
-        day_window->week_window->Wednesday.set_color();
-        day_window->week_window->Thursday.label = "Thursday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[3]).size());
-        colorButton(&day_window->week_window->Thursday, day_window->buttons.size());
-        day_window->week_window->Thursday.set_color();
-        day_window->week_window->Friday.label = "Friday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[4]).size());
-        colorButton(&day_window->week_window->Friday, day_window->buttons.size());
-        day_window->week_window->Friday.set_color();
-        day_window->week_window->Saturday.label = "Saturday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[5]).size());
-        colorButton(&day_window->week_window->Saturday, day_window->buttons.size());
-        day_window->week_window->Saturday.set_color();
-        day_window->week_window->Sunday.label = "Sunday " + std::to_string(task_manager.get_tasks(Chrono_ns::get_week_dates()[6]).size());
-        colorButton(&day_window->week_window->Sunday, day_window->buttons.size());
-        day_window->week_window->Sunday.set_color();
+        RedrawButtons(*day_window->week_window);
     }
     else {
         day_window->month_window->redraw_buttons();

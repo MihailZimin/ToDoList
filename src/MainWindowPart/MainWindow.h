@@ -19,7 +19,6 @@ using namespace Graph_lib;
 
 class WeekWindow : public Graph_lib::Window
 {
-<<<<<<< HEAD
 public:
     WeekWindow(Point xy, int h, int w);
     ~WeekWindow();
@@ -27,15 +26,6 @@ public:
     void add_years();
     void week_page();
     void back_page();
-=======
-    public:
-        WeekWindow(Point xy, int h, int w);
-        ~WeekWindow();
-        void years_page();
-        void add_years();
-        void week_page();
-        void back_page();
->>>>>>> origin/main
 
     DateButton Monday;
     DateButton Tuesday;
@@ -45,7 +35,6 @@ public:
     DateButton Saturday;
     DateButton Sunday;
 
-<<<<<<< HEAD
 private:
     int current_year{Chrono_ns::today().year()};
     std::vector<std::vector<DateButton*>> years{1};
@@ -64,10 +53,6 @@ private:
 
     void show_day(DateButton& btn);
     void show_current_year(DateButton& btn);
-=======
-        void show_day(DateButton& btn);
-        void show_current_year(DateButton& btn);
->>>>>>> origin/main
 };
 
 #endif //MAINWINDOW

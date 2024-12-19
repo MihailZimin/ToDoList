@@ -54,44 +54,41 @@ namespace TaskManager_ns
         using namespace Chrono_ns;
 
         in.open("tasks.txt");
+        in.clear();
+        in.seekg(0, std::ios::beg);
 
         if(!in)
             throw std::runtime_error("File isn't open");
 
-        
-
         std::string line1;
         while (std::getline(in, line1)) {
-            unsigned long long id{1};
-            int start_hour{1};
-            int start_min{1};
-            int start_day{1};
-            int start_month{1};
-            int start_year{1};
-            int end_hour{1};
-            int end_min{1};
-            int end_day{1};
-            int end_month{1};
-            int end_year{1};
+            std::istringstream iss(line1);
+
+            if(!in)
+                throw std::runtime_error("String isn't read");
+
+            unsigned long long id {1};
+            int start_hour {1};
+            int start_min {1};
+            int start_day {1};
+            int start_month {1};
+            int start_year {1};
+            int end_hour {1};
+            int end_min {1};
+            int end_day {1};
+            int end_month {1};
+            int end_year {1};
             std::string task_name;
             std::string task_text;
 
-            std::istringstream iss(line1);
-
             iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                    >> end_hour >> end_min >> end_day >> end_month >> end_year;
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
 
-            if(!iss)
-                throw std::runtime_error("Dowloading tasks is faild");
+            if(!in)
+                throw std::runtime_error("Downloading tasks failed");
 
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
-
-            std::string name_line;
-            task_name = "";
-            std::getline(iss, task_name, ';');
-            task_name.erase(task_name.begin());
-
 
             std::string line2;
             task_text = "";
@@ -121,7 +118,7 @@ namespace TaskManager_ns
         std::cout << "add_task()\n";
 
         if(!out)
-            throw std::runtime_error("Can't open file");
+            throw std::runtime_error("Can't get access to file");
 
         std::cout << task.text << '\n';
 
@@ -132,7 +129,7 @@ namespace TaskManager_ns
             << task.period.start_date().year() << ' '  << task.period.end_hour() << ' '
             << task.period.end_min() << ' ' << task.period.end_date().day() << ' '
             << int(task.period.end_date().month()) << ' ' << task.period.end_date().year() << ' '
-            << task.name << ';' << task.text << std::endl;
+            << task.name << ' ' << task.text << std::endl;
 
         tasks.push_back(task);
         sort_task();
@@ -143,19 +140,13 @@ namespace TaskManager_ns
     {
         using namespace Chrono_ns;
 
-<<<<<<< HEAD
-        std::ofstream buf_out("buf.txt");
         std::cout << task.get_id() << std::endl;
         for (size_t i = 0; i < tasks.size(); ++i)
-=======
-        for (size_t i {0}; i < tasks.size(); ++i)
->>>>>>> origin/main
         {
             std::cout << tasks[i].get_id() << " / " << task.get_id() << std::endl;
             if(tasks[i].get_id() == task.get_id())
             {
                 tasks.erase(tasks.begin() + i);
-<<<<<<< HEAD
                 std::cout << "delete_task()\n";
                 for (size_t j = 0; j < tasks.size(); ++j)
                 {
@@ -164,16 +155,11 @@ namespace TaskManager_ns
                         tasks[j].set_id(tasks[j].get_id() - 1);
                     }
                 }
-=======
->>>>>>> origin/main
                 break;
             }
         }
 
-<<<<<<< HEAD
         out.open("tasks.txt", std::ios::trunc);
-        out.clear();
-        out.seekp(0, std::ios::beg);
         --counter;
         set_id_to_file();
         for (int i = 0; i < tasks.size(); ++i) {
@@ -190,30 +176,14 @@ namespace TaskManager_ns
                 std::to_string(static_cast<int>(task.period.end_date().month())) + ' ' +
                 std::to_string(task.period.end_date().year()) + ' ' +
                 task.name + ' ' + task.text;
-=======
-        out.open("tasks.txt");
-  
-        for (Task t : tasks)
-        {
-            std::string task_text_1 = std::to_string(t.get_id()) + ' ' +
-                std::to_string(t.period.start_hour()) + ' ' +
-                std::to_string(t.period.start_min()) + ' ' +
-                std::to_string(t.period.start_date().day()) + ' ' +
-                std::to_string(int(t.period.start_date().month())) + ' ' +
-                std::to_string(t.period.start_date().year()) + ' ' +
-                std::to_string(t.period.end_hour()) + ' ' +
-                std::to_string(t.period.end_min()) + ' ' +
-                std::to_string(t.period.end_date().day()) + ' ' +
-                std::to_string(int(t.period.end_date().month())) + ' ' +
-                std::to_string(t.period.end_date().year()) + ' ' +
-                t.name + ';' + t.text;
->>>>>>> origin/main
             out << task_text_1 << '\n';
         }
         if(!out)
             throw std::runtime_error("Buf_out failed on last line");
         out.close();
     }
+
+
 
     void TaskManager::update_task(Task& old_task, Task& new_task)
     {
@@ -245,7 +215,6 @@ namespace TaskManager_ns
         }
     }
 
-
     void TaskManager::sort_task()
     {
         for (size_t i = 0; i+1 < tasks.size(); ++i)
@@ -258,19 +227,7 @@ namespace TaskManager_ns
         }
     }
 
-    void TaskManager::sort_task()
-    {
-        for (size_t i = 0; i+1 < tasks.size(); ++i)
-        {
-            for (size_t j = 0; j+1 < tasks.size() - i; ++j)
-            {
-                if (tasks[j+1].period < tasks[j].period)
-                    std::swap(tasks[j], tasks[j+1]);
-            }
-        }
-    }
-
-    std::vector<Task> TaskManager::get_tasks()
+    std::vector<Task> TaskManager::get_tasks() const
     {
         std::cout << "get_tasks()\n";
         return tasks;
