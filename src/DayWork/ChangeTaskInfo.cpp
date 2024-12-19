@@ -320,9 +320,9 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
     task_window->day_window->removeTask(task);
 
     try {
-        Chrono_ns::Period p = {Chrono_ns::Time(hours_start, minutes_start),
+        Chrono_ns::Period p = {hours_start, minutes_start,
                 {task.period.start_date()},
-                Chrono_ns::Time(hours_end, minutes_end),
+                hours_end, minutes_end,
                 {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}};
         task.name = info.name;
         task.text = info.text;
@@ -335,8 +335,8 @@ void ChangeTaskInfo::changeTask(TaskManager_ns::Task& task) {
         hours_start = START_DEFAULT_HOURS;
         minutes_start = START_DEFAULT_MINUTES;
         setPeriodColor(FL_RED);
-        Chrono_ns::Period p = {Chrono_ns::Time(hours_start, minutes_start),
-                task.period.start_date(), Chrono_ns::Time(hours_end, minutes_end),
+        Chrono_ns::Period p = {hours_start, minutes_start,
+                task.period.start_date(), hours_end, minutes_end,
                 {task.period.end_date()}};
         task.name = info.name;
         task.text = info.text;
@@ -484,10 +484,10 @@ void AddTaskWindow::setTask() {
 
     try {
         TaskManager_ns::Task* task = new TaskManager_ns::Task(info.name, info.text,
-            {Chrono_ns::Time(hours_start, minutes_start),
+            {hours_start, minutes_start,
                 {day_start,
                     day_window->date.month(), year_start},
-                Chrono_ns::Time(hours_end, minutes_end),
+                hours_end, minutes_end,
                 {day_end, static_cast<Chrono_ns::Month>(month_end), year_end}});
         day_window->addTask(task);
     }
@@ -499,9 +499,9 @@ void AddTaskWindow::setTask() {
         minutes_start = START_DEFAULT_MINUTES;
         setPeriodColor(FL_RED);
         TaskManager_ns::Task* task = new TaskManager_ns::Task(info.name, info.text,
-            {Chrono_ns::Time(hours_start, minutes_start),
+            {hours_start, minutes_start,
                 {day_start, day_window->date.month(), year_start},
-                Chrono_ns::Time(hours_end, minutes_end),
+                hours_end, minutes_end,
                 {day_start, day_window->date.month(), year_start}});
         day_window->addTask(task);
     }

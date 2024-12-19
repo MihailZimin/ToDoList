@@ -11,30 +11,6 @@
 
 namespace Chrono_ns
 {
-    // Time
-    Time::Time(int hours, int mins)
-        : h{hours}, min{mins}
-    {
-        if(h < 0 || h > 23 || min < 0 || min > 59)
-            throw std::runtime_error("Uncorrect time " + std::to_string(h) + ":" + std::to_string(min));
-    }
-
-
-    std::ostream& operator << (std::ostream& os, const Time& t)
-    {
-        return os << t.get_hour() << ":" << t.get_min();
-    }
-
-    std::istream& operator >> (std::istream& in, Time& t)
-    {
-        int hours;
-        int minutes;
-        in >> hours >> hours;
-        t.set_hour(hours);
-        t.set_min(minutes);
-        return in;
-    }
-
 // Month
     Month operator ++ (Month& m)
     {
@@ -211,16 +187,16 @@ namespace Chrono_ns
     }
 
 
-    Period::Period(Time start_time, Date start_date, Time end_time, Date end_date)
-        :start_t{start_time}, end_t{end_time}, start_d {start_date}, end_d {end_date}
+   Period::Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
+        :start_h {start_hour}, start_m {start_min}, end_h {end_hour}, end_m {end_min}, start_d {start_date}, end_d {end_date}
     {
-        if(!is_period(start_time, start_date, end_time, end_date))
+        if(!is_period(start_hour, start_min, start_date, end_hour, end_min, end_date))
             throw std::runtime_error("Uncorrect period value"); 
     }
 
-    bool is_period(Time start_t, Date start_date, Time end_t, Date end_date)
+    bool is_period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date)
     {
-        if((end_t.get_hour() <= start_t.get_hour() && end_t.get_min() <= start_t.get_min()) && end_date == start_date
+        if((end_hour <= start_hour && end_min <= start_min) && end_date == start_date
                                                             || end_date < start_date)
             return false;
         return true;

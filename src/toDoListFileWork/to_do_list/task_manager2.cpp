@@ -63,11 +63,13 @@ namespace TaskManager_ns
             throw std::runtime_error("File isn't open");
 
         unsigned long long id;
-        Time start_time {0,0}; 
+        int start_hour;
+        int start_min;
         int start_day;
         int start_month;
         int start_year;
-        Time end_time {0,0};
+        int end_hour;
+        int end_min;
         int end_day;
         int end_month;
         int end_year;
@@ -79,9 +81,8 @@ namespace TaskManager_ns
             std::istringstream iss(line1);
             iss.clear();
             iss.seekg(0, std::ios::beg);
-            iss >> id >> start_time >> start_day >> start_month >> start_year
-                    >> end_time >> end_day >> end_month >> end_year >> task_name;
-
+            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
+                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
             Date start_date {start_day, static_cast<Month>(start_month), start_year};
             Date end_date {end_day, static_cast<Month>(end_month), end_year};
 
@@ -92,7 +93,7 @@ namespace TaskManager_ns
             }
             task_text.pop_back();
 
-            Period p {start_time, start_date, end_time, end_date};
+            Period p {start_hour, start_min, start_date, end_hour, end_min, end_date};
             Task t {task_name, task_text, p};
             t.set_id(id);
             tasks.push_back(t);
