@@ -6,6 +6,27 @@
 
 namespace Chrono_ns
 {
+// Time
+    class Time
+    {
+    public:
+        Time() = delete;
+        Time(int hours, int mins);
+
+        int get_hour() const { return h; };
+        void set_hour(int new_hour) { h = new_hour; };
+        int get_min() const { return min; };
+        void set_min(int new_min) { min = new_min; };
+
+    private:
+        int h;
+        int min;
+    };
+
+    std::ostream& operator << (std::ostream& os, const Time& t);
+    std::istream& operator >> (std::istream& in, Time& t);
+    
+// Month
     enum class Month
     {
         jan = 1, feb, mar, apr, may, jun,
@@ -19,6 +40,7 @@ namespace Chrono_ns
 
     class Period;
 
+// Date
     class Date
     {
     public:
@@ -46,41 +68,39 @@ namespace Chrono_ns
     bool operator > (const Date& d1, const Date& d2);
     bool operator >= (const Date& d1, const Date& d2);
     std::ostream& operator << (std::ostream& os, const Date& d);
-    Date today();
-    Date monday_date();
 
-
+// Period
     class Period
     {
     public:
-        Period(int start_hour, int start_min, Date start_date, int end_hour, int end_min, Date end_date);
-        Period(): start_h{0}, start_m{0}, end_h{0}, end_m{0}, start_d{}, end_d{} {}
-
-        int start_hour() const { return start_h; }
-        int start_min() const { return start_m; }
-        int end_hour() const { return end_h; }
-        int end_min() const { return end_m; }
+        Period(Time start_time, Date start_date, Time end_time, Date end_date);
+        Period(): start_t{0,0}, end_t{0,0}, start_d{}, end_d{} {} // попробовать создавать дефолтную дату здесь, 
+                                                                  // а в Date удалить дефолтный конструктор
+        int start_hour() const { return start_t.get_hour(); }
+        int start_min() const { return start_t.get_min(); }
+        int end_hour() const { return end_t.get_hour(); }
+        int end_min() const { return end_t.get_min(); }
         Date start_date() const { return start_d; }
         Date end_date() const { return end_d; }
 
     private:
-        int start_h;
-        int start_m;
-        int end_h;
-        int end_m;
+        Time start_t;
+        Time end_t;
         Date start_d;
         Date end_d;
     };
 
-    bool is_period(int start_hour, int start_min, Date start_date, 
-                   int end_hour, int end_min, Date end_date);
+    bool is_period(Time start_t, Date start_date, Time end_t, Date end_date);
     bool operator == (const Period& t1, const Period& t2);
     bool operator != (const Period& t1, const Period& t2);
     bool operator < (const Period& p1, const Period& p2);
     std::ostream& operator << (std::ostream& os, const Period& t);
 
+// Other
     int days_in_month(Month month, int year);
     std::vector<Date> get_week_dates();
+    Date today();
+    Date monday_date();
 }
 
 

@@ -74,11 +74,11 @@ namespace TaskManager_ns
                 throw std::runtime_error("String isn't read");
 
             unsigned long long id {1};
-            int start_hour {1};
-            int start_min {1};
-            int start_day {1};
-            int start_month {1};
-            int start_year {1};
+            Time start_time {0,0};
+            int start_day;
+            int start_month;
+            int start_year;
+            Time end_time {0,0};
             int end_hour {1};
             int end_min {1};
             int end_day {1};
@@ -87,8 +87,8 @@ namespace TaskManager_ns
             std::string task_name;
             std::string task_text;
 
-            iss >> id >> start_hour >> start_min >> start_day >> start_month >> start_year
-                    >> end_hour >> end_min >> end_day >> end_month >> end_year >> task_name;
+            iss >> id >> start_time >> start_day >> start_month >> start_year
+                    >> end_time >> end_day >> end_month >> end_year >> task_name;
 
             if(!in)
                 throw std::runtime_error("Downloading tasks failed");
@@ -103,7 +103,7 @@ namespace TaskManager_ns
             }
             task_text.pop_back();
 
-            Period p {start_hour, start_min, start_date, end_hour, end_min, end_date};
+            Period p {start_time, start_date, end_time, end_date};
             Task t {task_name, task_text, p};
             t.set_id(id);
             tasks.push_back(t);
