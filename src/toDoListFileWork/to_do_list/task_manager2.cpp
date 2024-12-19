@@ -38,7 +38,6 @@ namespace TaskManager_ns
             throw std::runtime_error("Can't open file with ids");
 
         download_tasks();
-
     }
 
     void TaskManager::set_id_to_file(){

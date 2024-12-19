@@ -32,7 +32,7 @@ namespace Chrono_ns
         in >> hours >> hours;
         t.set_hour(hours);
         t.set_min(minutes);
-        return in; 
+        return in;
     }
 
 // Month

@@ -499,7 +499,7 @@ void AddTaskWindow::setTask() {
         minutes_start = START_DEFAULT_MINUTES;
         setPeriodColor(FL_RED);
         TaskManager_ns::Task* task = new TaskManager_ns::Task(info.name, info.text,
-            {Chrono_ns::Time(hours_start,minutes_start),
+            {Chrono_ns::Time(hours_start, minutes_start),
                 {day_start, day_window->date.month(), year_start},
                 Chrono_ns::Time(hours_end, minutes_end),
                 {day_start, day_window->date.month(), year_start}});
