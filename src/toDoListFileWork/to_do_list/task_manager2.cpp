@@ -26,7 +26,9 @@ namespace TaskManager_ns
 // Task Manager
     TaskManager::TaskManager()
     {
-        std::ofstream out("tasks.txt");
+        in.open("tasks.txt");
+        if(!in)
+            std::ofstream out("tasks.txt");
         std::ifstream in_id;
         in_id.open("id_counter.txt");
         if(!in_id)
